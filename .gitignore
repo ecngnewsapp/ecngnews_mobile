@@ -24,11 +24,16 @@
 **/doc/api/
 .dart_tool/
 .flutter-plugins
+<<<<<<< HEAD
+=======
+.flutter-plugins-dependencies
+>>>>>>> d92c4b7cffeacebcae07fa4660fc397f20127e76
 .packages
 .pub-cache/
 .pub/
 /build/
 
+<<<<<<< HEAD
 # Android related
 **/android/**/gradle-wrapper.jar
 **/android/.gradle
@@ -86,3 +91,10 @@ android/.project
 android/app/.project
 android/app/.settings/org.eclipse.buildship.core.prefs
 android/app/.settings/org.eclipse.jdt.core.prefs
+=======
+# Web related
+lib/generated_plugin_registrant.dart
+
+# Exceptions to above rules.
+!/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+>>>>>>> d92c4b7cffeacebcae07fa4660fc397f20127e76
