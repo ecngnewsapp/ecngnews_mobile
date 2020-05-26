@@ -15,7 +15,6 @@ class FeedsView extends StatefulWidget {
 
 class _FeedsViewState extends State<FeedsView> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  ScrollController scrollController = new ScrollController();
   @override
   void initState() {
     super.initState();
@@ -26,9 +25,6 @@ class _FeedsViewState extends State<FeedsView> {
     return ViewModelBuilder<FeedViewModel>.reactive(
         onModelReady: (model) => model.listToNews(),
         builder: (context, model, child) {
-          if (model.appnews.length % 20 == 0)
-            scrollController.addListener(() => model.getMoreNews());
-
           return Scaffold(
             key: _scaffoldKey,
             appBar: AppBar(
@@ -89,11 +85,16 @@ class _FeedsViewState extends State<FeedsView> {
                           padding: EdgeInsets.only(
                               top: SizeConfig.heightMultiplier * 16),
                           child: ListView.builder(
-                              controller: scrollController,
                               itemCount: model.appnews.length,
-                              itemBuilder: (context, index) => Container(
-                                    child: NewsItemCard(
-                                      news: model.appnews[index],
+                              itemBuilder: (context, index) =>
+                                  MoreNewsComponent(
+                                    itemCreated: () {
+                                      if (index % 20 == 0) model.getMoreNews();
+                                    },
+                                    child: Container(
+                                      child: NewsItemCard(
+                                        news: model.appnews[index],
+                                      ),
                                     ),
                                   )),
                         ),
@@ -107,5 +108,31 @@ class _FeedsViewState extends State<FeedsView> {
           );
         },
         viewModelBuilder: () => FeedViewModel());
+  }
+}
+
+class MoreNewsComponent extends StatefulWidget {
+  final Function itemCreated;
+  final Widget child;
+  MoreNewsComponent({Key key, this.itemCreated, this.child}) : super(key: key);
+
+  @override
+  _MoreNewsComponentState createState() => _MoreNewsComponentState();
+}
+
+class _MoreNewsComponentState extends State<MoreNewsComponent> {
+  @override
+  void initState() {
+    if (widget.itemCreated != null) {
+      widget.itemCreated();
+    }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: widget.child,
+    );
   }
 }

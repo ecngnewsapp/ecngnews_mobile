@@ -20,7 +20,5 @@ class FeedViewModel extends BaseViewModel {
     });
   }
 
-  Stream getMoreNews() async* {
-    _newsService.requestNews();
-  }
+  void getMoreNews() => _newsService.requestNews();
 }
