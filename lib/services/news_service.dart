@@ -9,8 +9,8 @@ class NewsService {
   CollectionReference _newsCollectionReference =
       Firestore.instance.collection('contents');
 //comment controller
-  CollectionReference _newsCommentCollectionReference =
-      Firestore.instance.collection('comments');
+  // CollectionReference _newsCommentCollectionReference =
+  //     Firestore.instance.collection('comments');
   //news Controller
   final StreamController<List<News>> newsController =
       StreamController<List<News>>.broadcast();
@@ -24,11 +24,11 @@ class NewsService {
   //listing to post in realtime
   Stream listenToNewsInRealtime() {
     //
-    _requestNews();
+    requestNews();
     return newsController.stream;
   }
 
-  void _requestNews() {
+  void requestNews() {
     //query latast news
     Query newsPostQuery =
         _newsCollectionReference.orderBy('date').limit(pageLimit);

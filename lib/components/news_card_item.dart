@@ -1,12 +1,17 @@
 import 'package:ecngnews/models/news_model.dart';
+import 'package:ecngnews/utils/ecng_assets.dart';
 import 'package:ecngnews/utils/ecng_theme.dart';
 import 'package:ecngnews/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
 class NewsItemCard extends StatelessWidget {
-  final NewsModel news;
+  final News news;
 
-  const NewsItemCard({Key key, this.news}) : super(key: key);
+  const NewsItemCard({
+    Key key,
+    this.news,
+    // this.news,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,11 +38,11 @@ class NewsItemCard extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
-//              image: DecorationImage(
-//                  fit: BoxFit.fill,
-//                  image: news.urlToImage != null && news.urlToImage.isNotEmpty
-//                      ? NetworkImage(news.urlToImage)
-//                      : AssetImage(EcngAssets.logo)),
+              image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: news.imageUrl != null && news.imageUrl.isNotEmpty
+                      ? NetworkImage(news.imageUrl)
+                      : AssetImage(EcngAssets.logo)),
               borderRadius: BorderRadius.all(
                 Radius.circular(SizeConfig.sizeMultiplier * 2),
               ),
@@ -47,15 +52,15 @@ class NewsItemCard extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(SizeConfig.sizeMultiplier),
             width: SizeConfig.widthMultiplier * 40,
-//            child: Text(
-//              news.title,
-//              softWrap: true,
-//              overflow: TextOverflow.fade,
-//              style: Theme.of(context)
-//                  .textTheme
-//                  .body1
-//                  .copyWith(fontWeight: FontWeight.bold),
-//            ),
+            child: Text(
+              news.title,
+              softWrap: true,
+              overflow: TextOverflow.fade,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),

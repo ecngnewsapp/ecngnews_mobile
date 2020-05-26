@@ -1,9 +1,11 @@
+import 'package:ecngnews/components/news_card_item.dart';
 import 'package:ecngnews/smart_components/new_categories/news_categories.dart';
 import 'package:ecngnews/utils/ecng_assets.dart';
 import 'package:ecngnews/utils/size_config.dart';
 import 'package:ecngnews/views/feeds/feeds_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:stacked/stacked.dart';
 
 class FeedsView extends StatefulWidget {
@@ -13,7 +15,7 @@ class FeedsView extends StatefulWidget {
 
 class _FeedsViewState extends State<FeedsView> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  ScrollController scrollController = new ScrollController();
   @override
   void initState() {
     super.initState();
@@ -22,7 +24,11 @@ class _FeedsViewState extends State<FeedsView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<FeedViewModel>.reactive(
-        builder: (context, viewModel, child) {
+        onModelReady: (model) => model.listToNews(),
+        builder: (context, model, child) {
+          if (model.appnews.length % 20 == 0)
+            scrollController.addListener(() => model.getMoreNews());
+
           return Scaffold(
             key: _scaffoldKey,
             appBar: AppBar(
@@ -77,11 +83,20 @@ class _FeedsViewState extends State<FeedsView> {
             body: SafeArea(
               child: Stack(
                 children: <Widget>[
-                  ListView.builder(
-                      itemCount: viewModel.sportNews.length,
-                      itemBuilder: (context, index) => Container(
-                            child: Text("${viewModel.sportNews[index].title}"),
-                          )),
+                  model.isBusy
+                      ? VideoShimmer()
+                      : Container(
+                          padding: EdgeInsets.only(
+                              top: SizeConfig.heightMultiplier * 16),
+                          child: ListView.builder(
+                              controller: scrollController,
+                              itemCount: model.appnews.length,
+                              itemBuilder: (context, index) => Container(
+                                    child: NewsItemCard(
+                                      news: model.appnews[index],
+                                    ),
+                                  )),
+                        ),
                   Align(
                     alignment: AlignmentDirectional.topStart,
                     child: NewsCategoriesPan(),
