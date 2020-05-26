@@ -16,8 +16,6 @@ class FeedsView extends StatefulWidget {
 class _FeedsViewState extends State<FeedsView> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  ScrollController _scrollController = new ScrollController();
-  bool isLoading = false;
   @override
   void initState() {
     super.initState();
@@ -25,7 +23,6 @@ class _FeedsViewState extends State<FeedsView> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
     super.dispose();
   }
 
@@ -34,13 +31,6 @@ class _FeedsViewState extends State<FeedsView> {
     return ViewModelBuilder<FeedViewModel>.reactive(
         onModelReady: (model) => model.listToNews(),
         builder: (context, model, child) {
-          _scrollController.addListener(() {
-            if (_scrollController.position.pixels ==
-                _scrollController.position.maxScrollExtent) {
-              model.getMoreNews();
-            }
-          });
-
           return Scaffold(
             key: _scaffoldKey,
             appBar: AppBar(
@@ -103,9 +93,15 @@ class _FeedsViewState extends State<FeedsView> {
                           child: ListView.builder(
                               controller: _scrollController,
                               itemCount: model.appnews.length,
-                              itemBuilder: (context, index) => Container(
-                                    child: NewsItemCard(
-                                      news: model.appnews[index],
+                              itemBuilder: (context, index) =>
+                                  MoreNewsComponent(
+                                    itemCreated: () {
+                                      if (index % 20 == 0) model.getMoreNews();
+                                    },
+                                    child: Container(
+                                      child: NewsItemCard(
+                                        news: model.appnews[index],
+                                      ),
                                     ),
                                   )),
                         ),

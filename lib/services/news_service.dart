@@ -24,11 +24,12 @@ class NewsService {
   //listing to post in realtime
   Stream listenToNewsInRealtime() {
     //
-    requestNews();
+    _requestNews();
     return newsController.stream;
   }
 
-  void requestNews() {
+  void requestMoreNews() => _requestNews();
+  void _requestNews() {
     //query latast news
     Query newsPostQuery =
         _newsCollectionReference.orderBy('date').limit(pageLimit);
