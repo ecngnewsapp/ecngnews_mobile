@@ -59,7 +59,7 @@ class NewsItemCard extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .bodyText1
-                  .copyWith(fontWeight: FontWeight.bold),
+                  .copyWith(fontWeight: FontWeight.bold, fontSize: 14),
             ),
           ),
         ],

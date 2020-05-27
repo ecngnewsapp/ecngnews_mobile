@@ -29,7 +29,7 @@ class _FeedsViewState extends State<FeedsView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<FeedViewModel>.reactive(
-        onModelReady: (model) => model.listToNews(),
+        // onModelReady: (model) => model.listToNews(),
         builder: (context, model, child) {
           return Scaffold(
             key: _scaffoldKey,
@@ -85,26 +85,19 @@ class _FeedsViewState extends State<FeedsView> {
             body: SafeArea(
               child: Stack(
                 children: <Widget>[
-                  model.isBusy
-                      ? VideoShimmer()
-                      : Container(
+                  model.appnews != null
+                      ? Container(
                           padding: EdgeInsets.only(
                               top: SizeConfig.heightMultiplier * 16),
                           child: ListView.builder(
-                              controller: _scrollController,
                               itemCount: model.appnews.length,
-                              itemBuilder: (context, index) =>
-                                  MoreNewsComponent(
-                                    itemCreated: () {
-                                      if (index % 20 == 0) model.getMoreNews();
-                                    },
-                                    child: Container(
-                                      child: NewsItemCard(
-                                        news: model.appnews[index],
-                                      ),
+                              itemBuilder: (context, index) => Container(
+                                    child: NewsItemCard(
+                                      news: model.appnews[index],
                                     ),
                                   )),
-                        ),
+                        )
+                      : VideoShimmer(),
                   Align(
                     alignment: AlignmentDirectional.topStart,
                     child: NewsCategoriesPan(),

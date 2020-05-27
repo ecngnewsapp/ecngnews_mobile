@@ -3,22 +3,24 @@ import 'package:ecngnews/services/news_service.dart';
 import 'package:ecngnews/utils/locator.dart';
 import 'package:stacked/stacked.dart';
 
-class FeedViewModel extends BaseViewModel {
+class FeedViewModel extends StreamViewModel {
   NewsService _newsService = locator<NewsService>();
   List<News> _news;
   List<News> get appnews => _news;
 
-  void listToNews() {
-    setBusy(true);
-    _newsService.listenToNewsInRealtime().listen((newsData) {
-      List<News> updatedNews = newsData;
+  Stream getMoreNews() async* {
+    _newsService.listenToNews().listen((event) {
+      List<News> updatedNews = event;
       if (updatedNews != null && updatedNews.length > 0) {
         _news = updatedNews;
         notifyListeners();
       }
-      setBusy(false);
     });
   }
 
-  void getMoreNews() => _newsService.requestMoreNews();
+  // @override
+  // Future futureToRun() => listToNews();
+
+  @override
+  Stream get stream => getMoreNews();
 }
