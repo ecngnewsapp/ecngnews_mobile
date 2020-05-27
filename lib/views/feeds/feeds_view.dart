@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
 class FeedsView extends StatelessWidget {
-  const FeedsView({Key key}) : super(key: key);
+  final Widget child;
+  const FeedsView({Key key, this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('feeds'),
-    );
+    return child;
   }
 }
 
