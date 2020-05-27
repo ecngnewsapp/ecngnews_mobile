@@ -19,6 +19,7 @@ class FeedViewModel extends StreamViewModel {
   }
 
   void getMoreNews() => _newsService.requestMoreNews();
+  void referesh() => _newsService.referesh();
   // @override
   // Future futureToRun() => listToNews();
 

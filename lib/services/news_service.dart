@@ -20,6 +20,10 @@ class NewsService {
     return _newsStreamController.stream;
   }
 
+  void referesh() {
+    // _newsStreamController.done;
+  }
+
   void _requestPosts() {
     var pagePostsQuery = _newsCollectionReference
         .orderBy('date')
