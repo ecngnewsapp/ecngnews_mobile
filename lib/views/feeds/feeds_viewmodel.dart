@@ -8,7 +8,7 @@ class FeedViewModel extends StreamViewModel {
   List<News> _news;
   List<News> get appnews => _news;
 
-  Stream getMoreNews() async* {
+  Stream listenToNews() async* {
     _newsService.listenToNews().listen((event) {
       List<News> updatedNews = event;
       if (updatedNews != null && updatedNews.length > 0) {
@@ -18,9 +18,10 @@ class FeedViewModel extends StreamViewModel {
     });
   }
 
+  void getMoreNews() => _newsService.requestMoreNews();
   // @override
   // Future futureToRun() => listToNews();
 
   @override
-  Stream get stream => getMoreNews();
+  Stream get stream => listenToNews();
 }

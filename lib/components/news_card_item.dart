@@ -42,7 +42,7 @@ class NewsItemCard extends StatelessWidget {
               image: DecorationImage(
                   fit: BoxFit.cover,
                   image: news.imageUrl != null && news.imageUrl.isNotEmpty
-                      ? NetworkImage(news.imageUrl)
+                      ? NetworkImage('${news.imageUrl}')
                       : AssetImage(EcngAssets.logo)),
               borderRadius: BorderRadius.all(
                 Radius.circular(SizeConfig.sizeMultiplier * 2),

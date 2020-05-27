@@ -91,7 +91,11 @@ class _FeedsViewState extends State<FeedsView> {
                               top: SizeConfig.heightMultiplier * 16),
                           child: ListView.builder(
                               itemCount: model.appnews.length,
-                              itemBuilder: (context, index) => Container(
+                              itemBuilder: (context, index) =>
+                                  MoreNewsComponent(
+                                    itemCreated: () {
+                                      if (index % 20 == 0) model.getMoreNews();
+                                    },
                                     child: NewsItemCard(
                                       news: model.appnews[index],
                                     ),
