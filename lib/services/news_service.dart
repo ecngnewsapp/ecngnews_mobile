@@ -20,9 +20,7 @@ class NewsService {
     return _newsStreamController.stream;
   }
 
-  void referesh() {
-    // _newsStreamController.done;
-  }
+  // Stream listenToSportNews() {}
 
   void _requestPosts() {
     var pagePostsQuery = _newsCollectionReference
