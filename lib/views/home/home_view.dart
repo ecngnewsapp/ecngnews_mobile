@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecngnews/components/news_card_item.dart';
+import 'package:ecngnews/models/news_category.dart';
 import 'package:ecngnews/utils/ecng_assets.dart';
 import 'package:ecngnews/utils/ecng_strings.dart';
 import 'package:ecngnews/utils/ecng_theme.dart';
@@ -39,6 +40,7 @@ class _HomeViewState extends State<HomeView> {
         SystemUiOverlayStyle(statusBarColor: Colors.red));
 
     return ViewModelBuilder<HomeViewModel>.reactive(
+      onModelReady: (model) => model.setNewCategoryPan(),
       builder: (context, model, child) {
         List<Widget> _pages = [
           FeedsView(
@@ -51,44 +53,8 @@ class _HomeViewState extends State<HomeView> {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-                    Container(
-                      margin: EdgeInsets.symmetric(
-                          horizontal: SizeConfig.sizeMultiplier),
-                      child: Column(
-                        children: [
-                          CachedNetworkImage(
-                            imageUrl:
-                                'https://image.shutterstock.com/image-photo/bright-spring-view-cameo-island-260nw-1048185397.jpg',
-                            imageBuilder: (context, imageProvider) => Container(
-                              width: SizeConfig.sizeMultiplier * 8,
-                              height: SizeConfig.sizeMultiplier * 8,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: imageProvider, fit: BoxFit.cover),
-                              ),
-                            ),
-                            placeholder: (context, url) =>
-                                CircularProgressIndicator(),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                          ),
-                          Container(
-                            width: SizeConfig.widthMultiplier * 14,
-                            child: Text(
-                              'Trending',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  .copyWith(
-                                      color: EcngColors.primaryColor,
-                                      fontWeight: FontWeight.bold),
-                              overflow: TextOverflow.fade,
-                              softWrap: false,
-                            ),
-                          ),
-                        ],
-                      ),
+                    CategoryCard(
+                      newsCategory: model.newsCategory[0],
                     ),
                   ],
                 ),
@@ -195,6 +161,48 @@ class _HomeViewState extends State<HomeView> {
         );
       },
       viewModelBuilder: () => HomeViewModel(),
+    );
+  }
+}
+
+class CategoryCard extends StatelessWidget {
+  final NewsCategory newsCategory;
+  const CategoryCard({
+    Key key,
+    this.newsCategory,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: SizeConfig.sizeMultiplier),
+      child: Column(
+        children: [
+          CachedNetworkImage(
+            imageUrl: '${newsCategory.avatar}',
+            imageBuilder: (context, imageProvider) => Container(
+              width: SizeConfig.sizeMultiplier * 8,
+              height: SizeConfig.sizeMultiplier * 8,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+              ),
+            ),
+            placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          ),
+          Container(
+            width: SizeConfig.widthMultiplier * 14,
+            child: Text(
+              '${newsCategory.categories}',
+              style: Theme.of(context).textTheme.bodyText1.copyWith(
+                  color: EcngColors.primaryColor, fontWeight: FontWeight.bold),
+              overflow: TextOverflow.fade,
+              softWrap: false,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

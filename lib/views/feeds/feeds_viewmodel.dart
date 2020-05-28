@@ -7,9 +7,18 @@ class FeedViewModel extends StreamViewModel {
   NewsService _newsService = locator<NewsService>();
   List<News> _news;
   List<News> get appnews => _news;
-
+  List<String> _categories = [
+    'business',
+    'entertainment',
+    'general',
+    'health',
+    'science',
+    'sports',
+    'technology'
+  ];
+  List<String> get categoriesList => _categories;
   Stream listenToNews() async* {
-    _newsService.listenToNews().listen((event) {
+    _newsService.listenToGeneralNews().listen((event) {
       List<News> updatedNews = event;
       if (updatedNews != null && updatedNews.length > 0) {
         _news = updatedNews;
@@ -18,7 +27,7 @@ class FeedViewModel extends StreamViewModel {
     });
   }
 
-  void getMoreNews() => _newsService.requestMoreNews();
+  void getMoreNews() => _newsService.requestMoreNews('general');
   // @override
   // Future futureToRun() => listToNews();
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecngnews/models/news_category.dart';
 import 'package:ecngnews/models/news_model.dart';
 import 'package:injectable/injectable.dart';
 
@@ -15,15 +16,30 @@ class NewsService {
   bool _hasMorePosts = true;
   final StreamController<List<News>> _newsStreamController =
       StreamController<List<News>>.broadcast();
-  Stream listenToNews() {
-    _requestPosts();
+  Stream listenToGeneralNews() {
+    _requestNews('general');
     return _newsStreamController.stream;
   }
 
-  // Stream listenToSportNews() {}
+  Future<List<NewsCategory>> getCategory() async {
+    List<NewsCategory> newsCategory = [];
+    var postDocumentSnapshot =
+        await _newsCollectionReference.limit(1).getDocuments();
+    var newsCator = postDocumentSnapshot.documents
+        .map((snapshot) => News.fromJson(snapshot.data))
+        .where((mappedItem) => mappedItem.title != null)
+        .toList();
+    newsCator.forEach((element) => newsCategory.add(NewsCategory(
+          categories: element.category,
+          avatar: element.imageUrl,
+        )));
+    // }
+    return newsCategory;
+  }
 
-  void _requestPosts() {
+  void _requestNews(String category) {
     var pagePostsQuery = _newsCollectionReference
+        .where('category', isEqualTo: '$category')
         .orderBy('date')
         // #3: Limit the amount of results
         .limit(PostsLimit);
@@ -66,5 +82,5 @@ class NewsService {
     });
   }
 
-  void requestMoreNews() => _requestPosts();
+  void requestMoreNews(String category) => _requestNews(category);
 }
