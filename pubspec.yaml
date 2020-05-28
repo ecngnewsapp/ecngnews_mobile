@@ -37,7 +37,7 @@ dependencies:
   # using Stacked
   stacked:
   flutter_hooks:
-  stacked_hooks: ^0.1.1+3
+  stacked_hooks:
   auto_route:
   stacked_services:
   get_it:
