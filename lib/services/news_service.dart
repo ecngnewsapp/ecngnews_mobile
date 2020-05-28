@@ -22,18 +22,32 @@ class NewsService {
   }
 
   Future<List<NewsCategory>> getCategory() async {
+    List<String> _categoryList = [
+      'business',
+      'entertainment',
+      'general',
+      'health',
+      'science',
+      'sports',
+      'technology'
+    ];
     List<NewsCategory> newsCategory = [];
-    var postDocumentSnapshot =
-        await _newsCollectionReference.limit(1).getDocuments();
-    var newsCator = postDocumentSnapshot.documents
-        .map((snapshot) => News.fromJson(snapshot.data))
-        .where((mappedItem) => mappedItem.title != null)
-        .toList();
-    newsCator.forEach((element) => newsCategory.add(NewsCategory(
-          categories: element.category,
-          avatar: element.imageUrl,
-        )));
-    // }
+    var newsCator;
+    var postDocumentSnapshot;
+    _categoryList.forEach((element) {
+      _newsCollectionReference
+          .where('category', isEqualTo: element)
+          .limit(1)
+          .getDocuments();
+      newsCator = postDocumentSnapshot.documents
+          .map((snapshot) => News.fromJson(snapshot.data))
+          .where((mappedItem) => mappedItem.title != null)
+          .toList();
+      newsCator.forEach((element) => newsCategory.add(NewsCategory(
+            categories: element.category,
+            avatar: element.imageUrl,
+          )));
+    });
     return newsCategory;
   }
 

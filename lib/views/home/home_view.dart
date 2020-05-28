@@ -47,25 +47,30 @@ class _HomeViewState extends State<HomeView> {
               child: Column(
             children: [
               //filters
-              Container(
-                padding:
-                    EdgeInsets.symmetric(vertical: SizeConfig.sizeMultiplier),
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    CategoryCard(
-                      newsCategory: model.newsCategory[0],
+              model.newsCategory == null
+                  ? ListTileShimmer()
+                  : Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: SizeConfig.sizeMultiplier),
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: model.newsCategory.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return CategoryCard(
+                            newsCategory: model.newsCategory[index],
+                          );
+                        },
+                      ),
+                      margin:
+                          EdgeInsets.only(bottom: SizeConfig.sizeMultiplier),
+                      height: SizeConfig.heightMultiplier * 16,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.vertical(
+                              bottom: Radius.circular(
+                                  SizeConfig.sizeMultiplier * 2)),
+                          boxShadow: EcngColors.cardBoxShadow,
+                          color: Colors.white),
                     ),
-                  ],
-                ),
-                margin: EdgeInsets.only(bottom: SizeConfig.sizeMultiplier),
-                height: SizeConfig.heightMultiplier * 16,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.vertical(
-                        bottom: Radius.circular(SizeConfig.sizeMultiplier * 2)),
-                    boxShadow: EcngColors.cardBoxShadow,
-                    color: Colors.white),
-              ),
               Expanded(
                   child: Container(
                 child: model.appnews == null
