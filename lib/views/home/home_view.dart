@@ -40,7 +40,10 @@ class _HomeViewState extends State<HomeView> {
         SystemUiOverlayStyle(statusBarColor: Colors.red));
 
     return ViewModelBuilder<HomeViewModel>.reactive(
-      onModelReady: (model) => model.setNewCategoryPan(),
+      onModelReady: (model) => {
+        model.setNewCategoryPan(),
+        model.listenToGeneralNews(),
+      },
       builder: (context, model, child) {
         List<Widget> _pages = [
           FeedsView(
@@ -73,19 +76,28 @@ class _HomeViewState extends State<HomeView> {
                     ),
               Expanded(
                   child: Container(
-                child: model.appnews == null
+                child: model.isBusy == null
                     ? VideoShimmer()
-                    : ListView.builder(
-                        itemCount: model.appnews.length,
-                        itemBuilder: (context, index) => MoreNewsComponent(
-                          itemCreated: () {
-                            if (index % 20 == 0) model.getMoreNews();
-                          },
-                          child: NewsItemCard(
-                            news: model.appnews[index],
+                    : model.appnews == null
+                        ? Container(
+                            child: Center(
+                              child: IconButton(
+                                icon: Icon(Icons.refresh),
+                                onPressed: model.listenToGeneralNews,
+                              ),
+                            ),
+                          )
+                        : ListView.builder(
+                            itemCount: model.appnews.length,
+                            itemBuilder: (context, index) => MoreNewsComponent(
+                              itemCreated: () {
+                                if (index % 20 == 0) model.getMoreNews();
+                              },
+                              child: NewsItemCard(
+                                news: model.appnews[index],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
               )),
             ],
           )),

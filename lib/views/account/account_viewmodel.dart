@@ -19,6 +19,7 @@ class AccountViewModel extends FutureViewModel {
     print('invoked');
     await _authenticationService.signOut();
     _navigationService.navigateTo(Routes.weclomeViewRoute);
+    notifyListeners();
   }
 
   Future getUser() async {

@@ -34,14 +34,15 @@ class NewsService {
                 NewsCategory(avatar: doc['avatar'], categories: doc.documentID),
               )
             }));
-
+    // print('gotten cat ${_categories[0].categories}');
+    // print('failded to get gotten cat ');
     return _categories;
   }
 
   void _requestNews(String category) {
     var pagePostsQuery = _newsCollectionReference
         .where('category', isEqualTo: '$category')
-        .orderBy('date')
+        .orderBy('date', descending: true)
         // #3: Limit the amount of results
         .limit(PostsLimit);
 

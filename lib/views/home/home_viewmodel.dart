@@ -14,7 +14,7 @@ class HomeViewModel extends StreamViewModel {
   Stream listenToGeneralNews() async* {
     _newsService.listenToGeneralNews().listen((event) {
       List<News> updatedNews = event;
-      if (updatedNews != null && updatedNews.length > 0) {
+      if (updatedNews != null) {
         _news = updatedNews;
         notifyListeners();
       }
@@ -28,10 +28,15 @@ class HomeViewModel extends StreamViewModel {
     return _newsCategories;
   }
 
-  void getMoreNews() => _newsService.requestMoreNews('general');
+  void getMoreNews() {
+    _newsService.requestMoreNews('general');
+    notifyListeners();
+  }
   // @override
   // Future futureToRun() => listToNews();
 
   @override
-  Stream get stream => listenToGeneralNews();
+  Stream get stream {
+    return listenToGeneralNews();
+  }
 }
