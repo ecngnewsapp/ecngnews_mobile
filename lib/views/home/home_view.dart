@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ecngnews/components/news_card_item.dart';
 import 'package:ecngnews/models/news_category.dart';
 import 'package:ecngnews/utils/ecng_assets.dart';
 import 'package:ecngnews/utils/ecng_strings.dart';
@@ -13,7 +12,6 @@ import 'package:ecngnews/views/watch/watch_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:stacked/stacked.dart';
 
 class HomeView extends StatefulWidget {
@@ -45,61 +43,7 @@ class _HomeViewState extends State<HomeView> {
 
       builder: (context, model, child) {
         List<Widget> _pages = [
-          FeedsView(
-              child: Column(
-            children: [
-              //filters
-              model.newsCategory == null
-                  ? ListTileShimmer()
-                  : Container(
-                      padding: EdgeInsets.symmetric(
-                          vertical: SizeConfig.sizeMultiplier),
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: model.newsCategory.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return CategoryCard(
-                            newsCategory: model.newsCategory[index],
-                          );
-                        },
-                      ),
-                      margin:
-                          EdgeInsets.only(bottom: SizeConfig.sizeMultiplier),
-                      height: SizeConfig.heightMultiplier * 16,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.vertical(
-                              bottom: Radius.circular(
-                                  SizeConfig.sizeMultiplier * 2)),
-                          boxShadow: EcngColors.cardBoxShadow,
-                          color: Colors.white),
-                    ),
-              Expanded(
-                  child: Container(
-                child: model.isBusy == null
-                    ? VideoShimmer()
-                    : model.appnews == null
-                        ? Container(
-                            child: Center(
-                              child: IconButton(
-                                icon: Icon(Icons.refresh),
-                                onPressed: model.listenToGeneralNews,
-                              ),
-                            ),
-                          )
-                        : ListView.builder(
-                            itemCount: model.appnews.length,
-                            itemBuilder: (context, index) => MoreNewsComponent(
-                              itemCreated: () {
-                                if (index % 20 == 0) model.getMoreNews();
-                              },
-                              child: NewsItemCard(
-                                news: model.appnews[index],
-                              ),
-                            ),
-                          ),
-              )),
-            ],
-          )),
+          FeedsView(),
           WatchView(),
           SearchView(),
           AccountView(),
