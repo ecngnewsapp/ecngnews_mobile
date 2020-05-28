@@ -24,13 +24,18 @@ class NewsService {
   }
 
   Future<List<NewsCategory>> getCategory() async {
-    List<NewsCategory> categories;
-    _categoriesCollectionReference.snapshots().listen(
-        (data) => data.documents.forEach((doc) => categories.add(NewsCategory(
-              avatar: doc['avatar'],
-              categories: doc.documentID,
-            ))));
-    return categories;
+    List<NewsCategory> _categories = [];
+    _categoriesCollectionReference
+        .snapshots()
+        .listen((data) => data.documents.forEach((doc) => {
+              print(doc['avatar']),
+              print(doc.documentID),
+              _categories.add(
+                NewsCategory(avatar: doc['avatar'], categories: doc.documentID),
+              )
+            }));
+
+    return _categories;
   }
 
   void _requestNews(String category) {

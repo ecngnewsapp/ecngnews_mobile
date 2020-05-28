@@ -10,17 +10,7 @@ class HomeViewModel extends StreamViewModel {
   List<News> get appnews => _news;
   List<NewsCategory> _newsCategories;
   List<NewsCategory> get newsCategory => _newsCategories;
-  // List<String> _categoryList = [
-  //   'business',
-  //   'entertainment',
-  //   'general',
-  //   'health',
-  //   'science',
-  //   'sports',
-  //   'technology'
-  // ];
 
-  void setCategies() {}
   Stream listenToGeneralNews() async* {
     _newsService.listenToGeneralNews().listen((event) {
       List<News> updatedNews = event;
@@ -33,7 +23,9 @@ class HomeViewModel extends StreamViewModel {
 
   Future setNewCategoryPan() async {
     _newsCategories = await _newsService.getCategory();
+    print('printing ');
     notifyListeners();
+    return _newsCategories;
   }
 
   void getMoreNews() => _newsService.requestMoreNews('general');
