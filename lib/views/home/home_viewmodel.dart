@@ -30,10 +30,7 @@ class HomeViewModel extends StreamViewModel {
 
   void getMoreNews() {
     _newsService.requestMoreNews('general');
-    notifyListeners();
   }
-  // @override
-  // Future futureToRun() => listToNews();
 
   @override
   Stream get stream {
