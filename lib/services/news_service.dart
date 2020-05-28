@@ -8,6 +8,8 @@ import 'package:injectable/injectable.dart';
 @lazySingleton
 class NewsService {
   var _newsCollectionReference = Firestore.instance.collection('contents');
+  var _categoriesCollectionReference =
+      Firestore.instance.collection('categories');
   List<List<News>> _allPagedNewsResults = List<List<News>>();
 
   static const int PostsLimit = 20;
@@ -22,26 +24,18 @@ class NewsService {
   }
 
   Future<List<NewsCategory>> getCategory() async {
-    List<String> _categoryList = [
-      'business',
-      'entertainment',
-      'general',
-      'health',
-      'science',
-      'sports',
-      'technology'
-    ];
-    List<NewsCategory> newsCategory = [];
-    for (int i = 1; i < _categoryList.length; i++) {
-       var postDocumentSnapshot =
-          await _newsCollectionReference.limit(1).getDocuments();
-      if (postDocumentSnapshot.documents.isNotEmpty) {
-        return postDocumentSnapshot.documents
-            .map((snapshot) => News.fromJson(snapshot.data))
-            .where((mappedItem) => mappedItem.title != null)
-            .toList();
-    }
-    return newsCategory;
+    // List<String> _categoryList = [
+    //   'business',
+    //   'entertainment',
+    //   'general',
+    //   'health',
+    //   'science',
+    //   'sports',
+    //   'technology'
+    // ];
+    _categoriesCollectionReference
+        .snapshots()
+        .listen((data) => data.documents.forEach((doc) => print(doc["title"])));
   }
 
   void _requestNews(String category) {
