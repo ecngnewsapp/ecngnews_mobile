@@ -18,9 +18,9 @@ class NewsService {
   bool _hasMorePosts = true;
   final StreamController<List<News>> _newsStreamController =
       StreamController<List<News>>.broadcast();
-  Stream listenToGeneralNews() {
+  Stream<dynamic> listenToGeneralNews() async* {
     _requestNews('general');
-    return _newsStreamController.stream;
+    yield* _newsStreamController.stream;
   }
 
   Future<List<NewsCategory>> getCategory() async {

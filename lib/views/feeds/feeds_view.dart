@@ -15,6 +15,12 @@ class FeedsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<FeedViewModel>.reactive(
+        // disposeViewModel: false,
+        // createNewModelOnInsert: true,
+        onModelReady: (m) {
+          m.setNewCategoryPan();
+          // m.listenToGeneralNews();
+        },
         builder: (context, model, child) => Column(
               children: [
                 //filters

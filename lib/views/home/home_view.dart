@@ -38,9 +38,6 @@ class _HomeViewState extends State<HomeView> {
         SystemUiOverlayStyle(statusBarColor: Colors.red));
 
     return ViewModelBuilder<HomeViewModel>.reactive(
-      onModelReady: (model) => model.setNewCategoryPan(),
-      // model.listenToGeneralNews(),
-
       builder: (context, model, child) {
         List<Widget> _pages = [
           FeedsView(),

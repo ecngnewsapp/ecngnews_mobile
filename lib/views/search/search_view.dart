@@ -23,7 +23,7 @@ class _SearchViewState extends State<SearchView> {
               ),
               body: SafeArea(
                 child: Container(
-                  child: Center(child: Text('Search News')),
+                  child: Center(child: Text('${viewModel.title}')),
                 ),
               ),
             ),

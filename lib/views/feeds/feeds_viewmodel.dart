@@ -14,10 +14,12 @@ class FeedViewModel extends StreamViewModel {
   Stream listenToGeneralNews() async* {
     _newsService.listenToGeneralNews().listen((event) {
       List<News> updatedNews = event;
-      if (updatedNews != null) {
+      print('value of updated news : ${updatedNews.length}');
+      if (updatedNews != null && updatedNews.length > 0) {
         _news = updatedNews;
-        // notifyListeners();
+        notifyListeners();
       }
+      print('value of updated news : ${updatedNews.length}');
     });
   }
 
@@ -33,7 +35,15 @@ class FeedViewModel extends StreamViewModel {
   }
 
   @override
-  Stream get stream {
-    return listenToGeneralNews();
-  }
+  Stream get stream => listenToGeneralNews();
 }
+
+// _newsService.listenToGeneralNews().listen((event) {
+//       List<News> updatedNews = event;
+//       print('value of updated news : ${updatedNews.length}');
+//       if (updatedNews != null && updatedNews.length > 0) {
+//         _news = updatedNews;
+//         notifyListeners();
+//       }
+//       print('value of updated news : ${updatedNews.length}');
+//     });
