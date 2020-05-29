@@ -16,10 +16,10 @@ class FeedsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<FeedViewModel>.reactive(
         // disposeViewModel: false,
-        // createNewModelOnInsert: true,
         onModelReady: (m) {
           m.setNewCategoryPan();
-          // m.listenToGeneralNews();
+
+          // m.refesh();
         },
         builder: (context, model, child) => Column(
               children: [
@@ -50,29 +50,32 @@ class FeedsView extends StatelessWidget {
                       ),
                 Expanded(
                     child: Container(
-                  child: model.isBusy == null
-                      ? VideoShimmer()
-                      : model.appnews == null
-                          ? Container(
-                              child: Center(
-                                child: IconButton(
+                  child: model.appnews.length <= 0
+                      ? Container(
+                          child: Center(
+                            child: Container(
+                                child: Column(
+                              children: [
+                                Text('${model.appnews.length}'),
+                                IconButton(
                                   icon: Icon(Icons.refresh),
-                                  onPressed: model.listenToGeneralNews,
+                                  onPressed: model.refesh,
                                 ),
-                              ),
-                            )
-                          : ListView.builder(
-                              itemCount: model.appnews.length,
-                              itemBuilder: (context, index) =>
-                                  MoreNewsComponent(
-                                itemCreated: () {
-                                  if (index % 20 == 0) model.getMoreNews();
-                                },
-                                child: NewsItemCard(
-                                  news: model.appnews[index],
-                                ),
-                              ),
+                              ],
+                            )),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: model.appnews.length,
+                          itemBuilder: (context, index) => MoreNewsComponent(
+                            itemCreated: () {
+                              if (index % 20 == 0) model.getMoreNews();
+                            },
+                            child: NewsItemCard(
+                              news: model.appnews[index],
                             ),
+                          ),
+                        ),
                 )),
               ],
             ),

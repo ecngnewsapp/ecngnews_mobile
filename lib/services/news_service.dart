@@ -50,7 +50,10 @@ class NewsService {
       pagePostsQuery = pagePostsQuery.startAfterDocument(_lastDocument);
     }
 
-    if (!_hasMorePosts) return;
+    if (!_hasMorePosts) {
+      print('out of document snapshots need to referesh');
+      return;
+    }
 
     var currentRequestIndex = _allPagedNewsResults.length;
 
@@ -76,12 +79,31 @@ class NewsService {
 
         if (currentRequestIndex == _allPagedNewsResults.length - 1) {
           _lastDocument = postsSnapshot.documents.last;
+          print('last doc is ${_lastDocument.documentID}');
         }
 
         // #14: Determine if there's more posts to request
         _hasMorePosts = posts.length == PostsLimit;
       }
     });
+  }
+
+  void referesh() async {
+    print('called referesh');
+    var resetPostQuery = _newsCollectionReference
+        .orderBy('date', descending: true)
+        // #3: Limit the amount of results
+        .limit(PostsLimit);
+    resetPostQuery.snapshots().listen((event) {
+      _lastDocument = event.documents.first;
+      print('first doc is ${_lastDocument.documentID}');
+    });
+    // _allPagedNewsResults.clear();
+    _requestNews('general');
+
+    var allPosts = _allPagedNewsResults.fold<List<News>>(List<News>(),
+        (initialValue, pageItems) => initialValue..addAll(pageItems));
+    _newsStreamController.add(allPosts);
   }
 
   void requestMoreNews(String category) => _requestNews(category);

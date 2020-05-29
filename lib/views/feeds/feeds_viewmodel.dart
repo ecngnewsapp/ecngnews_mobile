@@ -17,10 +17,17 @@ class FeedViewModel extends StreamViewModel {
       print('value of updated news : ${updatedNews.length}');
       if (updatedNews != null && updatedNews.length > 0) {
         _news = updatedNews;
-        notifyListeners();
-      }
+        // notifyListeners();
+      } else {}
+      // setBusy(false);
+
       print('value of updated news : ${updatedNews.length}');
     });
+  }
+
+  void refesh() async {
+    _newsService.referesh();
+    notifyListeners();
   }
 
   Future setNewCategoryPan() async {
