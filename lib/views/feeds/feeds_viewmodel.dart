@@ -7,6 +7,7 @@ import 'package:stacked/stacked.dart';
 class FeedViewModel extends StreamViewModel {
   NewsService _newsService = locator<NewsService>();
   List<News> _news = List<News>();
+  bool get morePost => _newsService.hasMorePosts;
   List<News> get appnews => _news;
   List<NewsCategory> _newsCategories = List<NewsCategory>();
   List<NewsCategory> get newsCategory => _newsCategories;

@@ -69,7 +69,9 @@ class FeedsView extends StatelessWidget {
                           itemCount: model.appnews.length,
                           itemBuilder: (context, index) => MoreNewsComponent(
                             itemCreated: () {
-                              if (index % 20 == 0) model.getMoreNews();
+                              if (model.morePost) {
+                                model.getMoreNews();
+                              }
                             },
                             child: NewsItemCard(
                               news: model.appnews[index],

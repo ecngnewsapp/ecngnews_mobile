@@ -16,6 +16,7 @@ class NewsService {
 
   DocumentSnapshot _lastDocument;
   bool _hasMorePosts = true;
+  bool get hasMorePosts => _hasMorePosts;
   final StreamController<List<News>> _newsStreamController =
       StreamController<List<News>>.broadcast();
   Stream<dynamic> listenToGeneralNews() async* {
