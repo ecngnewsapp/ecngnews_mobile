@@ -1,15 +1,10 @@
-import 'package:ecngnews/components/news_card_item.dart';
-import 'package:ecngnews/utils/ecng_theme.dart';
-import 'package:ecngnews/utils/size_config.dart';
-import 'package:ecngnews/views/feeds/feeds_viewmodel.dart';
-import 'package:ecngnews/views/home/home_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_shimmer/flutter_shimmer.dart';
-import 'package:stacked/stacked.dart';
 
 class FeedsView extends StatelessWidget {
+  final Widget child;
   const FeedsView({
     Key key,
+    this.child,
   }) : super(key: key);
 
   @override
@@ -108,5 +103,6 @@ class _MoreNewsComponentState extends State<MoreNewsComponent> {
     return Container(
       child: widget.child,
     );
+    return child;
   }
 }

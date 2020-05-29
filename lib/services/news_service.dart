@@ -1,16 +1,14 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecngnews/models/news_category.dart';
 import 'package:ecngnews/models/news_model.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class NewsService {
   var _newsCollectionReference = Firestore.instance.collection('contents');
-  var _categoriesCollectionReference =
-      Firestore.instance.collection('categories');
-  List<List<News>> _allPagedNewsResults = List<List<News>>();
+  // var _categoriesCollectionReference =
+  //     Firestore.instance.collection('categories');
 
   static const int PostsLimit = 20;
 
@@ -19,32 +17,14 @@ class NewsService {
   bool get hasMorePosts => _hasMorePosts;
   final StreamController<List<News>> _newsStreamController =
       StreamController<List<News>>.broadcast();
-  Stream<dynamic> listenToGeneralNews() async* {
-    _requestNews('general');
-    yield* _newsStreamController.stream;
+  Stream listenToGeneralNews() {
+    _requestNews();
+    return _newsStreamController.stream;
   }
 
-  Future<List<NewsCategory>> getCategory() async {
-    List<NewsCategory> categories = List<NewsCategory>();
-    _categoriesCollectionReference
-        .snapshots()
-        .listen((data) => data.documents.forEach((doc) => {
-              // print(doc['avatar']),
-              // print(doc.documentID),
-              categories.add(
-                NewsCategory(avatar: doc['avatar'], categories: doc.documentID),
-              )
-            }));
-    // print('gotten cat ${_categories[0].categories}');
-    // print('failded to get gotten cat ');
-    return categories;
-  }
-
-  void _requestNews(String category) {
+  void _requestNews() {
     var pagePostsQuery = _newsCollectionReference
-        .where('category', isEqualTo: '$category')
         .orderBy('date', descending: true)
-        // #3: Limit the amount of results
         .limit(PostsLimit);
 
     if (_lastDocument != null) {
@@ -85,6 +65,7 @@ class NewsService {
 
         // #14: Determine if there's more posts to request
         _hasMorePosts = posts.length == PostsLimit;
+        _newsStreamController.add(posts);
       }
     });
   }
@@ -108,4 +89,5 @@ class NewsService {
   }
 
   void requestMoreNews(String category) => _requestNews(category);
+  void requestMoreNews() => _requestNews();
 }
