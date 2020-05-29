@@ -49,7 +49,7 @@ class NewsService {
     if (_lastDocument != null) {
       pagePostsQuery = pagePostsQuery.startAfterDocument(_lastDocument);
     }
-
+//
     if (!_hasMorePosts) return;
 
     var currentRequestIndex = _allPagedNewsResults.length;
