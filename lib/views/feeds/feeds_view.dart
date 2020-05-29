@@ -50,29 +50,26 @@ class FeedsView extends StatelessWidget {
                       ),
                 Expanded(
                     child: Container(
-                  child: model.isBusy == null
-                      ? VideoShimmer()
-                      : model.appnews == null
-                          ? Container(
-                              child: Center(
-                                child: IconButton(
-                                  icon: Icon(Icons.refresh),
-                                  onPressed: model.listenToGeneralNews,
-                                ),
-                              ),
-                            )
-                          : ListView.builder(
-                              itemCount: model.appnews.length,
-                              itemBuilder: (context, index) =>
-                                  MoreNewsComponent(
-                                itemCreated: () {
-                                  if (index % 20 == 0) model.getMoreNews();
-                                },
-                                child: NewsItemCard(
-                                  news: model.appnews[index],
-                                ),
-                              ),
+                  child: model.appnews.length <= 0
+                      ? Container(
+                          child: Center(
+                            child: IconButton(
+                              icon: Icon(Icons.refresh),
+                              onPressed: model.referesh,
                             ),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: model.appnews.length,
+                          itemBuilder: (context, index) => MoreNewsComponent(
+                            itemCreated: () {
+                              if (index % 20 == 0) model.getMoreNews();
+                            },
+                            child: NewsItemCard(
+                              news: model.appnews[index],
+                            ),
+                          ),
+                        ),
                 )),
               ],
             ),

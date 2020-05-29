@@ -30,8 +30,16 @@ class FeedViewModel extends StreamViewModel {
     return _newsCategories;
   }
 
+  void referesh() {
+    _newsService.referesh('general');
+  }
+
   void getMoreNews() {
-    _newsService.requestMoreNews('general');
+    if (_newsService.hasMorsPost) {
+      _newsService.requestMoreNews('general');
+    } else {
+      referesh();
+    }
   }
 
   @override

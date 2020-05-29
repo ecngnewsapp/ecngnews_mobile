@@ -16,6 +16,7 @@ class NewsService {
 
   DocumentSnapshot _lastDocument;
   bool _hasMorePosts = true;
+  bool get hasMorsPost => _hasMorePosts;
   final StreamController<List<News>> _newsStreamController =
       StreamController<List<News>>.broadcast();
   Stream<dynamic> listenToGeneralNews() async* {
@@ -50,7 +51,10 @@ class NewsService {
       pagePostsQuery = pagePostsQuery.startAfterDocument(_lastDocument);
     }
 //
-    if (!_hasMorePosts) return;
+    if (!_hasMorePosts) {
+      print('post reach last');
+      return;
+    }
 
     var currentRequestIndex = _allPagedNewsResults.length;
 
@@ -81,6 +85,24 @@ class NewsService {
         // #14: Determine if there's more posts to request
         _hasMorePosts = posts.length == PostsLimit;
       }
+    });
+  }
+
+  void referesh(String category) {
+    var pagePostsQuery = _newsCollectionReference
+        .where('category', isEqualTo: '$category')
+        .orderBy('date', descending: true)
+        // #3: Limit the amount of results
+        .limit(PostsLimit);
+
+    pagePostsQuery.snapshots().listen((postsSnapshot) {
+      _lastDocument = postsSnapshot.documents.first;
+
+      var posts = postsSnapshot.documents
+          .map((snapshot) => News.fromJson(snapshot.data))
+          .where((mappedItem) => mappedItem.title != null)
+          .toList();
+      _newsStreamController.add(posts);
     });
   }
 
