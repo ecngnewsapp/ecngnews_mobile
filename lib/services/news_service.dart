@@ -9,7 +9,6 @@ class NewsService {
   var _newsCollectionReference = Firestore.instance.collection('contents');
   // var _categoriesCollectionReference =
   //     Firestore.instance.collection('categories');
-  List<List<News>> _allPagedNewsResults = List<List<News>>();
 
   static const int PostsLimit = 20;
 
