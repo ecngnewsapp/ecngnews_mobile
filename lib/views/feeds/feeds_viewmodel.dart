@@ -25,7 +25,6 @@ class FeedViewModel extends StreamViewModel {
 
   Future setNewCategoryPan() async {
     _newsCategories = await _newsService.getCategory();
-    print('printing ');
     notifyListeners();
     return _newsCategories;
   }
@@ -35,23 +34,9 @@ class FeedViewModel extends StreamViewModel {
   }
 
   void getMoreNews() {
-    if (_newsService.hasMorsPost) {
-      _newsService.requestMoreNews('general');
-    } else {
-      referesh();
-    }
+    _newsService.requestMoreNews('general');
   }
 
   @override
   Stream get stream => listenToGeneralNews();
 }
-
-// _newsService.listenToGeneralNews().listen((event) {
-//       List<News> updatedNews = event;
-//       print('value of updated news : ${updatedNews.length}');
-//       if (updatedNews != null && updatedNews.length > 0) {
-//         _news = updatedNews;
-//         notifyListeners();
-//       }
-//       print('value of updated news : ${updatedNews.length}');
-//     });

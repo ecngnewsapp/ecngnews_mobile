@@ -29,14 +29,11 @@ class NewsService {
     _categoriesCollectionReference
         .snapshots()
         .listen((data) => data.documents.forEach((doc) => {
-              // print(doc['avatar']),
-              // print(doc.documentID),
               categories.add(
                 NewsCategory(avatar: doc['avatar'], categories: doc.documentID),
               )
             }));
-    // print('gotten cat ${_categories[0].categories}');
-    // print('failded to get gotten cat ');
+
     return categories;
   }
 
@@ -89,6 +86,7 @@ class NewsService {
   }
 
   void referesh(String category) {
+    print('referesh called');
     var pagePostsQuery = _newsCollectionReference
         .where('category', isEqualTo: '$category')
         .orderBy('date', descending: true)
@@ -96,13 +94,17 @@ class NewsService {
         .limit(PostsLimit);
 
     pagePostsQuery.snapshots().listen((postsSnapshot) {
-      _lastDocument = postsSnapshot.documents.first;
-
       var posts = postsSnapshot.documents
           .map((snapshot) => News.fromJson(snapshot.data))
           .where((mappedItem) => mappedItem.title != null)
           .toList();
-      _newsStreamController.add(posts);
+      _lastDocument = postsSnapshot.documents.first;
+      _allPagedNewsResults.clear();
+      _allPagedNewsResults.add(posts);
+      var allPosts = _allPagedNewsResults.fold<List<News>>(List<News>(),
+          (initialValue, pageItems) => initialValue..addAll(pageItems));
+
+      _newsStreamController.add(allPosts);
     });
   }
 

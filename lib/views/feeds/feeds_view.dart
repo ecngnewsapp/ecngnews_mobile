@@ -15,8 +15,6 @@ class FeedsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<FeedViewModel>.reactive(
-        // disposeViewModel: false,
-        // createNewModelOnInsert: true,
         onModelReady: (m) {
           m.setNewCategoryPan();
           // m.listenToGeneralNews();
@@ -59,17 +57,20 @@ class FeedsView extends StatelessWidget {
                             ),
                           ),
                         )
-                      : ListView.builder(
-                          itemCount: model.appnews.length,
-                          itemBuilder: (context, index) => MoreNewsComponent(
-                            itemCreated: () {
-                              if (index % 20 == 0) model.getMoreNews();
-                            },
-                            child: NewsItemCard(
-                              news: model.appnews[index],
+                      : model.isBusy
+                          ? VideoShimmer()
+                          : ListView.builder(
+                              itemCount: model.appnews.length,
+                              itemBuilder: (context, index) =>
+                                  MoreNewsComponent(
+                                itemCreated: () {
+                                  if (index % 20 == 0) model.getMoreNews();
+                                },
+                                child: NewsItemCard(
+                                  news: model.appnews[index],
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
                 )),
               ],
             ),
