@@ -14,7 +14,7 @@ class NewsService {
 
   static const int PostsLimit = 20;
 
-  DocumentSnapshot _lastDocument;
+  // DocumentSnapshot _lastDocument;
   bool _hasMorePosts = true;
   bool get hasMorsPost => _hasMorePosts;
   final StreamController<List<News>> _newsStreamController =
@@ -27,6 +27,7 @@ class NewsService {
   Future<List<NewsCategory>> getCategory() async {
     List<NewsCategory> categories = List<NewsCategory>();
     _categoriesCollectionReference
+        .orderBy('order')
         .snapshots()
         .listen((data) => data.documents.forEach((doc) => {
               categories.add(
@@ -44,17 +45,6 @@ class NewsService {
         // #3: Limit the amount of results
         .limit(PostsLimit);
 
-    if (_lastDocument != null) {
-      pagePostsQuery = pagePostsQuery.startAfterDocument(_lastDocument);
-    }
-//
-    if (!_hasMorePosts) {
-      print('post reach last');
-      return;
-    }
-
-    var currentRequestIndex = _allPagedNewsResults.length;
-
     pagePostsQuery.snapshots().listen((postsSnapshot) {
       if (postsSnapshot.documents.isNotEmpty) {
         var posts = postsSnapshot.documents
@@ -62,25 +52,7 @@ class NewsService {
             .where((mappedItem) => mappedItem.title != null)
             .toList();
 
-        var pageExists = currentRequestIndex < _allPagedNewsResults.length;
-
-        if (pageExists) {
-          _allPagedNewsResults[currentRequestIndex] = posts;
-        } else {
-          _allPagedNewsResults.add(posts);
-        }
-
-        var allPosts = _allPagedNewsResults.fold<List<News>>(List<News>(),
-            (initialValue, pageItems) => initialValue..addAll(pageItems));
-
-        _newsStreamController.add(allPosts);
-
-        if (currentRequestIndex == _allPagedNewsResults.length - 1) {
-          _lastDocument = postsSnapshot.documents.last;
-        }
-
-        // #14: Determine if there's more posts to request
-        _hasMorePosts = posts.length == PostsLimit;
+        _newsStreamController.add(posts);
       }
     });
   }
@@ -98,7 +70,7 @@ class NewsService {
           .map((snapshot) => News.fromJson(snapshot.data))
           .where((mappedItem) => mappedItem.title != null)
           .toList();
-      _lastDocument = postsSnapshot.documents.first;
+      // _lastDocument = postsSnapshot.documents.first;
       _allPagedNewsResults.clear();
       _allPagedNewsResults.add(posts);
       var allPosts = _allPagedNewsResults.fold<List<News>>(List<News>(),

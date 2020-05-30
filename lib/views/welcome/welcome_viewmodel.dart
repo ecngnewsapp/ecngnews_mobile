@@ -76,6 +76,7 @@ class WelcomeViewModel extends BaseViewModel {
 
   //
   Future anonymousSignIn() async {
+    setBusy(true);
     var result = await _authenticationService.signInAnonymously();
     if (result is FirebaseUser && result != null) {
       await _authenticationService.setSignIn();

@@ -61,14 +61,8 @@ class FeedsView extends StatelessWidget {
                           ? VideoShimmer()
                           : ListView.builder(
                               itemCount: model.appnews.length,
-                              itemBuilder: (context, index) =>
-                                  MoreNewsComponent(
-                                itemCreated: () {
-                                  if (index % 20 == 0) model.getMoreNews();
-                                },
-                                child: NewsItemCard(
-                                  news: model.appnews[index],
-                                ),
+                              itemBuilder: (context, index) => NewsItemCard(
+                                news: model.appnews[index],
                               ),
                             ),
                 )),

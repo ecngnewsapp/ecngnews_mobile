@@ -15,9 +15,11 @@ class AccountViewModel extends FutureViewModel {
       locator<AuthenticationService>();
   NavigationService _navigationService = locator<NavigationService>();
   Future signOut() async {
+    setBusy(true);
     print('invoked');
     await _authenticationService.signOut();
-    _navigationService.popRepeated(0);
+    _navigationService.popUntil((route) => false);
+    setBusy(false);
     notifyListeners();
   }
 
