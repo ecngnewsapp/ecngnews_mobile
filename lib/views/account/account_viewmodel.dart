@@ -1,6 +1,7 @@
 import 'package:ecngnews/models/user_model.dart';
 import 'package:ecngnews/services/authentication_service.dart';
 import 'package:ecngnews/utils/locator.dart';
+import 'package:ecngnews/views/welcome/welcome_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
@@ -18,7 +19,7 @@ class AccountViewModel extends FutureViewModel {
     setBusy(true);
     print('invoked');
     await _authenticationService.signOut();
-    _navigationService.popUntil((route) => false);
+    _navigationService.navigateWithTransition(WelcomeView());
     setBusy(false);
     notifyListeners();
   }

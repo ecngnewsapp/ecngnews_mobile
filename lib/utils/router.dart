@@ -29,6 +29,6 @@ class $Router {
   SignInView signInViewRoute;
   SignUpView signUpViewRoute;
   WatchView watchViewRoute;
-  WeclomeView weclomeViewRoute;
+  WelcomeView weclomeViewRoute;
   ErrorView errorViewRoute;
 }

@@ -21,6 +21,7 @@ class _FeedsViewState extends State<FeedsView> {
   Widget build(BuildContext context) {
     int currentIndex = 0;
     return ViewModelBuilder<FeedViewModel>.reactive(
+        disposeViewModel: false,
         onModelReady: (m) => m.setNewCategoryPan(),
         builder: (context, model, child) => Column(
               children: [

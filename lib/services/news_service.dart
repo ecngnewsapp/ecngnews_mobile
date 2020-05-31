@@ -8,6 +8,7 @@ import 'package:injectable/injectable.dart';
 @lazySingleton
 class NewsService {
   var _newsCollectionReference = Firestore.instance.collection('contents');
+  // var _newsVideoCollectionReference = Firestore.instance.collection('contents');
   var _categoriesCollectionReference =
       Firestore.instance.collection('categories');
   List<List<News>> _allPagedNewsResults = List<List<News>>();
@@ -19,10 +20,17 @@ class NewsService {
   bool get hasMorsPost => _hasMorePosts;
   final StreamController<List<News>> _newsStreamController =
       StreamController<List<News>>.broadcast();
+  final StreamController<List<News>> _newsVideoStreamController =
+      StreamController<List<News>>.broadcast();
 
   Stream<dynamic> listenToNews(String category) async* {
     _requestNews(category);
     yield* _newsStreamController.stream;
+  }
+
+  Stream<dynamic> listenToNewsVideos(String category) async* {
+    _requestVideoNews(category);
+    yield* _newsVideoStreamController.stream;
   }
 
   Future<List<NewsCategory>> getCategory() async {
@@ -54,6 +62,26 @@ class NewsService {
             .toList();
 
         _newsStreamController.add(posts);
+      }
+    });
+  }
+
+  void _requestVideoNews(String category) {
+    var pagePostsQuery = _newsCollectionReference
+        .where('category', isEqualTo: '$category')
+        .where('url', isGreaterThanOrEqualTo: 'https://www.youtube')
+        .orderBy('url', descending: true)
+        .orderBy('timestamp', descending: true)
+        .limit(PostsLimit);
+
+    pagePostsQuery.snapshots().listen((postsSnapshot) {
+      if (postsSnapshot.documents.isNotEmpty) {
+        var posts = postsSnapshot.documents
+            .map((snapshot) => News.fromJson(snapshot.data))
+            .where((mappedItem) => mappedItem.title != null)
+            .toList();
+
+        _newsVideoStreamController.add(posts);
       }
     });
   }

@@ -162,7 +162,7 @@ class Router extends RouterBase {
         final typedArgs =
             args as WeclomeViewArguments ?? WeclomeViewArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (context) => WeclomeView(key: typedArgs.key),
+          builder: (context) => WelcomeView(key: typedArgs.key),
           settings: settings,
         );
       case Routes.errorViewRoute:
