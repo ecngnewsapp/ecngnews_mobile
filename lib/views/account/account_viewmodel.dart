@@ -19,7 +19,11 @@ class AccountViewModel extends FutureViewModel {
     setBusy(true);
     print('invoked');
     await _authenticationService.signOut();
-    _navigationService.navigateWithTransition(WelcomeView());
+    _navigationService.navigateWithTransition(
+      WelcomeView(),
+      transition: 'rotate',
+      duration: Duration(microseconds: 500),
+    );
     setBusy(false);
     notifyListeners();
   }

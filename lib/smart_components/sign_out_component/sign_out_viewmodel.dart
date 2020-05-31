@@ -12,6 +12,10 @@ class SignOutViewModel extends BaseViewModel {
   Future signOut() async {
     print('invoked');
     await _authenticationService.signOut();
-    _navigationService.replaceWithTransition(WelcomeView());
+    _navigationService.navigateWithTransition(
+      WelcomeView(),
+      transition: 'size',
+      duration: Duration(microseconds: 300),
+    );
   }
 }
