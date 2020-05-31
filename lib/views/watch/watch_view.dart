@@ -14,7 +14,7 @@ class _WatchViewState extends State<WatchView> {
     return ViewModelBuilder<WatchViewModel>.reactive(
         builder: (context, model, child) => Container(
               child: VideoList(
-                urls: model.appnews.map((e) => e.url).toList(),
+                news: model.appnews,
               ),
             ),
         viewModelBuilder: () => WatchViewModel());
