@@ -12,15 +12,16 @@ class NewsService {
       Firestore.instance.collection('categories');
   List<List<News>> _allPagedNewsResults = List<List<News>>();
 
-  static const int PostsLimit = 20;
+  static const int PostsLimit = 200;
 
   // DocumentSnapshot _lastDocument;
   bool _hasMorePosts = true;
   bool get hasMorsPost => _hasMorePosts;
   final StreamController<List<News>> _newsStreamController =
       StreamController<List<News>>.broadcast();
-  Stream<dynamic> listenToGeneralNews() async* {
-    _requestNews('general');
+
+  Stream<dynamic> listenToNews(String category) async* {
+    _requestNews(category);
     yield* _newsStreamController.stream;
   }
 
@@ -41,7 +42,7 @@ class NewsService {
   void _requestNews(String category) {
     var pagePostsQuery = _newsCollectionReference
         .where('category', isEqualTo: '$category')
-        .orderBy('date', descending: true)
+        .orderBy('timestamp', descending: true)
         // #3: Limit the amount of results
         .limit(PostsLimit);
 

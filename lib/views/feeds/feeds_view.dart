@@ -1,24 +1,27 @@
+import 'package:ecngnews/components/category_card.dart';
 import 'package:ecngnews/components/news_card_item.dart';
 import 'package:ecngnews/utils/ecng_theme.dart';
 import 'package:ecngnews/utils/size_config.dart';
 import 'package:ecngnews/views/feeds/feeds_viewmodel.dart';
-import 'package:ecngnews/views/home/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:stacked/stacked.dart';
 
-class FeedsView extends StatelessWidget {
+class FeedsView extends StatefulWidget {
   const FeedsView({
     Key key,
   }) : super(key: key);
 
   @override
+  _FeedsViewState createState() => _FeedsViewState();
+}
+
+class _FeedsViewState extends State<FeedsView> {
+  @override
   Widget build(BuildContext context) {
+    int currentIndex = 0;
     return ViewModelBuilder<FeedViewModel>.reactive(
-        onModelReady: (m) {
-          m.setNewCategoryPan();
-          // m.listenToGeneralNews();
-        },
+        onModelReady: (m) => m.setNewCategoryPan(),
         builder: (context, model, child) => Column(
               children: [
                 //filters
@@ -31,8 +34,15 @@ class FeedsView extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           itemCount: model.newsCategory.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return CategoryCard(
-                              newsCategory: model.newsCategory[index],
+                            return GestureDetector(
+                              onTap: () {
+                                model.setSource(index);
+                                currentIndex = index;
+                              },
+                              child: CategoryCard(
+                                isActive: index == currentIndex ? true : false,
+                                newsCategory: model.newsCategory[index],
+                              ),
                             );
                           },
                         ),

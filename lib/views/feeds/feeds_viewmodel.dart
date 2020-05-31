@@ -10,9 +10,19 @@ class FeedViewModel extends StreamViewModel {
   List<News> get appnews => _news;
   List<NewsCategory> _newsCategories = List<NewsCategory>();
   List<NewsCategory> get newsCategory => _newsCategories;
+  // Stream _newsSource;
+  int _sourceIndex = 0;
+  void setSource(int _source) {
+    setBusy(true);
+    print('set source called on $_source');
+    _sourceIndex = _source;
+    print('news source index $_sourceIndex');
+    notifySourceChanged();
+    setBusy(false);
+  }
 
-  Stream listenToGeneralNews() async* {
-    _newsService.listenToGeneralNews().listen((event) {
+  Stream listenToNewsByCategory(String category) async* {
+    _newsService.listenToNews(category).listen((event) {
       List<News> updatedNews = event;
       print('value of updated news : ${updatedNews.length}');
       if (updatedNews != null && updatedNews.length > 0) {
@@ -33,10 +43,18 @@ class FeedViewModel extends StreamViewModel {
     _newsService.referesh('general');
   }
 
-  void getMoreNews() {
-    _newsService.requestMoreNews('general');
-  }
-
   @override
-  Stream get stream => listenToGeneralNews();
+  Stream get stream => _sourceIndex == 0
+      ? listenToNewsByCategory('general')
+      : _sourceIndex == 1
+          ? listenToNewsByCategory('sports')
+          : _sourceIndex == 2
+              ? listenToNewsByCategory('business')
+              : _sourceIndex == 3
+                  ? listenToNewsByCategory('entertainment')
+                  : _sourceIndex == 4
+                      ? listenToNewsByCategory('health')
+                      : _sourceIndex == 5
+                          ? listenToNewsByCategory('science')
+                          : listenToNewsByCategory('technology');
 }
