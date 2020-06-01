@@ -63,6 +63,11 @@ class _VideoListState extends State<VideoList> {
                     child: YoutubePlayer(
                       key: ObjectKey(_controllers[index]),
                       showVideoProgressIndicator: true,
+                      progressIndicatorColor: EcngColors.primaryColor,
+                      progressColors: ProgressBarColors(
+                        playedColor: EcngColors.primaryColor,
+                        handleColor: EcngColors.primaryColor,
+                      ),
                       controller: _controllers[index],
                       actionsPadding: EdgeInsets.only(left: 16.0),
                       bottomActions: [
@@ -78,16 +83,17 @@ class _VideoListState extends State<VideoList> {
                 ),
                 // text and duration
                 Align(
-                    alignment: Alignment.bottomLeft,
+                    alignment: Alignment.bottomCenter,
                     child: Container(
+                      padding: EdgeInsets.all(
+                        SizeConfig.sizeMultiplier * 2,
+                      ),
                       height: SizeConfig.heightMultiplier * 10,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
                             // alignment: Alignment.topLeft,
-                            padding: EdgeInsets.all(SizeConfig.sizeMultiplier),
-                            height: SizeConfig.heightMultiplier * 6,
                             width: SizeConfig.widthMultiplier * 70,
                             child: Text(
                               '${widget.news[index].title}',
@@ -102,29 +108,7 @@ class _VideoListState extends State<VideoList> {
                             ),
                             decoration: BoxDecoration(color: Colors.white),
                           ),
-                          Container(
-                            height: SizeConfig.heightMultiplier * 12,
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(.5),
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(
-                                    SizeConfig.sizeMultiplier * 1.5),
-                              ),
-                            ),
-                            child: Column(
-                              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                  '40:30:20',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      .copyWith(fontWeight: FontWeight.bold),
-                                ),
-                                Icon(FontAwesome.share),
-                              ],
-                            ),
-                          ),
+                          Icon(FontAwesome.share),
                         ],
                       ),
                     )),

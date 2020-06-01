@@ -30,6 +30,7 @@ class WatchViewModel extends StreamViewModel {
         notifyListeners();
       }
       print('value of updated news : ${updatedNews.length}');
+      print('first Video url ${_news[0].url}');
     });
   }
 

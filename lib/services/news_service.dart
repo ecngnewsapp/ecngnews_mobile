@@ -22,6 +22,8 @@ class NewsService {
       StreamController<List<News>>.broadcast();
   final StreamController<List<News>> _newsVideoStreamController =
       StreamController<List<News>>.broadcast();
+  final StreamController<List<News>> _newsSearchStreamController =
+      StreamController<List<News>>.broadcast();
 
   Stream<dynamic> listenToNews(String category) async* {
     _requestNews(category);
@@ -31,6 +33,13 @@ class NewsService {
   Stream<dynamic> listenToNewsVideos(String category) async* {
     _requestVideoNews(category);
     yield* _newsVideoStreamController.stream;
+  }
+
+//listining to news search
+  Stream<dynamic> listenToNewsSearch(
+      String category, String searchString) async* {
+    _searchNews(category, searchString);
+    yield* _newsSearchStreamController.stream;
   }
 
   Future<List<NewsCategory>> getCategory() async {
@@ -66,10 +75,28 @@ class NewsService {
     });
   }
 
-  void _requestVideoNews(String category) {
+  void _searchNews(String category, String searchString) {
     var pagePostsQuery = _newsCollectionReference
         .where('category', isEqualTo: '$category')
-        .where('url', isGreaterThanOrEqualTo: 'https://www.youtube')
+        .where('title', isGreaterThanOrEqualTo: '$searchString');
+
+    pagePostsQuery.snapshots().listen((postsSnapshot) {
+      if (postsSnapshot.documents.isNotEmpty) {
+        var posts = postsSnapshot.documents
+            .map((snapshot) => News.fromJson(snapshot.data))
+            .where((mappedItem) => mappedItem.title != null)
+            .toList();
+
+        _newsSearchStreamController.add(posts);
+      }
+    });
+  }
+
+  void _requestVideoNews(String category) {
+    var pagePostsQuery = _newsCollectionReference
+        .where('url', isGreaterThanOrEqualTo: 'https://www.youtube.com/watch')
+        .where('url', isLessThanOrEqualTo: 'https://www.z')
+        .where('category', isEqualTo: '$category')
         .orderBy('url', descending: true)
         .orderBy('timestamp', descending: true)
         .limit(PostsLimit);
