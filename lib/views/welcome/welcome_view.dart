@@ -9,14 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:stacked/stacked.dart';
 
-class WeclomeView extends StatefulWidget {
-  WeclomeView({Key key}) : super(key: key);
+class WelcomeView extends StatefulWidget {
+  WelcomeView({Key key}) : super(key: key);
 
   @override
-  _WeclomeViewState createState() => _WeclomeViewState();
+  _WelcomeViewState createState() => _WelcomeViewState();
 }
 
-class _WeclomeViewState extends State<WeclomeView> {
+class _WelcomeViewState extends State<WelcomeView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<WelcomeViewModel>.reactive(

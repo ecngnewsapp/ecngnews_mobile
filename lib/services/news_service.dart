@@ -1,81 +1,141 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecngnews/models/news_category.dart';
 import 'package:ecngnews/models/news_model.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class NewsService {
-  CollectionReference _newsCollectionReference =
-      Firestore.instance.collection('contents');
-//comment controller
-  CollectionReference _newsCommentCollectionReference =
-      Firestore.instance.collection('comments');
-  //news Controller
-  final StreamController<List<News>> newsController =
+  var _newsCollectionReference = Firestore.instance.collection('contents');
+  // var _newsVideoCollectionReference = Firestore.instance.collection('contents');
+  var _categoriesCollectionReference =
+      Firestore.instance.collection('categories');
+  List<List<News>> _allPagedNewsResults = List<List<News>>();
+
+  static const int PostsLimit = 200;
+
+  // DocumentSnapshot _lastDocument;
+  bool _hasMorePosts = true;
+  bool get hasMorsPost => _hasMorePosts;
+  final StreamController<List<News>> _newsStreamController =
       StreamController<List<News>>.broadcast();
-  List<List<News>> _allPagedResult = List<List<News>>();
-  // page limit
-  static const int pageLimit = 20;
-  // last document
-  DocumentSnapshot _lastDocument;
-  //
-  bool _hasMoreNews = true;
-  //listing to post in realtime
-  Stream listenToNewsInRealtime() {
-    //
-    _requestNews();
-    return newsController.stream;
+  final StreamController<List<News>> _newsVideoStreamController =
+      StreamController<List<News>>.broadcast();
+  final StreamController<List<News>> _newsSearchStreamController =
+      StreamController<List<News>>.broadcast();
+
+  Stream<dynamic> listenToNews(String category) async* {
+    _requestNews(category);
+    yield* _newsStreamController.stream;
   }
 
-  void _requestNews() {
-    //query latast news
-    Query newsPostQuery =
-        _newsCollectionReference.orderBy('date').limit(pageLimit);
-    // checking its not the last document
-    if (_lastDocument != null) {
-      newsPostQuery.startAfterDocument(_lastDocument);
-    }
-    // checking if we have no more news items
+  Stream<dynamic> listenToNewsVideos(String category) async* {
+    _requestVideoNews(category);
+    yield* _newsVideoStreamController.stream;
+  }
 
-    if (!_hasMoreNews) return;
+//listining to news search
+  Stream<dynamic> listenToNewsSearch(
+      String category, String searchString) async* {
+    searchNews(category, searchString);
+    yield* _newsSearchStreamController.stream;
+  }
 
-    //setting current request index
-    int currentRequestIndex = _allPagedResult.length;
+  Future<List<NewsCategory>> getCategory() async {
+    List<NewsCategory> categories = List<NewsCategory>();
+    _categoriesCollectionReference
+        .orderBy('order')
+        .snapshots()
+        .listen((data) => data.documents.forEach((doc) => {
+              categories.add(
+                NewsCategory(avatar: doc['avatar'], categories: doc.documentID),
+              )
+            }));
 
-    newsPostQuery.snapshots().listen((newsSnapShots) {
-      if (newsSnapShots.documents.isNotEmpty) {
-        List<News> news = newsSnapShots.documents
-            .map((snapShots) => News.fromJson(snapShots.data))
+    return categories;
+  }
+
+  void _requestNews(String category) {
+    var pagePostsQuery = _newsCollectionReference
+        .where('category', isEqualTo: '$category')
+        .orderBy('timestamp', descending: true)
+        // #3: Limit the amount of results
+        .limit(PostsLimit);
+
+    pagePostsQuery.snapshots().listen((postsSnapshot) {
+      if (postsSnapshot.documents.isNotEmpty) {
+        var posts = postsSnapshot.documents
+            .map((snapshot) => News.fromJson(snapshot.data))
             .where((mappedItem) => mappedItem.title != null)
             .toList();
 
-        //check it page exist
-        bool pageExist = currentRequestIndex < _allPagedResult.length;
-
-        if (pageExist) {
-          _allPagedResult[currentRequestIndex] = news;
-        }
-        // if it doesn't exist add
-        else {
-          _allPagedResult.add(news);
-        }
-
-        // concatinate news to be shown
-        List<News> allNews = _allPagedResult.fold<List<News>>(
-          List<News>(),
-          (initialValue, pageItems) => initialValue..addAll(pageItems),
-        );
-
-        // brotcast all news
-        newsController.add(allNews);
-
-        //saving last document only if user at current page
-        if (currentRequestIndex == _allPagedResult.length - 1) {
-          _lastDocument = newsSnapShots.documents.last;
-        }
-        _hasMoreNews = news.length == pageLimit;
+        _newsStreamController.add(posts);
       }
     });
   }
+
+  void searchNews(String category, String searchString) {
+    print('searchingfor $searchString');
+    var pagePostsQuery = _newsCollectionReference
+        .where('category', isEqualTo: '$category')
+        .where('title', isGreaterThan: searchString);
+    // .where('title', isLessThanOrEqualTo: searchString);
+
+    pagePostsQuery.snapshots().listen((postsSnapshot) {
+      if (postsSnapshot.documents.isNotEmpty) {
+        var posts = postsSnapshot.documents
+            .map((snapshot) => News.fromJson(snapshot.data))
+            .toList();
+
+        _newsSearchStreamController.add(posts);
+      }
+    });
+  }
+
+  void _requestVideoNews(String category) {
+    var pagePostsQuery = _newsCollectionReference
+        .where('url', isGreaterThanOrEqualTo: 'https://www.youtube.com/watch')
+        .where('url', isLessThanOrEqualTo: 'https://www.z')
+        .where('category', isEqualTo: '$category')
+        .orderBy('url', descending: true)
+        .orderBy('timestamp', descending: true)
+        .limit(PostsLimit);
+
+    pagePostsQuery.snapshots().listen((postsSnapshot) {
+      if (postsSnapshot.documents.isNotEmpty) {
+        var posts = postsSnapshot.documents
+            .map((snapshot) => News.fromJson(snapshot.data))
+            .where((mappedItem) => mappedItem.title != null)
+            .toList();
+
+        _newsVideoStreamController.add(posts);
+      }
+    });
+  }
+
+  void referesh(String category) {
+    print('referesh called');
+    var pagePostsQuery = _newsCollectionReference
+        .where('category', isEqualTo: '$category')
+        .orderBy('date', descending: true)
+        // #3: Limit the amount of results
+        .limit(PostsLimit);
+
+    pagePostsQuery.snapshots().listen((postsSnapshot) {
+      var posts = postsSnapshot.documents
+          .map((snapshot) => News.fromJson(snapshot.data))
+          .where((mappedItem) => mappedItem.title != null)
+          .toList();
+      // _lastDocument = postsSnapshot.documents.first;
+      _allPagedNewsResults.clear();
+      _allPagedNewsResults.add(posts);
+      var allPosts = _allPagedNewsResults.fold<List<News>>(List<News>(),
+          (initialValue, pageItems) => initialValue..addAll(pageItems));
+
+      _newsStreamController.add(allPosts);
+    });
+  }
+
+  void requestMoreNews(String category) => _requestNews(category);
 }

@@ -1,7 +1,7 @@
 import 'package:ecngnews/models/user_model.dart';
 import 'package:ecngnews/services/authentication_service.dart';
 import 'package:ecngnews/utils/locator.dart';
-import 'package:ecngnews/utils/router.gr.dart';
+import 'package:ecngnews/views/welcome/welcome_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
@@ -16,9 +16,16 @@ class AccountViewModel extends FutureViewModel {
       locator<AuthenticationService>();
   NavigationService _navigationService = locator<NavigationService>();
   Future signOut() async {
+    setBusy(true);
     print('invoked');
     await _authenticationService.signOut();
-    _navigationService.navigateTo(Routes.weclomeViewRoute);
+    _navigationService.navigateWithTransition(
+      WelcomeView(),
+      transition: 'rotate',
+      duration: Duration(microseconds: 500),
+    );
+    setBusy(false);
+    notifyListeners();
   }
 
   Future getUser() async {

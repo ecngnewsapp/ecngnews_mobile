@@ -1,4 +1,4 @@
-import 'package:ecngnews/models/news_model.dart';
+// import 'package:ecngnews/models/news_model.dart';
 import 'package:ecngnews/utils/ecng_theme.dart';
 import 'package:ecngnews/utils/size_config.dart';
 import 'package:flutter/material.dart';
@@ -6,11 +6,14 @@ import 'package:flutter/material.dart';
 import 'news_card_item.dart';
 
 class LatestNewsCard extends StatelessWidget {
-  final NewsModel newsItem1;
-  final NewsModel newsItem2;
+  // final NewsModel newsItem1;
+  // final NewsModel newsItem2;
 
-  const LatestNewsCard({Key key, this.newsItem1, this.newsItem2})
-      : super(key: key);
+  const LatestNewsCard({
+    Key key,
+    // this.newsItem1,
+    // this.newsItem2,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -62,8 +65,8 @@ class LatestNewsCard extends StatelessWidget {
             height: SizeConfig.heightMultiplier * 1.6,
           ),
           NewsItemCard(
-            news: newsItem2,
-          ),
+              // news: newsItem2,
+              ),
         ],
       ),
     );

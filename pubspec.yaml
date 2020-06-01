@@ -33,11 +33,11 @@ dependencies:
   intl:
   flutter_shimmer: ^1.3.0
   form_field_validator: ^1.0.1
-
+  flutter_staggered_grid_view: ^0.3.0
   # using Stacked
   stacked:
   flutter_hooks:
-  stacked_hooks: ^0.1.1+3
+  stacked_hooks:
   auto_route:
   stacked_services:
   get_it:
