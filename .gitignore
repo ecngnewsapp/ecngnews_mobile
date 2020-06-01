@@ -82,8 +82,8 @@ GoogleService-Info.plist
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 .flutter-plugins-dependencies
-android/app/google-services.json
-google-services.json
+# android/app/google-services.json
+# google-services.json
 
 android/.settings/org.eclipse.buildship.core.prefs
 android/app/.classpath
