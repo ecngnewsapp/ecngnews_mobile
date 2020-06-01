@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:ecngnews/models/news_category.dart';
 import 'package:ecngnews/models/news_model.dart';
 import 'package:ecngnews/services/news_service.dart';
@@ -26,6 +24,7 @@ class SearchViewModel extends StreamViewModel {
   Stream listenToNewsSearchByCategory(
       String category, String searchString) async* {
     _newsService.listenToNewsSearch(category, searchString).listen((event) {
+      print('search Invocked form model');
       List<News> updatedNews = event;
       print('value of updated news : ${updatedNews.length}');
       if (updatedNews != null && updatedNews.length > 0) {
@@ -35,6 +34,11 @@ class SearchViewModel extends StreamViewModel {
       print('value of updated news : ${updatedNews.length}');
       print('first Video url ${_news[0].url}');
     });
+  }
+
+  Future search(String category, String searchString) async {
+    _newsService.searchNews(category, searchString);
+    notifyListeners();
   }
 
   Future setNewCategoryPan() async {

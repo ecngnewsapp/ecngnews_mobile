@@ -38,7 +38,7 @@ class NewsService {
 //listining to news search
   Stream<dynamic> listenToNewsSearch(
       String category, String searchString) async* {
-    _searchNews(category, searchString);
+    searchNews(category, searchString);
     yield* _newsSearchStreamController.stream;
   }
 
@@ -75,16 +75,17 @@ class NewsService {
     });
   }
 
-  void _searchNews(String category, String searchString) {
+  void searchNews(String category, String searchString) {
+    print('searchingfor $searchString');
     var pagePostsQuery = _newsCollectionReference
         .where('category', isEqualTo: '$category')
-        .where('title', isGreaterThanOrEqualTo: '$searchString');
+        .where('title', isGreaterThan: searchString);
+    // .where('title', isLessThanOrEqualTo: searchString);
 
     pagePostsQuery.snapshots().listen((postsSnapshot) {
       if (postsSnapshot.documents.isNotEmpty) {
         var posts = postsSnapshot.documents
             .map((snapshot) => News.fromJson(snapshot.data))
-            .where((mappedItem) => mappedItem.title != null)
             .toList();
 
         _newsSearchStreamController.add(posts);

@@ -1,6 +1,5 @@
 import 'package:ecngnews/components/category_card.dart';
 import 'package:ecngnews/components/video_player.dart';
-import 'package:ecngnews/utils/ecng_theme.dart';
 import 'package:ecngnews/utils/size_config.dart';
 import 'package:ecngnews/views/watch/watch_viewmodel.dart';
 import 'package:flutter/material.dart';
