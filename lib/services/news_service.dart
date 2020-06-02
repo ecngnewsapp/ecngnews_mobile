@@ -78,10 +78,8 @@ class NewsService {
   void searchNews(String category, String searchString) {
     print('searchingfor $searchString');
     var pagePostsQuery = _newsCollectionReference
-        .where('category', arrayContains: '$category')
-        .where('tittleIndex',
-            isEqualTo: searchString.substring(0, 1).toLowerCase());
-    // .where('title', isLessThanOrEqualTo: searchString);
+        .where('category', isEqualTo: '$category')
+        .where('title', isGreaterThan: searchString);
 
     pagePostsQuery.snapshots().listen((postsSnapshot) {
       if (postsSnapshot.documents.isNotEmpty) {
@@ -98,7 +96,7 @@ class NewsService {
     var pagePostsQuery = _newsCollectionReference
         .where('url', isGreaterThanOrEqualTo: 'https://www.youtube.com/watch')
         .where('url', isLessThanOrEqualTo: 'https://www.z')
-        .where('category', isEqualTo: '$category')
+        .where('category', isEqualTo: category)
         .orderBy('url', descending: true)
         .orderBy('timestamp', descending: true)
         .limit(PostsLimit);

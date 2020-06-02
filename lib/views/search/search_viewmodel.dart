@@ -53,7 +53,7 @@ class SearchViewModel extends StreamViewModel {
 
   @override
   Stream get stream => _sourceIndex == 0
-      ? listenToNewsSearchByCategory('general', 'sss')
+      ? listenToNewsSearchByCategory('general', '')
       : _sourceIndex == 1
           ? listenToNewsSearchByCategory('sports', '')
           : _sourceIndex == 2
