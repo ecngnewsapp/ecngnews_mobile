@@ -21,41 +21,44 @@ class _FeedsViewState extends State<FeedsView> {
   Widget build(BuildContext context) {
     int currentIndex = 0;
     return ViewModelBuilder<FeedViewModel>.reactive(
-        disposeViewModel: false,
+        // disposeViewModel: false,
         onModelReady: (m) => m.setNewCategoryPan(),
         builder: (context, model, child) => Column(
               children: [
                 //filters
                 model.newsCategory == null
                     ? ListTileShimmer()
-                    : Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: SizeConfig.sizeMultiplier),
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: model.newsCategory.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return GestureDetector(
-                              onTap: () {
-                                model.setSource(index);
-                                currentIndex = index;
-                              },
-                              child: CategoryCard(
-                                isActive: index == currentIndex ? true : false,
-                                newsCategory: model.newsCategory[index],
-                              ),
-                            );
-                          },
+                    : GestureDetector(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: SizeConfig.sizeMultiplier),
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: model.newsCategory.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  model.setSource(index);
+                                  currentIndex = index;
+                                },
+                                child: CategoryCard(
+                                  isActive:
+                                      index == currentIndex ? true : false,
+                                  newsCategory: model.newsCategory[index],
+                                ),
+                              );
+                            },
+                          ),
+                          margin: EdgeInsets.only(
+                              bottom: SizeConfig.sizeMultiplier),
+                          height: SizeConfig.heightMultiplier * 16,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.vertical(
+                                  bottom: Radius.circular(
+                                      SizeConfig.sizeMultiplier * 2)),
+                              boxShadow: EcngColors.cardBoxShadow,
+                              color: Colors.white),
                         ),
-                        margin:
-                            EdgeInsets.only(bottom: SizeConfig.sizeMultiplier),
-                        height: SizeConfig.heightMultiplier * 16,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.vertical(
-                                bottom: Radius.circular(
-                                    SizeConfig.sizeMultiplier * 2)),
-                            boxShadow: EcngColors.cardBoxShadow,
-                            color: Colors.white),
                       ),
                 Expanded(
                     child: Container(
@@ -72,8 +75,12 @@ class _FeedsViewState extends State<FeedsView> {
                           ? VideoShimmer()
                           : ListView.builder(
                               itemCount: model.appnews.length,
-                              itemBuilder: (context, index) => NewsItemCard(
-                                news: model.appnews[index],
+                              itemBuilder: (context, index) => GestureDetector(
+                                onTap: () => model.viewDetails(
+                                    '${model.appnews[index].timestamp}'),
+                                child: NewsItemCard(
+                                  news: model.appnews[index],
+                                ),
                               ),
                             ),
                 )),

@@ -16,7 +16,7 @@ class _WatchViewState extends State<WatchView> {
     int currentIndex = 0;
 
     return ViewModelBuilder<WatchViewModel>.reactive(
-        disposeViewModel: false,
+        // disposeViewModel: false,
         onModelReady: (m) => m.setNewCategoryPan(),
         builder: (context, model, child) => Column(
               children: [

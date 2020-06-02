@@ -78,8 +78,9 @@ class NewsService {
   void searchNews(String category, String searchString) {
     print('searchingfor $searchString');
     var pagePostsQuery = _newsCollectionReference
-        .where('category', isEqualTo: '$category')
-        .where('title', isGreaterThan: searchString);
+        .where('category', arrayContains: '$category')
+        .where('tittleIndex',
+            isEqualTo: searchString.substring(0, 1).toLowerCase());
     // .where('title', isLessThanOrEqualTo: searchString);
 
     pagePostsQuery.snapshots().listen((postsSnapshot) {

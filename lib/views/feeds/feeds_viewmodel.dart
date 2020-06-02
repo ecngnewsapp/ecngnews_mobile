@@ -2,10 +2,13 @@ import 'package:ecngnews/models/news_category.dart';
 import 'package:ecngnews/models/news_model.dart';
 import 'package:ecngnews/services/news_service.dart';
 import 'package:ecngnews/utils/locator.dart';
+import 'package:ecngnews/views/news_detail/news_detial_view.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 class FeedViewModel extends StreamViewModel {
   NewsService _newsService = locator<NewsService>();
+  NavigationService _navigationService = locator<NavigationService>();
   List<News> _news = List<News>();
   List<News> get appnews => _news;
   List<NewsCategory> _newsCategories = List<NewsCategory>();
@@ -33,7 +36,14 @@ class FeedViewModel extends StreamViewModel {
     });
   }
 
-  void viewDetail() {}
+  void viewDetails(String newsId) {
+    _navigationService.navigateWithTransition(
+      NewsDetailView(
+        newsId: newsId,
+      ),
+      transition: 'fade',
+    );
+  }
 
   Future setNewCategoryPan() async {
     _newsCategories = await _newsService.getCategory();
