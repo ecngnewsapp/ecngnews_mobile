@@ -33,6 +33,8 @@ class FeedViewModel extends StreamViewModel {
     });
   }
 
+  void viewDetail() {}
+
   Future setNewCategoryPan() async {
     _newsCategories = await _newsService.getCategory();
     notifyListeners();

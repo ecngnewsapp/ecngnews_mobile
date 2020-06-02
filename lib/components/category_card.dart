@@ -22,7 +22,7 @@ class CategoryCard extends StatelessWidget {
       child: Column(
         children: [
           CircleAvatar(
-            radius: SizeConfig.heightMultiplier * 4.7,
+            radius: SizeConfig.sizeMultipliergi * 4.3,
             backgroundColor: isActive
                 ? EcngColors.primaryColor
                 : EcngColors.defaultIconColor,
