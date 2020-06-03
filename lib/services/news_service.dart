@@ -35,6 +35,7 @@ class NewsService {
     yield* _newsVideoStreamController.stream;
   }
 
+  Future readNews(String newsId) {}
 //listining to news search
   Stream<dynamic> listenToNewsSearch(String searchString) async* {
     searchNews(searchString);

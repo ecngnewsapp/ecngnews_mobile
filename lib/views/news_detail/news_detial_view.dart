@@ -9,6 +9,7 @@ class NewsDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<NewsDetialViewModel>.reactive(
+        onModelReady: (m) => m.readNews(newsId),
         builder: (context, viewModel, child) => Scaffold(
               appBar: AppBar(),
             ),

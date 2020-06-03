@@ -17,7 +17,6 @@ class _SearchViewState extends State<SearchView> {
   Widget build(BuildContext context) {
     return ViewModelBuilder<SearchViewModel>.reactive(
         disposeViewModel: false,
-        // onModelReady: (m) => m.listenToNewsSearch(''),
         builder: (context, model, child) => Container(
               child: Column(
                 children: [

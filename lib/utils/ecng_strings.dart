@@ -9,6 +9,5 @@ class EcngStrings {
   static final String toEcngApp = 'to Ecngnews App';
   static final String getStarted = 'Get Started';
   static final String landingInfo = ' Welcome to Ecngnews app '
-      'where you get the latest new update.'
-      ' you can also become a news agent';
+      'where you get interactive new updates.';
 }
