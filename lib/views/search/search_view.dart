@@ -15,11 +15,9 @@ class SearchView extends StatefulWidget {
 class _SearchViewState extends State<SearchView> {
   @override
   Widget build(BuildContext context) {
-    int currentIndex = 0;
-    String category;
     return ViewModelBuilder<SearchViewModel>.reactive(
-        // disposeViewModel: false,
-        onModelReady: (m) => m.setNewCategoryPan(),
+        disposeViewModel: false,
+        // onModelReady: (m) => m.listenToNewsSearch(''),
         builder: (context, model, child) => Container(
               child: Column(
                 children: [
@@ -44,8 +42,7 @@ class _SearchViewState extends State<SearchView> {
                                   width: SizeConfig.widthMultiplier * 80,
                                   child: TextFormField(
                                     cursorColor: EcngColors.primaryColor,
-                                    onChanged: (search) =>
-                                        model.search('$category', '$search'),
+                                    onChanged: (search) => model.search(search),
                                     style:
                                         Theme.of(context).textTheme.bodyText1,
                                     decoration: InputDecoration(
@@ -81,48 +78,48 @@ class _SearchViewState extends State<SearchView> {
                           padding: EdgeInsets.symmetric(
                             vertical: SizeConfig.heightMultiplier,
                           ),
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: model.newsCategory.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  model.setSource(index);
-                                  currentIndex = index;
-                                  category =
-                                      model.newsCategory[index].categories;
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                          SizeConfig.sizeMultiplier * 10),
-                                      border: Border.all(
-                                        color: index == currentIndex
-                                            ? EcngColors.primaryColor
-                                            : EcngColors.grayColor2,
-                                      )),
-                                  margin:
-                                      EdgeInsets.all(SizeConfig.sizeMultiplier),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: SizeConfig.heightMultiplier,
-                                      horizontal:
-                                          SizeConfig.widthMultiplier * 4),
-                                  child: Text(
-                                    '${model.newsCategory[index].categories}',
-                                    textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        .copyWith(
-                                          color: index == currentIndex
-                                              ? EcngColors.primaryColor
-                                              : EcngColors.grayColor2,
-                                        ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
+                          // child: ListView.builder(
+                          //   scrollDirection: Axis.horizontal,
+                          //   itemCount: model.newsCategory.length,
+                          //   itemBuilder: (BuildContext context, int index) {
+                          //     return GestureDetector(
+                          //       onTap: () {
+                          //         model.setSource(index);
+                          //         currentIndex = index;
+                          //         category =
+                          //             model.newsCategory[index].categories;
+                          //       },
+                          //       child: Container(
+                          //         decoration: BoxDecoration(
+                          //             borderRadius: BorderRadius.circular(
+                          //                 SizeConfig.sizeMultiplier * 10),
+                          //             border: Border.all(
+                          //               color: index == currentIndex
+                          //                   ? EcngColors.primaryColor
+                          //                   : EcngColors.grayColor2,
+                          //             )),
+                          //         margin:
+                          //             EdgeInsets.all(SizeConfig.sizeMultiplier),
+                          //         padding: EdgeInsets.symmetric(
+                          //             vertical: SizeConfig.heightMultiplier,
+                          //             horizontal:
+                          //                 SizeConfig.widthMultiplier * 4),
+                          //         child: Text(
+                          //           '${model.newsCategory[index].categories}',
+                          //           textAlign: TextAlign.center,
+                          //           style: Theme.of(context)
+                          //               .textTheme
+                          //               .bodyText1
+                          //               .copyWith(
+                          //                 color: index == currentIndex
+                          //                     ? EcngColors.primaryColor
+                          //                     : EcngColors.grayColor2,
+                          //               ),
+                          //         ),
+                          //       ),
+                          //     );
+                          //   },
+                          // ),
                         ),
                       ],
                     ),
