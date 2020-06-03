@@ -18,7 +18,7 @@ class _SearchViewState extends State<SearchView> {
     int currentIndex = 0;
     String category;
     return ViewModelBuilder<SearchViewModel>.reactive(
-        disposeViewModel: false,
+        // disposeViewModel: false,
         onModelReady: (m) => m.setNewCategoryPan(),
         builder: (context, model, child) => Container(
               child: Column(
@@ -44,13 +44,8 @@ class _SearchViewState extends State<SearchView> {
                                   width: SizeConfig.widthMultiplier * 80,
                                   child: TextFormField(
                                     cursorColor: EcngColors.primaryColor,
-                                    onChanged: (search) {
-                                      setState(() {
-                                        // List str = search.split('');
-                                        // print(str);
-                                        model.search('$category', '$search');
-                                      });
-                                    },
+                                    onChanged: (search) =>
+                                        model.search('$category', '$search'),
                                     style:
                                         Theme.of(context).textTheme.bodyText1,
                                     decoration: InputDecoration(
