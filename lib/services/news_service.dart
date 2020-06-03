@@ -35,7 +35,14 @@ class NewsService {
     yield* _newsVideoStreamController.stream;
   }
 
-  Future readNews(String newsId) {}
+  Future readNews(String newsId) {
+    Future<News> readNews = _newsCollectionReference
+        .document(newsId)
+        .get()
+        .then((value) => News.fromJson(value.data));
+    return readNews;
+  }
+
 //listining to news search
   Stream<dynamic> listenToNewsSearch(String searchString) async* {
     searchNews(searchString);
