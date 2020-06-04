@@ -59,11 +59,11 @@ dev_dependencies:
   injectable_generator:
   flutter_launcher_icons: ^0.7.5
 flutter_icons:
-  image_path: "assets/images/logo.png"
+  image_path: "assets/images/icon.png"
   android: true
   ios: true
   adaptive_icon_background: "#ffE20025"
-  adaptive_icon_foreground: "#ffE20025"
+  adaptive_icon_foreground: "assets/images/icon.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
