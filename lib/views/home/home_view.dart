@@ -21,11 +21,15 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   PageController pageController = PageController(initialPage: 0);
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void dispose() {
     pageController.dispose();
     super.dispose();
+  }
+
+  void _openEndDrawer() {
+    _scaffoldKey.currentState.openEndDrawer();
   }
 
   int _currentPage = 0;
@@ -54,7 +58,11 @@ class _HomeViewState extends State<HomeView> {
         }
 
         return Scaffold(
+          endDrawer: Drawer(
+            child: Container(),
+          ),
           appBar: AppBar(
+            key: _scaffoldKey,
             automaticallyImplyLeading: false,
             title: Container(
               width: SizeConfig.widthMultiplier * 45,
@@ -66,8 +74,10 @@ class _HomeViewState extends State<HomeView> {
                 child: CircleAvatar(
                   backgroundColor: Colors.black12,
                   child: GestureDetector(
-                      // onTap: () => _scaffoldKey.currentState.openEndDrawer(),
-                      child: Icon(MaterialCommunityIcons.filter_variant)),
+                      child: IconButton(
+                    icon: Icon(MaterialCommunityIcons.filter_variant),
+                    onPressed: () => Scaffold.of(context).openEndDrawer(),
+                  )),
                 ),
               ),
             ],
