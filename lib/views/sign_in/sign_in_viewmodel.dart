@@ -38,6 +38,7 @@ class SignInViewModel extends BaseViewModel {
     }
     print(result.toString());
     notifyListeners();
+    setBusy(false);
   }
 
   Future signUp() async {

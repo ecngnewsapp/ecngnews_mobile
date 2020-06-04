@@ -59,7 +59,53 @@ class _HomeViewState extends State<HomeView> {
         return Scaffold(
           key: _scaffoldKey,
           endDrawer: Drawer(
-            child: Container(),
+            child: Container(
+              padding: EdgeInsets.all(SizeConfig.sizeMultiplier),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.all(SizeConfig.sizeMultiplier * 10),
+                    child: Container(
+                      clipBehavior: Clip.antiAlias,
+                      width: SizeConfig.sizeMultiplier * 14,
+                      height: SizeConfig.sizeMultiplier * 14,
+                      child: FadeInImage(
+                        image: NetworkImage('${model.user.avatar}'),
+                        placeholder: AssetImage(EcngAssets.logo),
+                      ),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Theme.of(context).primaryColor),
+                    ),
+                  ),
+                  Divider(),
+                  Expanded(
+                    child: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            child: Text('more features comming soon'),
+                          ),
+                          Column(
+                            children: <Widget>[
+                              Divider(),
+                              Container(
+                                  margin:
+                                      EdgeInsets.all(SizeConfig.sizeMultiplier),
+                                  child: GestureDetector(
+                                    onTap: model.signOut,
+                                    child: Text('Sign Out'),
+                                  )),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
           appBar: AppBar(
             automaticallyImplyLeading: false,

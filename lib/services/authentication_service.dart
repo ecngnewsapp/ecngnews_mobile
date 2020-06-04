@@ -190,6 +190,16 @@ class AuthenticationService {
     await sharedPreferences.setString('uid', user.id);
   }
 
+  Future getUserDataFromSP() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    User user = User(
+        name: await sharedPreferences.get('name'),
+        email: await sharedPreferences.get('email'),
+        avatar: await sharedPreferences.get('avatar'),
+        id: sharedPreferences.get('uid'));
+    return user;
+  }
+
   Future getUserData(uid) async {
     User user;
     await Firestore.instance

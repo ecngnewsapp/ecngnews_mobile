@@ -27,9 +27,8 @@ class WelcomeViewModel extends BaseViewModel {
       await _authenticationService.saveDataToSP(user);
       await _authenticationService.setSignIn();
 
-      setBusy(false);
       if (result != null) {
-        _navigationService.navigateTo(Routes.homeViewRoute);
+        await _navigationService.navigateTo(Routes.homeViewRoute);
         setBusy(false);
       }
     } else if (result is String) {
@@ -39,7 +38,7 @@ class WelcomeViewModel extends BaseViewModel {
         description: 'Please try again',
       );
     } else {
-      _navigationService.navigateTo(Routes.errorViewRoute);
+      await _navigationService.navigateTo(Routes.errorViewRoute);
       setBusy(false);
     }
   }
@@ -60,7 +59,7 @@ class WelcomeViewModel extends BaseViewModel {
       await _authenticationService.setSignIn();
 
       if (result != null) {
-        _navigationService.replaceWith(Routes.homeViewRoute);
+        _navigationService.navigateTo(Routes.homeViewRoute);
       }
     } else if (result is String) {
       _dialogService.showConfirmationDialog(
@@ -80,8 +79,8 @@ class WelcomeViewModel extends BaseViewModel {
     var result = await _authenticationService.signInAnonymously();
     if (result is FirebaseUser && result != null) {
       await _authenticationService.setSignIn();
+      await _navigationService.navigateTo(Routes.homeViewRoute);
       setBusy(false);
-      _navigationService.navigateTo(Routes.homeViewRoute);
     } else if (result is String) {
       setBusy(false);
       _dialogService.showConfirmationDialog(
@@ -89,8 +88,8 @@ class WelcomeViewModel extends BaseViewModel {
         description: 'Please try again',
       );
     } else {
+      await _navigationService.navigateTo(Routes.errorViewRoute);
       setBusy(false);
-      _navigationService.navigateTo(Routes.errorViewRoute);
     }
   }
 
