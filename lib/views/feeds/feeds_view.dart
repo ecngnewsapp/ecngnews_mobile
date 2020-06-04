@@ -26,7 +26,7 @@ class _FeedsViewState extends State<FeedsView> {
         builder: (context, model, child) => Column(
               children: [
                 //filters
-                model.newsCategory == null
+                model.isBusy
                     ? ListTileShimmer()
                     : GestureDetector(
                         child: Container(
@@ -62,7 +62,7 @@ class _FeedsViewState extends State<FeedsView> {
                       ),
                 Expanded(
                     child: Container(
-                  child: model.appnews.length <= 0
+                  child: model.isBusy
                       ? Container(
                           child: Center(
                             child: IconButton(

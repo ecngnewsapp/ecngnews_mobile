@@ -5,18 +5,6 @@
 import 'dart:convert';
 
 class News {
-  final String author;
-  final String category;
-  final String contentType;
-  final String date;
-  final String description;
-  final String imageUrl;
-  final int loves;
-  final String source;
-  final String timestamp;
-  final String title;
-  final String url;
-
   News({
     this.author,
     this.category,
@@ -29,7 +17,21 @@ class News {
     this.timestamp,
     this.title,
     this.url,
+    this.content,
   });
+
+  final String author;
+  final String category;
+  final String contentType;
+  final String date;
+  final String description;
+  final String imageUrl;
+  final int loves;
+  final String source;
+  final String timestamp;
+  final String title;
+  final String url;
+  final String content;
 
   News copyWith({
     String author,
@@ -43,6 +45,7 @@ class News {
     String timestamp,
     String title,
     String url,
+    String content,
   }) =>
       News(
         author: author ?? this.author,
@@ -56,6 +59,7 @@ class News {
         timestamp: timestamp ?? this.timestamp,
         title: title ?? this.title,
         url: url ?? this.url,
+        content: content ?? this.content,
       );
 
   factory News.fromRawJson(String str) => News.fromJson(json.decode(str));
@@ -74,6 +78,7 @@ class News {
         timestamp: json["timestamp"],
         title: json["title"],
         url: json["url"],
+        content: json["content"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -88,5 +93,6 @@ class News {
         "timestamp": timestamp,
         "title": title,
         "url": url,
+        "content": content,
       };
 }

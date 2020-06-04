@@ -35,28 +35,13 @@ class _WatchViewState extends State<WatchView> {
           return Column(
             children: [
               Container(
-                padding:
-                    EdgeInsets.symmetric(vertical: SizeConfig.sizeMultiplier),
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: model.newsCategory.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        model.setSource(index);
-                        currentIndex = index;
-                      },
-                      child: CategoryCard(
-                        isActive: index == currentIndex ? true : false,
-                        newsCategory: model.newsCategory[index],
-                      ),
-                    );
-                  },
-                ),
-                margin: EdgeInsets.only(bottom: SizeConfig.sizeMultiplier),
-                height: SizeConfig.heightMultiplier * 16,
-                decoration: BoxDecoration(
-                  color: Colors.white,
+                padding: EdgeInsets.all(SizeConfig.sizeMultiplier),
+                child: Text(
+                  'All New videos',
+                  style: TextStyle(
+                      color: EcngColors.defaultIconColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16),
                 ),
               ),
               Expanded(

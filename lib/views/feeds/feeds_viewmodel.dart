@@ -26,11 +26,14 @@ class FeedViewModel extends StreamViewModel {
 
   Stream listenToNewsByCategory(String category) async* {
     _newsService.listenToNews(category).listen((event) {
+      setBusy(true);
       List<News> updatedNews = event;
       print('value of updated news : ${updatedNews.length}');
       if (updatedNews != null && updatedNews.length > 0) {
         _news = updatedNews;
+
         notifyListeners();
+        setBusy(false);
       }
       print('value of updated news : ${updatedNews.length}');
     });
@@ -41,7 +44,7 @@ class FeedViewModel extends StreamViewModel {
       NewsDetailView(
         newsId: newsId,
       ),
-      transition: 'fade',
+      transition: 'downToTop',
     );
   }
 

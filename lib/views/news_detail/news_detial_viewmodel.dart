@@ -7,9 +7,23 @@ import 'package:stacked/stacked.dart';
 class NewsDetialViewModel extends BaseViewModel {
   NewsService _newsService = locator<NewsService>();
   News readNewsData = News();
+  String newsContent;
+  String newsSource;
   // NavigationService _navigationService = locator<NavigationService>();
   Future readNews(String newsId) async {
+    setBusy(true);
     readNewsData = await _newsService.readNews(newsId);
+    if (readNewsData.content != null) {
+      newsContent = readNewsData.content.split('[').first;
+    } else {
+      newsContent = 'this article has no news content';
+    }
+    if (readNewsData.source != null) {
+      newsSource = readNewsData.source;
+    } else {
+      newsSource = 'Ecngnews App';
+    }
     notifyListeners();
+    setBusy(false);
   }
 }

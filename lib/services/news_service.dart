@@ -30,8 +30,8 @@ class NewsService {
     yield* _newsStreamController.stream;
   }
 
-  Stream<dynamic> listenToNewsVideos(String category) async* {
-    _requestVideoNews(category);
+  Stream<dynamic> listenToNewsVideos() async* {
+    _requestVideoNews();
     yield* _newsVideoStreamController.stream;
   }
 
@@ -98,11 +98,10 @@ class NewsService {
     });
   }
 
-  void _requestVideoNews(String category) {
+  void _requestVideoNews() {
     var pagePostsQuery = _newsCollectionReference
         .where('url', isGreaterThanOrEqualTo: 'https://www.youtube.com/watch')
         .where('url', isLessThanOrEqualTo: 'https://www.z')
-        .where('category', isEqualTo: category)
         .orderBy('url', descending: true)
         .orderBy('timestamp', descending: true)
         .limit(PostsLimit);

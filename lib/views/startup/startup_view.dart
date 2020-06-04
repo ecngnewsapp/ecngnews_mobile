@@ -1,3 +1,4 @@
+import 'package:ecngnews/components/vertical_spacer.dart';
 import 'package:ecngnews/utils/ecng_strings.dart';
 import 'package:ecngnews/utils/ecng_theme.dart';
 import 'package:ecngnews/utils/size_config.dart';
@@ -16,38 +17,7 @@ class StartUpView extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                          vertical: SizeConfig.heightMultiplier * 10),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            width: SizeConfig.widthMultiplier * 60,
-                            child: Text(
-                              EcngStrings.welcome,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline3
-                                  .copyWith(color: Colors.white),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          // Container(
-                          //   width: SizeConfig.widthMultiplier * 60,
-                          //   child: Text(
-                          //     EcngStrings.toEcngApp,
-                          //     style: Theme.of(context)
-                          //         .textTheme
-                          //         .subtitle2
-                          //         .copyWith(
-                          //             color: Colors.white,
-                          //             fontWeight: FontWeight.normal),
-                          //     textAlign: TextAlign.center,
-                          //   ),
-                          // ),
-                        ],
-                      ),
-                    ),
+                    VerticalSpacer(),
                     Container(
                       height: SizeConfig.heightMultiplier * 18,
                       width: SizeConfig.widthMultiplier * 36,

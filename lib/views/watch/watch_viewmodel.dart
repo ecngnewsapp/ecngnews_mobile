@@ -21,8 +21,8 @@ class WatchViewModel extends StreamViewModel {
     setBusy(false);
   }
 
-  Stream listenToNewsVideosByCategory(String category) async* {
-    _newsService.listenToNewsVideos(category).listen((event) {
+  Stream listenToNewsVideo() async* {
+    _newsService.listenToNewsVideos().listen((event) {
       List<News> updatedNews = event;
       print('value of updated news : ${updatedNews.length}');
       if (updatedNews != null && updatedNews.length > 0) {
@@ -45,17 +45,5 @@ class WatchViewModel extends StreamViewModel {
   }
 
   @override
-  Stream get stream => _sourceIndex == 0
-      ? listenToNewsVideosByCategory('general')
-      : _sourceIndex == 1
-          ? listenToNewsVideosByCategory('sports')
-          : _sourceIndex == 2
-              ? listenToNewsVideosByCategory('business')
-              : _sourceIndex == 3
-                  ? listenToNewsVideosByCategory('entertainment')
-                  : _sourceIndex == 4
-                      ? listenToNewsVideosByCategory('health')
-                      : _sourceIndex == 5
-                          ? listenToNewsVideosByCategory('science')
-                          : listenToNewsVideosByCategory('technology');
+  Stream get stream => listenToNewsVideo();
 }
