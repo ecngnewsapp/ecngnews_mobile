@@ -38,31 +38,30 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: Colors.red));
+    List<Widget> _pages = [
+      FeedsView(),
+      WatchView(),
+      SearchView(),
+      AccountView(),
+    ];
+
+    void _changePage(int index) async {
+      _currentPage = index;
+
+      pageController.jumpToPage(
+        _currentPage,
+      );
+      setState(() {});
+    }
 
     return ViewModelBuilder<HomeViewModel>.reactive(
       builder: (context, model, child) {
-        List<Widget> _pages = [
-          FeedsView(),
-          WatchView(),
-          SearchView(),
-          AccountView(),
-        ];
-
-        void _changePage(int index) async {
-          _currentPage = index;
-
-          pageController.jumpToPage(
-            _currentPage,
-          );
-          setState(() {});
-        }
-
         return Scaffold(
+          key: _scaffoldKey,
           endDrawer: Drawer(
             child: Container(),
           ),
           appBar: AppBar(
-            key: _scaffoldKey,
             automaticallyImplyLeading: false,
             title: Container(
               width: SizeConfig.widthMultiplier * 45,
@@ -76,7 +75,7 @@ class _HomeViewState extends State<HomeView> {
                   child: GestureDetector(
                       child: IconButton(
                     icon: Icon(MaterialCommunityIcons.filter_variant),
-                    onPressed: () => Scaffold.of(context).openEndDrawer(),
+                    onPressed: _openEndDrawer,
                   )),
                 ),
               ),
