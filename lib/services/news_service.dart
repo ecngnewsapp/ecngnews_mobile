@@ -50,15 +50,31 @@ class NewsService {
   }
 
   Future<List<NewsCategory>> getCategory() async {
+    List<String> categoriesStrings = [
+      "general",
+      "sports",
+      "business",
+      "entertainment",
+      "health",
+      "science",
+      "technology",
+    ];
     List<NewsCategory> categories = List<NewsCategory>();
-    _categoriesCollectionReference
-        .orderBy('order')
-        .snapshots()
-        .listen((data) => data.documents.forEach((doc) => {
-              categories.add(
-                NewsCategory(avatar: doc['avatar'], categories: doc.documentID),
-              )
-            }));
+    categoriesStrings.forEach((element) {
+      var catQuery = _newsCollectionReference
+          .where('category', isEqualTo: element)
+          .limit(1);
+      catQuery.snapshots().listen((event) {
+        var newsDoc =
+            event.documents.map((e) => News.fromJson(e.data)).toList();
+        categories.add(
+          NewsCategory(
+            categories: newsDoc[0].category,
+            avatar: newsDoc[0].imageUrl,
+          ),
+        );
+      });
+    });
 
     return categories;
   }

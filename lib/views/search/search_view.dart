@@ -1,5 +1,4 @@
 import 'package:ecngnews/components/news_card_item.dart';
-import 'package:ecngnews/components/vertical_spacer.dart';
 import 'package:ecngnews/utils/ecng_theme.dart';
 import 'package:ecngnews/utils/size_config.dart';
 import 'package:ecngnews/views/search/search_viewmodel.dart';

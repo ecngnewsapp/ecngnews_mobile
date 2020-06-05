@@ -1,4 +1,3 @@
-import 'package:ecngnews/components/category_card.dart';
 import 'package:ecngnews/utils/ecng_theme.dart';
 import 'package:ecngnews/utils/size_config.dart';
 import 'package:ecngnews/views/watch/watch_viewmodel.dart';
@@ -15,8 +14,6 @@ class WatchView extends StatefulWidget {
 class _WatchViewState extends State<WatchView> {
   @override
   Widget build(BuildContext context) {
-    int currentIndex = 0;
-
     return ViewModelBuilder<WatchViewModel>.reactive(
         // disposeViewModel: false,
         onModelReady: (m) => m.setNewCategoryPan(),

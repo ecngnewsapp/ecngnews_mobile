@@ -1,39 +1,39 @@
+// To parse this JSON data, do
+//
+//     final newsCategory = newsCategoryFromJson(jsonString);
+
+import 'dart:convert';
+
 class NewsCategory {
+  NewsCategory({
+    this.categories,
+    this.avatar,
+  });
+
   final String categories;
   final String avatar;
-  NewsCategory({this.categories, this.avatar});
-}
 
-enum Categories {
-  GENERAL,
-  BUSINESS,
-  TECHNOLOGY,
-  SPORTS,
-  ENTERTAINMENT,
-  HEALTH,
-  SCIENCE
-}
+  NewsCategory copyWith({
+    String categories,
+    String avatar,
+  }) =>
+      NewsCategory(
+        categories: categories ?? this.categories,
+        avatar: avatar ?? this.avatar,
+      );
 
-final categoryValues = EnumValues({
-  "Business": Categories.BUSINESS,
-  "Entertainment": Categories.ENTERTAINMENT,
-  "General": Categories.GENERAL,
-  "Health": Categories.HEALTH,
-  "Science": Categories.SCIENCE,
-  "Sports": Categories.SPORTS,
-  "Technology": Categories.TECHNOLOGY
-});
+  factory NewsCategory.fromRawJson(String str) =>
+      NewsCategory.fromJson(json.decode(str));
 
-class EnumValues<T> {
-  Map<String, T> map;
-  Map<T, String> reverseMap;
+  String toRawJson() => json.encode(toJson());
 
-  EnumValues(this.map);
+  factory NewsCategory.fromJson(Map<String, dynamic> json) => NewsCategory(
+        categories: json["categories"],
+        avatar: json["avatar"],
+      );
 
-  Map<T, String> get reverse {
-    if (reverseMap == null) {
-      reverseMap = map.map((k, v) => new MapEntry(v, k));
-    }
-    return reverseMap;
-  }
+  Map<String, dynamic> toJson() => {
+        "categories": categories,
+        "avatar": avatar,
+      };
 }
