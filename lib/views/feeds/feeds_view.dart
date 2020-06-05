@@ -38,7 +38,8 @@ class _FeedsViewState extends State<FeedsView> {
                             itemBuilder: (BuildContext context, int index) {
                               return GestureDetector(
                                 onTap: () {
-                                  model.setSource(index);
+                                  model.setSource(
+                                      '${model.newsCategory[index].categories}');
                                   currentIndex = index;
                                 },
                                 child: CategoryCard(

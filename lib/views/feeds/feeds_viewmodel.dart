@@ -14,8 +14,8 @@ class FeedViewModel extends StreamViewModel {
   List<NewsCategory> _newsCategories = List<NewsCategory>();
   List<NewsCategory> get newsCategory => _newsCategories;
   // Stream _newsSource;
-  int _sourceIndex = 0;
-  void setSource(int _source) {
+  String _sourceIndex = 'general';
+  void setSource(String _source) {
     setBusy(true);
     print('set source called on $_source');
     _sourceIndex = _source;
@@ -26,14 +26,12 @@ class FeedViewModel extends StreamViewModel {
 
   Stream listenToNewsByCategory(String category) async* {
     _newsService.listenToNews(category).listen((event) {
-      setBusy(true);
       List<News> updatedNews = event;
       print('value of updated news : ${updatedNews.length}');
       if (updatedNews != null && updatedNews.length > 0) {
         _news = updatedNews;
 
         notifyListeners();
-        setBusy(false);
       }
       print('value of updated news : ${updatedNews.length}');
     });
@@ -59,17 +57,17 @@ class FeedViewModel extends StreamViewModel {
   }
 
   @override
-  Stream get stream => _sourceIndex == 0
+  Stream get stream => _sourceIndex == 'general'
       ? listenToNewsByCategory('general')
-      : _sourceIndex == 1
+      : _sourceIndex == 'sports'
           ? listenToNewsByCategory('sports')
-          : _sourceIndex == 2
+          : _sourceIndex == 'business'
               ? listenToNewsByCategory('business')
-              : _sourceIndex == 3
+              : _sourceIndex == 'entertainment'
                   ? listenToNewsByCategory('entertainment')
-                  : _sourceIndex == 4
+                  : _sourceIndex == 'health'
                       ? listenToNewsByCategory('health')
-                      : _sourceIndex == 5
+                      : _sourceIndex == 'science'
                           ? listenToNewsByCategory('science')
                           : listenToNewsByCategory('technology');
 }
