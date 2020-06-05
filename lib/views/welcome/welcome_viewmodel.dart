@@ -43,35 +43,35 @@ class WelcomeViewModel extends BaseViewModel {
     }
   }
 
-  Future signInWithFacebook() async {
-    setBusy(true);
-    var result = await _authenticationService.logInwithFacebook();
+  // Future signInWithFacebook() async {
+  //   setBusy(true);
+  //   var result = await _authenticationService.logInwithFacebook();
 
-    if (result is FirebaseUser) {
-      final user = User(
-        id: result.uid,
-        name: result.displayName,
-        email: result.email,
-        avatar: result.photoUrl,
-      );
-      await _authenticationService.saveToFirebase(user);
-      await _authenticationService.saveDataToSP(user);
-      await _authenticationService.setSignIn();
+  //   if (result is FirebaseUser) {
+  //     final user = User(
+  //       id: result.uid,
+  //       name: result.displayName,
+  //       email: result.email,
+  //       avatar: result.photoUrl,
+  //     );
+  //     await _authenticationService.saveToFirebase(user);
+  //     await _authenticationService.saveDataToSP(user);
+  //     await _authenticationService.setSignIn();
 
-      if (result != null) {
-        _navigationService.navigateTo(Routes.homeViewRoute);
-      }
-    } else if (result is String) {
-      _dialogService.showConfirmationDialog(
-        title: 'Sign In error',
-        description: 'Please try again',
-      );
-    } else {
-      setBusy(false);
-      _navigationService.navigateTo(Routes.errorViewRoute);
-    }
-    notifyListeners();
-  }
+  //     if (result != null) {
+  //       _navigationService.navigateTo(Routes.homeViewRoute);
+  //     }
+  //   } else if (result is String) {
+  //     _dialogService.showConfirmationDialog(
+  //       title: 'Sign In error',
+  //       description: 'Please try again',
+  //     );
+  //   } else {
+  //     setBusy(false);
+  //     _navigationService.navigateTo(Routes.errorViewRoute);
+  //   }
+  //   notifyListeners();
+  // }
 
   //
   Future anonymousSignIn() async {

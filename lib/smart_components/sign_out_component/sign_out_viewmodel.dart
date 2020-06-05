@@ -1,6 +1,6 @@
 import 'package:ecngnews/services/authentication_service.dart';
 import 'package:ecngnews/utils/locator.dart';
-import 'package:ecngnews/views/startup/startup_view.dart';
+import 'package:ecngnews/views/welcome/welcome_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -12,7 +12,7 @@ class SignOutViewModel extends BaseViewModel {
     print('invoked');
     await _authenticationService.signOut();
     _navigationService.navigateWithTransition(
-      StartUpView(),
+      WelcomeView(),
       transition: 'size',
       duration: Duration(microseconds: 300),
     );

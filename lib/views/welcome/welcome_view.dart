@@ -64,7 +64,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                                       ),
                                       //sign in options
                                       Text(
-                                        'Sign in with your social network',
+                                        'Sign in with Google',
                                         textAlign: TextAlign.center,
                                         style: Theme.of(context)
                                             .textTheme
@@ -78,16 +78,14 @@ class _WelcomeViewState extends State<WelcomeView> {
                                             MainAxisAlignment.center,
                                         children: [
                                           GestureDetector(
-                                              onTap: model.signInWithFacebook,
-                                              child:
-                                                  SigninWitheFacebookWidget()),
-                                          SizedBox(
-                                            width:
-                                                SizeConfig.widthMultiplier * 6,
-                                          ),
-                                          GestureDetector(
                                               onTap: model.signInWithGoogle,
-                                              child: SigninWithGoogleWidget()),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: <Widget>[
+                                                  SigninWithGoogleWidget(),
+                                                ],
+                                              )),
                                         ],
                                       ),
                                       SizedBox(

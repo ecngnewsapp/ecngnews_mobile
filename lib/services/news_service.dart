@@ -9,8 +9,8 @@ import 'package:injectable/injectable.dart';
 class NewsService {
   var _newsCollectionReference = Firestore.instance.collection('contents');
   // var _newsVideoCollectionReference = Firestore.instance.collection('contents');
-  var _categoriesCollectionReference =
-      Firestore.instance.collection('categories');
+  // var _categoriesCollectionReference =
+  //     Firestore.instance.collection('categories');
   List<List<News>> _allPagedNewsResults = List<List<News>>();
 
   static const int PostsLimit = 200;
