@@ -12,51 +12,53 @@ class StartUpView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<StartupViewModel>.reactive(
         builder: (context, viewModel, child) => SingleChildScrollView(
-              child: Container(
-                height: SizeConfig.h,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    VerticalSpacer(),
-                    Container(
-                      height: SizeConfig.heightMultiplier * 18,
-                      width: SizeConfig.widthMultiplier * 36,
-                      child: Image.asset('assets/images/logo.png'),
-                    ),
-                    Container(
-                        padding: EdgeInsets.all(SizeConfig.sizeMultiplier),
-                        width: SizeConfig.w,
-                        child: Text(
-                          EcngStrings.landingInfo,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline4
-                              .copyWith(color: Colors.white),
-                        )),
-                    GestureDetector(
-                      // onTap: () => Navigator.pushNamed(context, HomePage.navigation),
-                      child: Container(
-                        color: Color.fromRGBO(255, 255, 255, .16),
-                        width: SizeConfig.w,
-                        child: FlatButton(
-                          onPressed: viewModel.navigateHome,
+              child: GestureDetector(
+                onTap: viewModel.navigateHome,
+                child: Container(
+                  height: SizeConfig.h,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      VerticalSpacer(),
+                      Container(
+                        height: SizeConfig.heightMultiplier * 18,
+                        width: SizeConfig.widthMultiplier * 36,
+                        child: Image.asset('assets/images/logo.png'),
+                      ),
+                      Container(
+                          padding: EdgeInsets.all(SizeConfig.sizeMultiplier),
+                          width: SizeConfig.w,
                           child: Text(
-                            viewModel.signedIn
-                                ? EcngStrings.getStarted
-                                : 'Continue',
+                            EcngStrings.landingInfo,
+                            textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline6
+                                .headline4
                                 .copyWith(color: Colors.white),
+                          )),
+                      GestureDetector(
+                        child: Container(
+                          color: Color.fromRGBO(255, 255, 255, .16),
+                          width: SizeConfig.w,
+                          child: FlatButton(
+                            onPressed: viewModel.navigateHome,
+                            child: Text(
+                              viewModel.signedIn
+                                  ? EcngStrings.getStarted
+                                  : 'Continue',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6
+                                  .copyWith(color: Colors.white),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  color: EcngColors.primaryColor,
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    color: EcngColors.primaryColor,
+                  ),
                 ),
               ),
             ),
