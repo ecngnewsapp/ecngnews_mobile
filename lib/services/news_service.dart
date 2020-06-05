@@ -63,7 +63,8 @@ class NewsService {
     categoriesStrings.forEach((element) {
       var catQuery = _newsCollectionReference
           .where('category', isEqualTo: element)
-          .limit(1);
+          .limit(1)
+          .orderBy('date');
       catQuery.snapshots().listen((event) {
         var newsDoc =
             event.documents.map((e) => News.fromJson(e.data)).toList();
