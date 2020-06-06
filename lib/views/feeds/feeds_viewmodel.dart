@@ -25,6 +25,7 @@ class FeedViewModel extends StreamViewModel {
   }
 
   Stream listenToNewsByCategory(String category) async* {
+    setBusy(true);
     _newsService.listenToNews(category).listen((event) {
       List<News> updatedNews = event;
       print('value of updated news : ${updatedNews.length}');
@@ -32,6 +33,7 @@ class FeedViewModel extends StreamViewModel {
         _news = updatedNews;
 
         notifyListeners();
+        setBusy(false);
       }
       print('value of updated news : ${updatedNews.length}');
     });
@@ -47,8 +49,10 @@ class FeedViewModel extends StreamViewModel {
   }
 
   Future setNewCategoryPan() async {
+    setBusy(true);
     _newsCategories = await _newsService.getCategory();
     notifyListeners();
+    setBusy(false);
     return _newsCategories;
   }
 

@@ -13,7 +13,7 @@ class NewsService {
   //     Firestore.instance.collection('categories');
   List<List<News>> _allPagedNewsResults = List<List<News>>();
 
-  static const int PostsLimit = 200;
+  static const int PostsLimit = 20;
 
   // DocumentSnapshot _lastDocument;
   bool _hasMorePosts = true;
@@ -63,8 +63,9 @@ class NewsService {
     categoriesStrings.forEach((element) {
       var catQuery = _newsCollectionReference
           .where('category', isEqualTo: element)
-          .limit(1)
-          .orderBy('date');
+          .where('image url', isGreaterThan: '\uf8ff')
+          .orderBy('date', descending: true)
+          .limit(1);
       catQuery.snapshots().listen((event) {
         var newsDoc =
             event.documents.map((e) => News.fromJson(e.data)).toList();

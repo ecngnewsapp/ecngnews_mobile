@@ -63,27 +63,18 @@ class _FeedsViewState extends State<FeedsView> {
                       ),
                 Expanded(
                     child: Container(
-                  child: model.isBusy
-                      ? Container(
-                          child: Center(
-                            child: IconButton(
-                              icon: Icon(Icons.refresh),
-                              onPressed: model.referesh,
+                  child: ListView.builder(
+                    itemCount: model.appnews.length,
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () => model
+                          .viewDetails('${model.appnews[index].timestamp}'),
+                      child: model.isBusy
+                          ? ListTileShimmer()
+                          : NewsItemCard(
+                              news: model.appnews[index],
                             ),
-                          ),
-                        )
-                      : model.isBusy
-                          ? VideoShimmer()
-                          : ListView.builder(
-                              itemCount: model.appnews.length,
-                              itemBuilder: (context, index) => GestureDetector(
-                                onTap: () => model.viewDetails(
-                                    '${model.appnews[index].timestamp}'),
-                                child: NewsItemCard(
-                                  news: model.appnews[index],
-                                ),
-                              ),
-                            ),
+                    ),
+                  ),
                 )),
               ],
             ),
