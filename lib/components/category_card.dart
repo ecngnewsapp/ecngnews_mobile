@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecngnews/models/news_category.dart';
+import 'package:ecngnews/utils/ecng_assets.dart';
 import 'package:ecngnews/utils/ecng_theme.dart';
 import 'package:ecngnews/utils/size_config.dart';
 import 'package:flutter/material.dart';
@@ -26,19 +27,20 @@ class CategoryCard extends StatelessWidget {
             backgroundColor: isActive
                 ? EcngColors.primaryColor
                 : EcngColors.defaultIconColor,
-            child: CachedNetworkImage(
-              imageUrl: '${newsCategory.avatar}',
-              imageBuilder: (context, imageProvider) => Container(
-                width: SizeConfig.sizeMultiplier * 8,
-                height: SizeConfig.sizeMultiplier * 8,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image:
-                      DecorationImage(image: imageProvider, fit: BoxFit.cover),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: newsCategory.avatar != null &&
+                            newsCategory.avatar.isNotEmpty
+                        ? NetworkImage('${newsCategory.avatar}')
+                        : AssetImage(EcngAssets.logo)),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(SizeConfig.sizeMultiplier * 2),
                 ),
               ),
-              placeholder: (context, url) => CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+              width: SizeConfig.widthMultiplier * 30,
             ),
           ),
           Container(

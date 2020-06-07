@@ -63,9 +63,9 @@ class NewsService {
     categoriesStrings.forEach((element) {
       var catQuery = _newsCollectionReference
           .where('category', isEqualTo: element)
-          .where('image url', isGreaterThan: '\uf8ff')
-          .orderBy('date', descending: true)
+          .orderBy('timestamp', descending: true)
           .limit(1);
+
       catQuery.snapshots().listen((event) {
         var newsDoc =
             event.documents.map((e) => News.fromJson(e.data)).toList();
