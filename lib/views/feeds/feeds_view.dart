@@ -33,21 +33,24 @@ class _FeedsViewState extends State<FeedsView> {
                           padding: EdgeInsets.symmetric(
                               vertical: SizeConfig.sizeMultiplier),
                           child: ListView.builder(
+                            reverse: true,
                             scrollDirection: Axis.horizontal,
                             itemCount: model.newsCategory.length,
                             itemBuilder: (BuildContext context, int index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  model.setSource(
-                                      '${model.newsCategory[index].categories}');
-                                  currentIndex = index;
-                                },
-                                child: CategoryCard(
-                                  isActive:
-                                      index == currentIndex ? true : false,
-                                  newsCategory: model.newsCategory[index],
-                                ),
-                              );
+                              {
+                                return GestureDetector(
+                                  onTap: () {
+                                    model.setSource(
+                                        '${model.newsCategory[index].categories}');
+                                    currentIndex = index;
+                                  },
+                                  child: CategoryCard(
+                                    isActive:
+                                        index == currentIndex ? true : false,
+                                    newsCategory: model.newsCategory[index],
+                                  ),
+                                );
+                              }
                             },
                           ),
                           margin: EdgeInsets.only(

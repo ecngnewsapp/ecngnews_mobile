@@ -10,6 +10,7 @@ import 'package:ecngnews/views/watch/watch_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:stacked/stacked.dart';
 
 class HomeView extends StatefulWidget {
@@ -130,7 +131,7 @@ class _HomeViewState extends State<HomeView> {
           body: PageView(
             onPageChanged: _changePage,
             controller: pageController,
-            children: _pages,
+            children: model.isBusy ? ListTileShimmer() : _pages,
           ),
           bottomNavigationBar: BottomNavigationBar(
             unselectedItemColor: EcngColors.defaultIconColor,
