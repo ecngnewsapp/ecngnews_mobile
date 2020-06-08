@@ -43,6 +43,7 @@ dependencies:
   get_it:
   injectable:
   observable_ish:
+  provider:
   # all firebase
   firebase_core: ^0.4.4+3
   firebase_auth: ^0.16.0

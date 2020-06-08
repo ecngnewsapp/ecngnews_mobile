@@ -70,54 +70,6 @@ class _SearchViewState extends State<SearchView> {
                             ],
                           ),
                         ),
-                        // Container(
-                        //   height: SizeConfig.heightMultiplier * 10,
-                        //   padding: EdgeInsets.symmetric(
-                        //     vertical: SizeConfig.heightMultiplier,
-                        //   ),
-                        //   // child: ListView.builder(
-                        //   //   scrollDirection: Axis.horizontal,
-                        //   //   itemCount: model.newsCategory.length,
-                        //   //   itemBuilder: (BuildContext context, int index) {
-                        //   //     return GestureDetector(
-                        //   //       onTap: () {
-                        //   //         model.setSource(index);
-                        //   //         currentIndex = index;
-                        //   //         category =
-                        //   //             model.newsCategory[index].categories;
-                        //   //       },
-                        //   //       child: Container(
-                        //   //         decoration: BoxDecoration(
-                        //   //             borderRadius: BorderRadius.circular(
-                        //   //                 SizeConfig.sizeMultiplier * 10),
-                        //   //             border: Border.all(
-                        //   //               color: index == currentIndex
-                        //   //                   ? EcngColors.primaryColor
-                        //   //                   : EcngColors.grayColor2,
-                        //   //             )),
-                        //   //         margin:
-                        //   //             EdgeInsets.all(SizeConfig.sizeMultiplier),
-                        //   //         padding: EdgeInsets.symmetric(
-                        //   //             vertical: SizeConfig.heightMultiplier,
-                        //   //             horizontal:
-                        //   //                 SizeConfig.widthMultiplier * 4),
-                        //   //         child: Text(
-                        //   //           '${model.newsCategory[index].categories}',
-                        //   //           textAlign: TextAlign.center,
-                        //   //           style: Theme.of(context)
-                        //   //               .textTheme
-                        //   //               .bodyText1
-                        //   //               .copyWith(
-                        //   //                 color: index == currentIndex
-                        //   //                     ? EcngColors.primaryColor
-                        //   //                     : EcngColors.grayColor2,
-                        //   //               ),
-                        //   //         ),
-                        //   //       ),
-                        //   //     );
-                        //   //   },
-                        //   // ),
-                        // ),
                       ],
                     ),
                   ),

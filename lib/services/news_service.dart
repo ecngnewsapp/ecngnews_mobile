@@ -102,8 +102,9 @@ class NewsService {
 
   void searchNews(String searchString) {
     print('searchingfor $searchString');
-    var pagePostsQuery = _newsCollectionReference.where('titleIndex',
-        arrayContains: searchString);
+    var pagePostsQuery = _newsCollectionReference
+        .where('titleIndex', arrayContains: searchString)
+        .limit(10);
 
     pagePostsQuery.snapshots().listen((postsSnapshot) {
       if (postsSnapshot.documents.isNotEmpty) {
