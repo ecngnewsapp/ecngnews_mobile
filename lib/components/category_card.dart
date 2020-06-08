@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecngnews/models/news_category.dart';
 import 'package:ecngnews/utils/ecng_assets.dart';
 import 'package:ecngnews/utils/ecng_theme.dart';
@@ -19,16 +18,25 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: SizeConfig.sizeMultiplier),
+      margin: EdgeInsets.all(SizeConfig.sizeMultiplier),
       child: Column(
         children: [
-          CircleAvatar(
-            radius: SizeConfig.sizeMultiplier * 4.3,
-            backgroundColor: isActive
-                ? EcngColors.primaryColor
-                : EcngColors.defaultIconColor,
+          AnimatedContainer(
+            duration: Duration(milliseconds: 300),
             child: Container(
+              height: SizeConfig.sizeMultiplier * 8,
+              width: SizeConfig.sizeMultiplier * 8,
               decoration: BoxDecoration(
+                boxShadow: isActive
+                    ? [
+                        BoxShadow(
+                          offset: Offset(0, 0),
+                          color: EcngColors.primaryColor.withOpacity(.2),
+                          spreadRadius: 2,
+                          blurRadius: 2,
+                        )
+                      ]
+                    : [],
                 color: Theme.of(context).primaryColor,
                 image: DecorationImage(
                     fit: BoxFit.cover,
@@ -40,7 +48,6 @@ class CategoryCard extends StatelessWidget {
                   Radius.circular(SizeConfig.sizeMultiplier * 2),
                 ),
               ),
-              width: SizeConfig.widthMultiplier * 30,
             ),
           ),
           Container(

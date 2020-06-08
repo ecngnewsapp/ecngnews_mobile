@@ -17,9 +17,10 @@ class FeedsView extends StatefulWidget {
 }
 
 class _FeedsViewState extends State<FeedsView> {
+  int currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
-    int currentIndex = 0;
     return ViewModelBuilder<FeedViewModel>.reactive(
         // disposeViewModel: false,
         onModelReady: (m) => m.setNewCategoryPan(),
@@ -30,10 +31,9 @@ class _FeedsViewState extends State<FeedsView> {
                     ? ListTileShimmer()
                     : GestureDetector(
                         child: Container(
-                          padding: EdgeInsets.symmetric(
-                              vertical: SizeConfig.sizeMultiplier),
+                          // padding: EdgeInsets.symmetric(
+                          //     vertical: SizeConfig.sizeMultiplier),
                           child: ListView.builder(
-                            reverse: true,
                             scrollDirection: Axis.horizontal,
                             itemCount: model.newsCategory.length,
                             itemBuilder: (BuildContext context, int index) {
@@ -55,7 +55,7 @@ class _FeedsViewState extends State<FeedsView> {
                           ),
                           margin: EdgeInsets.only(
                               bottom: SizeConfig.sizeMultiplier),
-                          height: SizeConfig.heightMultiplier * 16,
+                          height: SizeConfig.heightMultiplier * 14,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.vertical(
                                   bottom: Radius.circular(
