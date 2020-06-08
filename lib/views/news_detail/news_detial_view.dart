@@ -124,21 +124,59 @@ class NewsDetailView extends StatelessWidget {
                         padding:
                             EdgeInsets.all(SizeConfig.sizeMultiplier * 1.5),
                         margin: EdgeInsets.all(SizeConfig.sizeMultiplier),
-                        child: Column(
-                          children: [
-                            //decription
+                        child: Stack(
+                          overflow: Overflow.visible,
+                          children: <Widget>[
+                            //all text
                             Container(
-                              child: Text(
-                                '${news.description}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    .copyWith(fontWeight: FontWeight.bold),
+                              child: Column(
+                                children: [
+                                  //decription
+                                  Container(
+                                    child: Text(
+                                      '${news.description}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  VerticalSpacer(),
+                                  Container(
+                                    child: Text('${model.newsContent}'),
+                                  ),
+                                ],
                               ),
                             ),
-                            VerticalSpacer(),
-                            Container(
-                              child: Text('${model.newsContent}'),
+                            Positioned(
+                              bottom: -16,
+                              right: -SizeConfig.widthMultiplier * 4,
+                              child: GestureDetector(
+                                onTap: () => model
+                                    .moreDetails('${model.readNewsData.url}'),
+                                child: Container(
+                                  padding:
+                                      EdgeInsets.all(SizeConfig.sizeMultiplier),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                      SizeConfig.sizeMultiplier,
+                                    ),
+                                    color: EcngColors.primaryColor,
+                                  ),
+                                  child: Text(
+                                    'more',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .copyWith(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         ),
