@@ -1,11 +1,14 @@
+import 'package:ecngnews/components/more_news_details.dart';
 import 'package:ecngnews/models/news_model.dart';
 import 'package:ecngnews/services/news_service.dart';
 import 'package:ecngnews/utils/locator.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 // import 'package:stacked_services/stacked_services.dart';
 
 class NewsDetialViewModel extends BaseViewModel {
   NewsService _newsService = locator<NewsService>();
+  NavigationService _navigationService = locator<NavigationService>();
   News readNewsData = News();
   String newsContent;
   String newsSource;
@@ -25,5 +28,13 @@ class NewsDetialViewModel extends BaseViewModel {
     }
     notifyListeners();
     setBusy(false);
+  }
+
+  void moreDetails(String newsPage) {
+    _navigationService.navigateWithTransition(
+        MoreNewsDetails(
+          newsPage: newsPage,
+        ),
+        transition: 'fade');
   }
 }
