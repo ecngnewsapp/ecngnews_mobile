@@ -1,8 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecngnews/utils/ecng_theme.dart';
+import 'package:ecngnews/utils/size_config.dart';
 import 'package:ecngnews/views/welcome/welcome_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class MoreNewsDetails extends StatefulWidget {
@@ -16,18 +20,48 @@ class MoreNewsDetails extends StatefulWidget {
 class _MoreNewsDetailsState extends State<MoreNewsDetails> {
   Completer<WebViewController> _webViewController =
       Completer<WebViewController>();
+    final  WebViewController webViewController = SnapshotMetadata.;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold( 
       appBar: AppBar(
         title: Text('More News Detail'),
       ),
-      body: WebView(
-        initialUrl: widget.newsPage,
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (WebViewController webViewController) {
-          _webViewController.complete(webViewController);
-        },
+      body: Container(
+        child: Stack(
+          children: <Widget>[
+            WebView(
+              navigationDelegate: (NavigationRequest request) {
+                return NavigationDecision.prevent;
+              },
+              initialUrl: widget.newsPage,
+              onWebResourceError: (_) => Container(
+                child: Text('Error on loading'),
+              ),
+              javascriptMode: JavascriptMode.unrestricted,
+              onPageStarted: (url) => ListTileShimmer(),
+              onWebViewCreated: (WebViewController webViewController) {
+                _webViewController.isCompleted
+                    ? _webViewController.complete(webViewController)
+                    : ProfileShimmer();
+              },
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.all(SizeConfig.sizeMultiplier),
+                  child: GestureDetector(
+                    onTap: _webViewController.,
+                    child: CircleAvatar(
+                      child: Icon(Icons.refresh),
+                      backgroundColor: EcngColors.primaryColor,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

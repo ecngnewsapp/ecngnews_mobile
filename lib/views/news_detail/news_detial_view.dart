@@ -151,7 +151,7 @@ class NewsDetailView extends StatelessWidget {
                             ),
                             Positioned(
                               bottom: -16,
-                              right: -SizeConfig.widthMultiplier * 4,
+                              right: -SizeConfig.widthMultiplier,
                               child: GestureDetector(
                                 onTap: () => model
                                     .moreDetails('${model.readNewsData.url}'),
