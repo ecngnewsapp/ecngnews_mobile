@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecngnews/utils/ecng_theme.dart';
 import 'package:ecngnews/utils/size_config.dart';
-import 'package:ecngnews/views/welcome/welcome_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -20,10 +18,9 @@ class MoreNewsDetails extends StatefulWidget {
 class _MoreNewsDetailsState extends State<MoreNewsDetails> {
   Completer<WebViewController> _webViewController =
       Completer<WebViewController>();
-    final  WebViewController webViewController = SnapshotMetadata.;
   @override
   Widget build(BuildContext context) {
-    return Scaffold( 
+    return Scaffold(
       appBar: AppBar(
         title: Text('More News Detail'),
       ),
@@ -51,7 +48,7 @@ class _MoreNewsDetailsState extends State<MoreNewsDetails> {
                 Container(
                   margin: EdgeInsets.all(SizeConfig.sizeMultiplier),
                   child: GestureDetector(
-                    onTap: _webViewController.,
+                    // onTap: _webViewController.,
                     child: CircleAvatar(
                       child: Icon(Icons.refresh),
                       backgroundColor: EcngColors.primaryColor,
@@ -111,7 +108,6 @@ class _WebViewExampleState extends State<WebViewExample> {
           onWebViewCreated: (WebViewController webViewController) {
             _controller.complete(webViewController);
           },
-          // TODO(iskakaushik): Remove this when collection literals makes it to stable.
           // ignore: prefer_collection_literals
           javascriptChannels: <JavascriptChannel>[
             _toasterJavascriptChannel(context),

@@ -80,38 +80,6 @@ class AuthenticationService {
     } else {}
   }
 
-  // Future logInwithFacebook() async {
-  //   FirebaseUser currentUser;
-  //   final FacebookLoginResult facebookLoginResult = await fbLogin
-  //       .logInWithReadPermissions(['email', 'public_profile']).catchError(
-  //           (error) => print('error: $error'));
-  //   if (facebookLoginResult.status == FacebookLoginStatus.cancelledByUser) {
-  //     return 'Login Canceled by User';
-  //   } else if (facebookLoginResult.status == FacebookLoginStatus.error) {
-  //     return facebookLoginResult.status;
-  //   } else {
-  //     try {
-  //       if (facebookLoginResult.status == FacebookLoginStatus.loggedIn) {
-  //         FacebookAccessToken facebookAccessToken =
-  //             facebookLoginResult.accessToken;
-  //         final AuthCredential credential = FacebookAuthProvider.getCredential(
-  //             accessToken: facebookAccessToken.token);
-  //         final FirebaseUser user =
-  //             (await _firebaseAuth.signInWithCredential(credential)).user;
-  //         assert(user.email != null);
-  //         assert(user.displayName != null);
-  //         assert(!user.isAnonymous);
-  //         assert(await user.getIdToken() != null);
-  //         currentUser = await _firebaseAuth.currentUser();
-  //         assert(user.uid == currentUser.uid);
-  //         return user;
-  //       }
-  //     } catch (e) {
-  //       return 'error occoured';
-  //     }
-  //   }
-  // }
-
   Future<FirebaseUser> signUpwithEmailPassword(
       {userName, userEmail, userPassword}) async {
     try {
