@@ -43,6 +43,13 @@ class NewsService {
     return readNews;
   }
 
+  Future likeNews(String userId, String newsID) async {
+    // News data = News();
+    // _newsCollectionReference.add(data);
+  }
+
+  Future commentOnNews() async {}
+
 //listining to news search
   Stream<dynamic> listenToNewsSearch(String searchString) async* {
     searchNews(searchString);
