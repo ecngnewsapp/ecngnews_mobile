@@ -99,14 +99,18 @@ class NewsDetailView extends StatelessWidget {
                                       color: Colors.grey.withOpacity(.10),
                                     ),
                                   ),
-                                  Container(
-                                    padding: EdgeInsets.all(
-                                        SizeConfig.sizeMultiplier * .5),
-                                    child: Icon(
-                                        MaterialCommunityIcons.heart_outline),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.grey.withOpacity(.10),
+                                  GestureDetector(
+                                    onTap: () =>
+                                        model.like(model.userId, newsId),
+                                    child: Container(
+                                      padding: EdgeInsets.all(
+                                          SizeConfig.sizeMultiplier * .5),
+                                      child: Icon(
+                                          MaterialCommunityIcons.heart_outline),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.grey.withOpacity(.10),
+                                      ),
                                     ),
                                   ),
                                 ],

@@ -35,6 +35,7 @@ class NewsService {
   }
 
   Future readNews(String newsId) {
+    print('news id' + newsId);
     Future<News> readNews = _newsCollectionReference
         .document(newsId)
         .get()

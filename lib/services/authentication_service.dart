@@ -100,6 +100,10 @@ class AuthenticationService {
     }
   }
 
+  Future getCurrentUser() async {
+    return _firebaseAuth.currentUser();
+  }
+
   Future signInwithEmailPassword(userEmail, userPassword) async {
     try {
       final FirebaseUser user = (await _firebaseAuth.signInWithEmailAndPassword(
