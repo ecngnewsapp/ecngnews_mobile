@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecngnews/models/like_model.dart';
 import 'package:ecngnews/models/news_category.dart';
 import 'package:ecngnews/models/news_model.dart';
 import 'package:injectable/injectable.dart';
@@ -8,9 +9,7 @@ import 'package:injectable/injectable.dart';
 @lazySingleton
 class NewsService {
   var _newsCollectionReference = Firestore.instance.collection('contents');
-  // var _newsVideoCollectionReference = Firestore.instance.collection('contents');
-  // var _categoriesCollectionReference =
-  //     Firestore.instance.collection('categories');
+
   List<List<News>> _allPagedNewsResults = List<List<News>>();
 
   static const int PostsLimit = 20;
@@ -44,8 +43,17 @@ class NewsService {
   }
 
   Future likeNews(String userId, String newsID) async {
-    // News data = News();
-    // _newsCollectionReference.add(data);
+    var _likeRef = Firestore.instance
+        .collection('contents')
+        .document('$newsID')
+        .collection('likes');
+    var data = LikeModel(userId: userId).toJson();
+    try {
+      _likeRef.add(data);
+      return 'sucesss';
+    } catch (e) {
+      return e.message;
+    }
   }
 
   Future commentOnNews() async {}
