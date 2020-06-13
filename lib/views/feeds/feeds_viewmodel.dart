@@ -1,3 +1,4 @@
+import 'package:ecngnews/models/like_model.dart';
 import 'package:ecngnews/models/news_category.dart';
 import 'package:ecngnews/models/news_model.dart';
 import 'package:ecngnews/services/news_service.dart';
@@ -10,6 +11,8 @@ class FeedViewModel extends StreamViewModel {
   NewsService _newsService = locator<NewsService>();
   NavigationService _navigationService = locator<NavigationService>();
   List<News> _news = List<News>();
+  List<LikeModel> _likes = List<LikeModel>();
+  List<LikeModel> get likes => _likes;
   List<News> get appnews => _news;
   List<NewsCategory> _newsCategories = List<NewsCategory>();
   List<NewsCategory> get newsCategory => _newsCategories;
@@ -28,7 +31,6 @@ class FeedViewModel extends StreamViewModel {
     setBusy(true);
     _newsService.listenToNews(category).listen((event) {
       List<News> updatedNews = event;
-      print('value of updated news : ${updatedNews.length}');
       if (updatedNews != null && updatedNews.length > 0) {
         _news = updatedNews;
 
@@ -36,6 +38,18 @@ class FeedViewModel extends StreamViewModel {
         setBusy(false);
       }
       print('value of updated news : ${updatedNews.length}');
+    });
+  }
+
+  void listenToLikes(String newsId) {
+    _newsService.listenToLikes(newsId).listen((event) {
+      // print(event)
+      List<LikeModel> update = event;
+      if (update != null) {
+        _likes = update;
+        notifyListeners();
+      }
+      print('listen to likes called');
     });
   }
 

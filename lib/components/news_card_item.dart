@@ -7,10 +7,11 @@ import 'package:flutter_icons/flutter_icons.dart';
 
 class NewsItemCard extends StatelessWidget {
   final News news;
-
+  final int likes;
   const NewsItemCard({
     Key key,
     this.news,
+    this.likes = 0,
     // this.news,
   }) : super(key: key);
   @override
@@ -120,7 +121,7 @@ class NewsItemCard extends StatelessWidget {
                         child: Row(
                           children: [
                             Icon(
-                              news.loves > 0
+                              likes > 0
                                   ? MaterialCommunityIcons.heart
                                   : MaterialCommunityIcons.heart_outline,
                             ),

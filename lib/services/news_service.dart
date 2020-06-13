@@ -19,6 +19,8 @@ class NewsService {
   bool get hasMorsPost => _hasMorePosts;
   final StreamController<List<News>> _newsStreamController =
       StreamController<List<News>>.broadcast();
+  final StreamController<List<LikeModel>> _likesStreamController =
+      StreamController<List<LikeModel>>.broadcast();
   final StreamController<List<News>> _newsVideoStreamController =
       StreamController<List<News>>.broadcast();
   final StreamController<List<News>> _newsSearchStreamController =
@@ -32,6 +34,25 @@ class NewsService {
   Stream<dynamic> listenToNewsVideos() async* {
     _requestVideoNews();
     yield* _newsVideoStreamController.stream;
+  }
+
+  Stream<dynamic> listenToLikes(String newsId) async* {
+    print('list to likes called');
+    _newsCollectionReference
+        .document('$newsId')
+        .collection('likes')
+        .snapshots()
+        .listen((event) {
+      if (event.documents.isNotEmpty) {
+        var likes =
+            event.documents.map((e) => LikeModel.fromJson(e.data)).toList();
+        print("liked user" + likes[0].userId);
+        _likesStreamController.add(likes);
+      } else {
+        print('empty');
+      }
+    });
+    yield* _likesStreamController.stream;
   }
 
   Future readNews(String newsId) {

@@ -19,6 +19,7 @@ class NewsDetailView extends StatelessWidget {
           m.getUser();
           m.isLiked(newsId);
           m.readNews(newsId);
+          m.listenToLikes(newsId);
         },
         builder: (context, model, child) {
           News news = News();
@@ -68,7 +69,7 @@ class NewsDetailView extends StatelessWidget {
                               alignment: Alignment.centerLeft,
                               child: Row(
                                 children: [
-                                  // Text(${model.}),
+                                  Text('${model.likes.length}'),
                                   Text(' likes'),
                                 ],
                               ),

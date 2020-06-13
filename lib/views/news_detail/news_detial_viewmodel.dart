@@ -1,4 +1,5 @@
 import 'package:ecngnews/components/more_news_details.dart';
+import 'package:ecngnews/models/like_model.dart';
 import 'package:ecngnews/models/news_model.dart';
 import 'package:ecngnews/services/news_service.dart';
 import 'package:ecngnews/utils/locator.dart';
@@ -13,8 +14,7 @@ class NewsDetialViewModel extends BaseViewModel {
   bool get isAnonymous => _isAnonymous;
   bool _isNewsLiked = false;
   bool get isNewsLiked => _isNewsLiked;
-  // AuthenticationService _authenticationService =
-  //     locator<AuthenticationService>();
+
   NewsService _newsService = locator<NewsService>();
   NavigationService _navigationService = locator<NavigationService>();
   DialogService _dialogService = locator<DialogService>();
@@ -23,8 +23,22 @@ class NewsDetialViewModel extends BaseViewModel {
   String newsSource;
   String _userId = '';
   get userId => _userId;
-
+  List<LikeModel> _likes = List<LikeModel>();
+  List<LikeModel> get likes => _likes;
   // NavigationService _navigationService = locator<NavigationService>();
+  Stream listenToLikes(String newsId) async* {
+    setBusy(true);
+
+    _newsService.listenToLikes(newsId).listen((event) {
+      List<LikeModel> update = event;
+      print('listen to likes called');
+      if (update != null) {
+        _likes = update;
+        notifyListeners();
+        setBusy(false);
+      }
+    });
+  }
 
   Future readNews(String newsId) async {
     print(userId);
@@ -61,7 +75,6 @@ class NewsDetialViewModel extends BaseViewModel {
     return _isNewsLiked;
   }
 
-  Stream likes() async* {}
   Future like(String newsId) async {
     String userId = await getUser();
     if (!isAnonymous) {
