@@ -44,17 +44,14 @@ class NewsService {
   }
 
   Future likeNews(String userId, String newsID) async {
+    print('user id ' + userId);
     var _likeRef = Firestore.instance
         .collection('contents')
         .document('$newsID')
         .collection('likes');
     var data = LikeModel(userId: userId).toJson();
-    try {
-      _likeRef.add(data);
-      return 'sucesss';
-    } catch (e) {
-      return e.message;
-    }
+    _likeRef.add(data);
+    return 'sucesss';
   }
 
   Future commentOnNews() async {}
