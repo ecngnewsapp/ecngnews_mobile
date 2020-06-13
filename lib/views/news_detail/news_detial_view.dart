@@ -17,7 +17,6 @@ class NewsDetailView extends StatelessWidget {
     return ViewModelBuilder<NewsDetialViewModel>.reactive(
         onModelReady: (m) {
           m.getUser();
-          m.readNews(newsId);
           m.isLiked(m.userId, newsId);
         },
         builder: (context, model, child) {

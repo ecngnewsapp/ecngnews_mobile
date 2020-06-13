@@ -23,7 +23,8 @@ class NewsService {
       StreamController<List<News>>.broadcast();
   final StreamController<List<News>> _newsSearchStreamController =
       StreamController<List<News>>.broadcast();
-
+  final StreamController<News> _newsDetailStreamController =
+      StreamController<News>();
   Stream<dynamic> listenToNews(String category) async* {
     _requestNews(category);
     yield* _newsStreamController.stream;
@@ -34,13 +35,24 @@ class NewsService {
     yield* _newsVideoStreamController.stream;
   }
 
-  Future readNews(String newsId) {
+  Stream<dynamic> listenToNewsDetail(String newsId) async* {
+    print('listen called');
+
+    readNews(newsId);
+    yield* _newsDetailStreamController.stream;
+  }
+
+  void readNews(String newsId) async {
+    print('read news called');
     print('news id' + newsId);
-    Future<News> readNews = _newsCollectionReference
-        .document(newsId)
-        .get()
-        .then((value) => News.fromJson(value.data));
-    return readNews;
+    var news = News();
+    var readNews = _newsCollectionReference.document(newsId);
+
+    readNews.snapshots().listen((event) {
+      news = News.fromJson(event.data);
+      print(' news content: ' + news.content);
+      _newsDetailStreamController.add(news);
+    });
   }
 
   Future likeNews(String userId, String newsId) async {

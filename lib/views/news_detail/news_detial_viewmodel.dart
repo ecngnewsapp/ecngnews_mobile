@@ -11,10 +11,10 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 // import 'package:stacked_services/stacked_services.dart';
 
-class NewsDetialViewModel extends BaseViewModel {
+class NewsDetialViewModel extends StreamViewModel {
   bool _isAnonymous;
   bool get isAnonymous => _isAnonymous;
-  bool _isNewsLiked;
+  bool _isNewsLiked = false;
   bool get isNewsLiked => _isNewsLiked;
   // AuthenticationService _authenticationService =
   //     locator<AuthenticationService>();
@@ -26,26 +26,34 @@ class NewsDetialViewModel extends BaseViewModel {
   String newsSource;
   String _userId = '';
   get userId => _userId;
-
+  Stream listenToNewsDetail(String newsId) async* {
+    setBusy(true);
+    _newsService.listenToNewsDetail(newsId).listen((event) {
+      News update = event;
+      if (update != null) {
+        readNewsData = update
+      }
+    });
+  }
   // NavigationService _navigationService = locator<NavigationService>();
 
-  Future readNews(String newsId) async {
-    print(userId);
-    setBusy(true);
-    readNewsData = await _newsService.readNews(newsId);
-    if (readNewsData.content != null) {
-      newsContent = readNewsData.content.split('[').first;
-    } else {
-      newsContent = 'this article has no news content';
-    }
-    if (readNewsData.source != null) {
-      newsSource = readNewsData.source;
-    } else {
-      newsSource = 'Ecngnews App';
-    }
-    notifyListeners();
-    setBusy(false);
-  }
+  // Stre readNews(String newsId) async {
+  //   print(userId);
+  //   setBusy(true);
+  //   readNewsData = await _newsService.readNews(newsId);
+  //   if (readNewsData.content != null) {
+  //     newsContent = readNewsData.content.split('[').first;
+  //   } else {
+  //     newsContent = 'this article has no news content';
+  //   }
+  //   if (readNewsData.source != null) {
+  //     newsSource = readNewsData.source;
+  //   } else {
+  //     newsSource = 'Ecngnews App';
+  //   }
+  //   notifyListeners();
+  //   setBusy(false);
+  // }
 
   Future getUser() async {
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -87,4 +95,8 @@ class NewsDetialViewModel extends BaseViewModel {
         ),
         transition: 'fade');
   }
+
+  @override
+  // TODO: implement stream
+  Stream get stream => throw UnimplementedError();
 }
