@@ -17,7 +17,8 @@ class NewsDetailView extends StatelessWidget {
     return ViewModelBuilder<NewsDetialViewModel>.reactive(
         onModelReady: (m) {
           m.getUser();
-          m.isLiked(m.userId, newsId);
+          m.isLiked(newsId);
+          m.readNews(newsId);
         },
         builder: (context, model, child) {
           News news = News();
@@ -61,6 +62,17 @@ class NewsDetailView extends StatelessWidget {
                                 style: Theme.of(context).textTheme.headline6,
                               ),
                             ),
+                            Container(
+                              margin: EdgeInsets.all(
+                                  SizeConfig.sizeMultiplier * 1.5),
+                              alignment: Alignment.centerLeft,
+                              child: Row(
+                                children: [
+                                  // Text(${model.}),
+                                  Text(' likes'),
+                                ],
+                              ),
+                            )
                           ],
                         ),
                       ),
