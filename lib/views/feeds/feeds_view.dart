@@ -25,7 +25,6 @@ class _FeedsViewState extends State<FeedsView> {
         // disposeViewModel: false,
         onModelReady: (m) {
           m.setNewCategoryPan();
-          m.listenToLikes('2020-06-13T00:19:41Z');
         },
         builder: (context, model, child) => Column(
               children: [
@@ -78,7 +77,8 @@ class _FeedsViewState extends State<FeedsView> {
                           ? ListTileShimmer()
                           : NewsItemCard(
                               news: model.appnews[index],
-                              likes: model.likes.length,
+                              likes: model.listenToLikes(
+                                  '${model.appnews[index].timestamp}'),
                             ),
                     ),
                   ),

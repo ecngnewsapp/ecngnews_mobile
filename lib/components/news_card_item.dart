@@ -125,7 +125,7 @@ class NewsItemCard extends StatelessWidget {
                                   ? MaterialCommunityIcons.heart
                                   : MaterialCommunityIcons.heart_outline,
                             ),
-                            Text('${news.loves}'),
+                            Text('$likes'),
                           ],
                         ),
                       ),

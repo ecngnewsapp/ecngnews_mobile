@@ -41,7 +41,8 @@ class FeedViewModel extends StreamViewModel {
     });
   }
 
-  void listenToLikes(String newsId) {
+  int listenToLikes(String newsId) {
+    int likes = 0;
     _newsService.listenToLikes(newsId).listen((event) {
       // print(event)
       List<LikeModel> update = event;
@@ -49,8 +50,12 @@ class FeedViewModel extends StreamViewModel {
         _likes = update;
         notifyListeners();
       }
+      likes = _likes.length;
+      print("gotten likes: " + likes.toString());
+
       print('listen to likes called');
     });
+    return likes;
   }
 
   void viewDetails(String newsId) {
