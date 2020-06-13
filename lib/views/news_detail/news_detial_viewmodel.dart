@@ -14,6 +14,8 @@ import 'package:stacked_services/stacked_services.dart';
 class NewsDetialViewModel extends BaseViewModel {
   bool _isAnonymous;
   bool get isAnonymous => _isAnonymous;
+  bool _isNewsLiked;
+  bool get isNewsLiked => _isNewsLiked;
   // AuthenticationService _authenticationService =
   //     locator<AuthenticationService>();
   NewsService _newsService = locator<NewsService>();
@@ -51,12 +53,20 @@ class NewsDetialViewModel extends BaseViewModel {
     _isAnonymous = result.isAnonymous;
     // SharedPreferences preferences = await SharedPreferences.getInstance();
 
-    print(result.uid);
+    print('gotten user ID: ' + result.uid);
     return result.uid;
   }
 
-  Future like(String userId, String newsId) async {
-    await getUser();
+  Future<bool> isLiked(String userId, String newsId) async {
+    String userId = await getUser();
+
+    _isNewsLiked = await _newsService.ifNewsLiked(newsId, userId);
+    notifyListeners();
+    return _isNewsLiked;
+  }
+
+  Future like(String newsId) async {
+    String userId = await getUser();
     if (!isAnonymous)
       await _newsService.likeNews(userId, newsId);
     else

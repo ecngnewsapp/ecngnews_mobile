@@ -43,15 +43,23 @@ class NewsService {
     return readNews;
   }
 
-  Future likeNews(String userId, String newsID) async {
+  Future likeNews(String userId, String newsId) async {
     print('user id ' + userId);
-    var _likeRef = Firestore.instance
-        .collection('contents')
-        .document('$newsID')
-        .collection('likes');
+    var _likeRef =
+        _newsCollectionReference.document('$newsId').collection('likes');
     var data = LikeModel(userId: userId).toJson();
-    _likeRef.add(data);
+    _likeRef.document('$userId').setData(data);
     return 'sucesss';
+  }
+
+  Future<bool> ifNewsLiked(String newsId, String userId) async {
+    print('user id and news id: $userId, $newsId');
+    return _newsCollectionReference
+        .document('$newsId')
+        .collection('likes')
+        .document('$userId')
+        .get()
+        .then((value) => value.exists);
   }
 
   Future commentOnNews() async {}

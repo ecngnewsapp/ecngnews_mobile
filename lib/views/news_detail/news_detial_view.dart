@@ -16,7 +16,9 @@ class NewsDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<NewsDetialViewModel>.reactive(
         onModelReady: (m) {
+          m.getUser();
           m.readNews(newsId);
+          m.isLiked(m.userId, newsId);
         },
         builder: (context, model, child) {
           News news = News();
@@ -100,13 +102,14 @@ class NewsDetailView extends StatelessWidget {
                                     ),
                                   ),
                                   GestureDetector(
-                                    onTap: () =>
-                                        model.like(model.userId, newsId),
+                                    onTap: () => model.like(newsId),
                                     child: Container(
                                       padding: EdgeInsets.all(
                                           SizeConfig.sizeMultiplier * .5),
-                                      child: Icon(
-                                          MaterialCommunityIcons.heart_outline),
+                                      child: Icon(model.isNewsLiked
+                                          ? MaterialCommunityIcons.heart
+                                          : MaterialCommunityIcons
+                                              .heart_outline),
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         color: Colors.grey.withOpacity(.10),
