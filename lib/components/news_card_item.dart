@@ -1,6 +1,5 @@
 import 'package:ecngnews/components/like_stream.dart';
 import 'package:ecngnews/models/news_model.dart';
-import 'package:ecngnews/smart_components/likes/likes_component.dart';
 import 'package:ecngnews/utils/ecng_assets.dart';
 import 'package:ecngnews/utils/ecng_theme.dart';
 import 'package:ecngnews/utils/size_config.dart';
@@ -92,16 +91,12 @@ class NewsItemCard extends StatelessWidget {
                 Container(
                   width: SizeConfig.widthMultiplier * 60,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       LikeStream(
                         newsId: news.timestamp,
-                      )
-                      // Text('${news.loves}'),
-                      // LikeComponent(
-                      //   newsId: '${news.timestamp}',
-                      // ),
+                      ),
+                      Text('likes'),
                     ],
                   ),
                 ),

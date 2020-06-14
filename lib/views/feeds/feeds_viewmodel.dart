@@ -28,14 +28,13 @@ class FeedViewModel extends StreamViewModel {
   }
 
   Stream listenToNewsByCategory(String category) async* {
-    // setBusy(true);
+    setBusy(true);
     _newsService.listenToNews(category).listen((event) {
       List<News> updatedNews = event;
       if (updatedNews != null && updatedNews.length > 0) {
         _news = updatedNews;
-
-        // notifyListeners();
-        // setBusy(false);
+        notifyListeners();
+        setBusy(false);
       }
       print('value of updated news : ${updatedNews.length}');
     });
