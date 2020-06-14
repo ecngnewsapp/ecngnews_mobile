@@ -10,7 +10,7 @@ import 'package:injectable/injectable.dart';
 class NewsService {
   var _newsCollectionReference = Firestore.instance.collection('contents');
 
-  List<List<News>> _allPagedNewsResults = List<List<News>>();
+  // List<List<News>> _allPagedNewsResults = List<List<News>>();
 
   static const int PostsLimit = 20;
 
@@ -42,21 +42,40 @@ class NewsService {
 
   Stream<dynamic> listenToLikes(String newsId) async* {
     print('list to likes called');
-    var qlikes = _newsCollectionReference
-        .document('$newsId')
-        .collection('likes')
-        .orderBy('id');
-    qlikes.snapshots().listen((event) {
-      if (event.documents.isNotEmpty) {
-        var likes =
-            event.documents.map((e) => LikeModel.fromJson(e.data)).toList();
-        _likesStreamController.add(likes);
-      }
-    });
+    getLiveLikesFor(newsId);
     yield* _likesStreamController.stream;
   }
 
-  void _requestNews(String category) {
+  void getLiveLikesFor(String newsId) {
+    List<LikeModel> likes = List<LikeModel>();
+
+    _newsCollectionReference
+        .document('$newsId')
+        .collection('likes')
+        .orderBy('id')
+        .snapshots()
+        .listen((event) {
+      likes = event.documents.map((e) => LikeModel.fromJson(e.data)).toList();
+      _likesStreamController.add(likes);
+    });
+
+    print('likes from service ${likes.length}');
+  }
+
+  String getLikes(String newsId) {
+    int ilike = 0;
+    _newsCollectionReference
+        .document('$newsId')
+        .collection('likes')
+        .snapshots()
+        .length;
+    // .then((value) => likes = value.documents.length);
+
+    print('likes from service $ilike');
+    return ilike.toString();
+  }
+
+  Future _requestNews(String category) async {
     var pagePostsQuery = _newsCollectionReference
         .where('category', isEqualTo: '$category')
         .orderBy('timestamp', descending: true)
@@ -64,10 +83,11 @@ class NewsService {
 
     pagePostsQuery.snapshots().listen((postsSnapshot) {
       if (postsSnapshot.documents.isNotEmpty) {
-        var posts = postsSnapshot.documents
-            .map((snapshot) => News.fromJson(snapshot.data))
-            .where((mappedItem) => mappedItem.title != null)
-            .toList();
+        var posts = postsSnapshot.documents.map((snapshot) {
+          var news = News.fromJson(snapshot.data);
+          print('news loves ${news.loves}');
+          return news;
+        }).toList();
 
         _newsStreamController.add(posts);
       }
@@ -179,28 +199,29 @@ class NewsService {
     });
   }
 
-  void referesh(String category) {
-    print('referesh called');
-    var pagePostsQuery = _newsCollectionReference
-        .where('category', isEqualTo: '$category')
-        .orderBy('date', descending: true)
-        // #3: Limit the amount of results
-        .limit(PostsLimit);
+  // void referesh(String category) {
+  //   print('referesh called');
+  //   var pagePostsQuery = _newsCollectionReference
+  //       .where('category', isEqualTo: '$category')
+  //       .orderBy('date', descending: true)
+  //       // #3: Limit the amount of results
+  //       .limit(PostsLimit);
 
-    pagePostsQuery.snapshots().listen((postsSnapshot) {
-      var posts = postsSnapshot.documents
-          .map((snapshot) => News.fromJson(snapshot.data))
-          .where((mappedItem) => mappedItem.title != null)
-          .toList();
-      // _lastDocument = postsSnapshot.documents.first;
-      _allPagedNewsResults.clear();
-      _allPagedNewsResults.add(posts);
-      var allPosts = _allPagedNewsResults.fold<List<News>>(List<News>(),
-          (initialValue, pageItems) => initialValue..addAll(pageItems));
+  //   pagePostsQuery.snapshots().listen((postsSnapshot) {
+  //     var posts = postsSnapshot.documents
+  //         .map((snapshot)async => News.fromJson(snapshot.data))
+  //         .where((mappedItem) => mappedItem.title != null)
+  //         .toList();
+  //     // _lastDocument = postsSnapshot.documents.first;
+  //     _allPagedNewsResults.clear();
+  //     _allPagedNewsResults.add(posts);
+  //     var allPosts = _allPagedNewsResults.fold<List<Future<News>>>(
+  //         List<Future<News>>(),
+  //         (initialValue, pageItems) => initialValue..addAll(pageItems));
 
-      _newsStreamController.add(allPosts);
-    });
-  }
+  //     _newsStreamController.add(allPosts);
+  //   });
+  // }
 
   void requestMoreNews(String category) => _requestNews(category);
 }

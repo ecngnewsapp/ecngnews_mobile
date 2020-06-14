@@ -12,11 +12,6 @@ class LikeComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<LikesComponentViewModel>.reactive(
         // createNewModelOnInsert: true,
-        onModelReady: (model) {
-          // model.getLikeId(newsId);
-
-          model.justPrint();
-        },
         builder: (context, model, chile) => Container(
               child: Row(
                 children: [

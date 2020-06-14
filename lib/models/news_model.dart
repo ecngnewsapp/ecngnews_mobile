@@ -26,7 +26,7 @@ class News {
   final String date;
   final String description;
   final String imageUrl;
-  final int loves;
+  int loves;
   final String source;
   final String timestamp;
   final String title;

@@ -40,9 +40,9 @@ class WatchViewModel extends StreamViewModel {
     return _newsCategories;
   }
 
-  void referesh() {
-    _newsService.referesh('general');
-  }
+  // void referesh() {
+  //   _newsService.referesh('general');
+  // }
 
   @override
   Stream get stream => listenToNewsVideo();
