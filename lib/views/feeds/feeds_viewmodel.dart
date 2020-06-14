@@ -41,23 +41,6 @@ class FeedViewModel extends StreamViewModel {
     });
   }
 
-  int listenToLikes(String newsId) {
-    int likes = 0;
-    _newsService.listenToLikes(newsId).listen((event) {
-      // print(event)
-      List<LikeModel> update = event;
-      if (update != null) {
-        _likes = update;
-        notifyListeners();
-      }
-      likes = _likes.length;
-      print("gotten likes: " + likes.toString());
-
-      print('listen to likes called');
-    });
-    return likes;
-  }
-
   void viewDetails(String newsId) {
     _navigationService.navigateWithTransition(
       NewsDetailView(

@@ -77,8 +77,6 @@ class _FeedsViewState extends State<FeedsView> {
                           ? ListTileShimmer()
                           : NewsItemCard(
                               news: model.appnews[index],
-                              likes: model.listenToLikes(
-                                  '${model.appnews[index].timestamp}'),
                             ),
                     ),
                   ),

@@ -1,5 +1,6 @@
 import 'package:ecngnews/components/vertical_spacer.dart';
 import 'package:ecngnews/models/news_model.dart';
+import 'package:ecngnews/smart_components/likes/likes_component.dart';
 import 'package:ecngnews/utils/ecng_theme.dart';
 import 'package:ecngnews/utils/size_config.dart';
 import 'package:ecngnews/views/news_detail/news_detial_viewmodel.dart';
@@ -69,7 +70,9 @@ class NewsDetailView extends StatelessWidget {
                               alignment: Alignment.centerLeft,
                               child: Row(
                                 children: [
-                                  Text('${model.likes.length}'),
+                                  LikeComponent(
+                                    newsId: '${news.timestamp}',
+                                  ),
                                   Text(' likes'),
                                 ],
                               ),

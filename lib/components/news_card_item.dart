@@ -1,17 +1,15 @@
 import 'package:ecngnews/models/news_model.dart';
+import 'package:ecngnews/smart_components/likes/likes_component.dart';
 import 'package:ecngnews/utils/ecng_assets.dart';
 import 'package:ecngnews/utils/ecng_theme.dart';
 import 'package:ecngnews/utils/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 
 class NewsItemCard extends StatelessWidget {
   final News news;
-  final int likes;
   const NewsItemCard({
     Key key,
     this.news,
-    this.likes = 0,
     // this.news,
   }) : super(key: key);
   @override
@@ -96,38 +94,8 @@ class NewsItemCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Container(
-                        child: Row(
-                          children: [
-                            Icon(MaterialCommunityIcons.clock),
-                            Container(
-                              width: SizeConfig.widthMultiplier * 28,
-                              child: Text(
-                                '${news.date}',
-                                softWrap: false,
-                                overflow: TextOverflow.fade,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    .copyWith(
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 12),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        child: Row(
-                          children: [
-                            Icon(
-                              likes > 0
-                                  ? MaterialCommunityIcons.heart
-                                  : MaterialCommunityIcons.heart_outline,
-                            ),
-                            Text('$likes'),
-                          ],
-                        ),
+                      LikeComponent(
+                        newsId: '${news.timestamp}',
                       ),
                     ],
                   ),

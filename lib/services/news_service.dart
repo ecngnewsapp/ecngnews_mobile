@@ -17,12 +17,16 @@ class NewsService {
   // DocumentSnapshot _lastDocument;
   bool _hasMorePosts = true;
   bool get hasMorsPost => _hasMorePosts;
+  //news Stream controller
   final StreamController<List<News>> _newsStreamController =
       StreamController<List<News>>.broadcast();
+  //likes stream controller
   final StreamController<List<LikeModel>> _likesStreamController =
       StreamController<List<LikeModel>>.broadcast();
+  //videows stream controller
   final StreamController<List<News>> _newsVideoStreamController =
       StreamController<List<News>>.broadcast();
+  //search stream controller
   final StreamController<List<News>> _newsSearchStreamController =
       StreamController<List<News>>.broadcast();
 
@@ -38,21 +42,36 @@ class NewsService {
 
   Stream<dynamic> listenToLikes(String newsId) async* {
     print('list to likes called');
-    _newsCollectionReference
+    var qlikes = _newsCollectionReference
         .document('$newsId')
         .collection('likes')
-        .snapshots()
-        .listen((event) {
+        .orderBy('id');
+    qlikes.snapshots().listen((event) {
       if (event.documents.isNotEmpty) {
         var likes =
             event.documents.map((e) => LikeModel.fromJson(e.data)).toList();
-        print("liked user" + likes[0].userId);
         _likesStreamController.add(likes);
-      } else {
-        print('empty');
       }
     });
     yield* _likesStreamController.stream;
+  }
+
+  void _requestNews(String category) {
+    var pagePostsQuery = _newsCollectionReference
+        .where('category', isEqualTo: '$category')
+        .orderBy('timestamp', descending: true)
+        .limit(PostsLimit);
+
+    pagePostsQuery.snapshots().listen((postsSnapshot) {
+      if (postsSnapshot.documents.isNotEmpty) {
+        var posts = postsSnapshot.documents
+            .map((snapshot) => News.fromJson(snapshot.data))
+            .where((mappedItem) => mappedItem.title != null)
+            .toList();
+
+        _newsStreamController.add(posts);
+      }
+    });
   }
 
   Future readNews(String newsId) {
@@ -121,25 +140,6 @@ class NewsService {
     });
 
     return categories;
-  }
-
-  void _requestNews(String category) {
-    var pagePostsQuery = _newsCollectionReference
-        .where('category', isEqualTo: '$category')
-        .orderBy('timestamp', descending: true)
-        // #3: Limit the amount of results
-        .limit(PostsLimit);
-
-    pagePostsQuery.snapshots().listen((postsSnapshot) {
-      if (postsSnapshot.documents.isNotEmpty) {
-        var posts = postsSnapshot.documents
-            .map((snapshot) => News.fromJson(snapshot.data))
-            .where((mappedItem) => mappedItem.title != null)
-            .toList();
-
-        _newsStreamController.add(posts);
-      }
-    });
   }
 
   void searchNews(String searchString) {
