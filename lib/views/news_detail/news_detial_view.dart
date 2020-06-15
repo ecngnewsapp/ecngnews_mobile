@@ -1,3 +1,5 @@
+import 'package:ecngnews/components/comments_stream.dart';
+import 'package:ecngnews/components/like_stream.dart';
 import 'package:ecngnews/components/vertical_spacer.dart';
 import 'package:ecngnews/models/news_model.dart';
 import 'package:ecngnews/smart_components/likes/likes_component.dart';
@@ -69,11 +71,27 @@ class NewsDetailView extends StatelessWidget {
                                   SizeConfig.sizeMultiplier * 1.5),
                               alignment: Alignment.centerLeft,
                               child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  LikeComponent(
-                                    newsId: '${news.timestamp}',
+                                  //likes
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        LikeStream(
+                                          newsId: '$newsId',
+                                        ),
+                                        Text(' likes'),
+                                      ],
+                                    ),
                                   ),
-                                  Text(' likes'),
+                                  //comments
+                                  GestureDetector(
+                                    onTap: () => null,
+                                    child: CommentStream(
+                                      newsId: newsId,
+                                    ),
+                                  ),
                                 ],
                               ),
                             )

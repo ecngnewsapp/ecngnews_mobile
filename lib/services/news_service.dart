@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:html';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecngnews/models/comment_model.dart';
 import 'package:ecngnews/models/like_model.dart';
 import 'package:ecngnews/models/news_category.dart';
 import 'package:ecngnews/models/news_model.dart';
@@ -122,7 +124,13 @@ class NewsService {
         .then((value) => value.exists);
   }
 
-  Future commentOnNews() async {}
+  Future commentOnNews(String userId, String newsId) async {
+    var _commentRef =
+        _newsCollectionReference.document('$newsId').collection('comments');
+    var data = Comments(owner: userId).toJson();
+    _commentRef.document('$newsId').setData(data);
+    return 'success';
+  }
 
 //listining to news search
   Stream<dynamic> listenToNewsSearch(String searchString) async* {

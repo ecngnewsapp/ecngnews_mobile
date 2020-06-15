@@ -92,11 +92,30 @@ class NewsItemCard extends StatelessWidget {
                   width: SizeConfig.widthMultiplier * 60,
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      LikeStream(
-                        newsId: news.timestamp,
+                      //likes
+                      Row(
+                        children: [
+                          LikeStream(
+                            newsId: news.timestamp,
+                          ),
+                          Text('likes'),
+                        ],
                       ),
-                      Text('likes'),
+                      Row(
+                        children: [
+                          Text(
+                            '0',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                                    fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                          Text('comments'),
+                        ],
+                      ),
                     ],
                   ),
                 ),
