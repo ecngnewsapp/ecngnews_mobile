@@ -69,7 +69,7 @@ class NewsService {
     _newsCollectionReference
         .document('$newsId')
         .collection('comments')
-        .orderBy('time')
+        .orderBy('time', descending: true)
         .snapshots()
         .listen((event) {
       comments = event.documents.map((e) => Comments.fromJson(e.data)).toList();
