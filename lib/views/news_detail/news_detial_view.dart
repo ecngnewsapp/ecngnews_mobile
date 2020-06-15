@@ -2,7 +2,6 @@ import 'package:ecngnews/components/comments_stream.dart';
 import 'package:ecngnews/components/like_stream.dart';
 import 'package:ecngnews/components/vertical_spacer.dart';
 import 'package:ecngnews/models/news_model.dart';
-import 'package:ecngnews/smart_components/likes/likes_component.dart';
 import 'package:ecngnews/utils/ecng_theme.dart';
 import 'package:ecngnews/utils/size_config.dart';
 import 'package:ecngnews/views/news_detail/news_detial_viewmodel.dart';
@@ -87,7 +86,7 @@ class NewsDetailView extends StatelessWidget {
                                   ),
                                   //comments
                                   GestureDetector(
-                                    onTap: () => null,
+                                    onTap: () => model.comment(newsId),
                                     child: CommentStream(
                                       newsId: newsId,
                                     ),

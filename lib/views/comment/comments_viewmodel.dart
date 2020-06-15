@@ -1,7 +1,7 @@
 import 'package:stacked/stacked.dart';
 
 class CommentsViewModel extends StreamViewModel {
+  Stream listentToComments() async* {}
   @override
-  // TODO: implement stream
-  Stream get stream => throw UnimplementedError();
+  Stream get stream => listentToComments();
 }

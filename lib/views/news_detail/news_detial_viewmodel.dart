@@ -3,6 +3,7 @@ import 'package:ecngnews/models/like_model.dart';
 import 'package:ecngnews/models/news_model.dart';
 import 'package:ecngnews/services/news_service.dart';
 import 'package:ecngnews/utils/locator.dart';
+import 'package:ecngnews/views/comment/comments_view.dart';
 import 'package:ecngnews/views/welcome/welcome_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:stacked/stacked.dart';
@@ -80,6 +81,28 @@ class NewsDetialViewModel extends BaseViewModel {
     if (!isAnonymous) {
       await _newsService.likeNews(userId, newsId);
       isLiked(newsId);
+    } else
+      _dialogService
+          .showDialog(
+            title: 'only signined users can like',
+            description: 'become a user to interact',
+            confirmText: 'Ok',
+          )
+          .whenComplete(() => _navigationService
+              .navigateWithTransition(WelcomeView(), transition: 'fade'));
+    notifyListeners();
+  }
+
+  Future comment(String newsId) async {
+    String userId = await getUser();
+    if (!isAnonymous) {
+      _navigationService.navigateWithTransition(
+        CommentView(
+          userId: userId,
+          newsId: newsId,
+        ),
+        transition: 'downTotop',
+      );
     } else
       _dialogService
           .showDialog(
