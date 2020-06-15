@@ -30,7 +30,8 @@ class NewsService {
   //search stream controller
   final StreamController<List<News>> _newsSearchStreamController =
       StreamController<List<News>>.broadcast();
-
+  final StreamController<List<Comments>> _commentStreamController =
+      StreamController<List<Comments>>.broadcast();
   Stream<dynamic> listenToNews(String category) async* {
     _requestNews(category);
     yield* _newsStreamController.stream;
@@ -61,6 +62,20 @@ class NewsService {
     });
 
     print('likes from service ${likes.length}');
+  }
+
+  Stream listenToComment(String newsId) async* {
+    List<Comments> comments = List<Comments>();
+    _newsCollectionReference
+        .document('$newsId')
+        .collection('comments')
+        .orderBy('time')
+        .snapshots()
+        .listen((event) {
+      comments = event.documents.map((e) => Comments.fromJson(e.data)).toList();
+      _commentStreamController.add(comments);
+    });
+    yield* _commentStreamController.stream;
   }
 
   String getLikes(String newsId) {
@@ -123,11 +138,16 @@ class NewsService {
         .then((value) => value.exists);
   }
 
-  Future commentOnNews(String userId, String newsId) async {
+  Future commentOnNews(String userId, String newsId, String comment) async {
+    print(userId);
+    print(newsId);
+    print(comment);
     var _commentRef =
         _newsCollectionReference.document('$newsId').collection('comments');
-    var data = Comments(owner: userId).toJson();
-    _commentRef.document('$newsId').setData(data);
+    var data = Comments(
+            owner: userId, comment: comment, time: DateTime.now().toString())
+        .toJson();
+    _commentRef.add(data);
     return 'success';
   }
 
@@ -205,30 +225,6 @@ class NewsService {
       }
     });
   }
-
-  // void referesh(String category) {
-  //   print('referesh called');
-  //   var pagePostsQuery = _newsCollectionReference
-  //       .where('category', isEqualTo: '$category')
-  //       .orderBy('date', descending: true)
-  //       // #3: Limit the amount of results
-  //       .limit(PostsLimit);
-
-  //   pagePostsQuery.snapshots().listen((postsSnapshot) {
-  //     var posts = postsSnapshot.documents
-  //         .map((snapshot)async => News.fromJson(snapshot.data))
-  //         .where((mappedItem) => mappedItem.title != null)
-  //         .toList();
-  //     // _lastDocument = postsSnapshot.documents.first;
-  //     _allPagedNewsResults.clear();
-  //     _allPagedNewsResults.add(posts);
-  //     var allPosts = _allPagedNewsResults.fold<List<Future<News>>>(
-  //         List<Future<News>>(),
-  //         (initialValue, pageItems) => initialValue..addAll(pageItems));
-
-  //     _newsStreamController.add(allPosts);
-  //   });
-  // }
 
   void requestMoreNews(String category) => _requestNews(category);
 }
