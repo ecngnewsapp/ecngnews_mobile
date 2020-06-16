@@ -93,6 +93,8 @@ class NewsDetialViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  Future bookmark(String newsId) async {}
+
   Future comment(String newsId) async {
     String userId = await getUser();
     if (!isAnonymous) {

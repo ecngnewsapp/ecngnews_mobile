@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecngnews/models/bookmark_model.dart';
 import 'package:ecngnews/models/comment_model.dart';
 import 'package:ecngnews/models/like_model.dart';
 import 'package:ecngnews/models/news_category.dart';
@@ -10,7 +11,7 @@ import 'package:injectable/injectable.dart';
 @lazySingleton
 class NewsService {
   var _newsCollectionReference = Firestore.instance.collection('contents');
-
+  var _userCollectionReference = Firestore.instance.collection('users');
   // List<List<News>> _allPagedNewsResults = List<List<News>>();
 
   static const int PostsLimit = 20;
@@ -126,6 +127,14 @@ class NewsService {
     var data = LikeModel(userId: userId).toJson();
     _likeRef.document('$userId').setData(data);
     return 'sucesss';
+  }
+
+  Future bookmark(String userId, String newsId) async {
+    var _bookmarkRef =
+        _userCollectionReference.document('$userId').collection('bookmarks');
+    var data =
+        Bookmark(newsId: newsId, time: DateTime.now().toString()).toJson();
+    _bookmarkRef.document('$newsId').setData(data);
   }
 
   Future<bool> ifNewsLiked(String newsId, String userId) async {
