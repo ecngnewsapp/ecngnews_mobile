@@ -100,7 +100,7 @@ class AuthenticationService {
     }
   }
 
-  Future getCurrentUser() async {
+  Future<FirebaseUser> getCurrentUser() async {
     return _firebaseAuth.currentUser();
   }
 
@@ -172,7 +172,7 @@ class AuthenticationService {
     return user;
   }
 
-  Future getUserData(uid) async {
+  Future<User> getUserData(uid) async {
     User user;
     await Firestore.instance
         .collection('users')
