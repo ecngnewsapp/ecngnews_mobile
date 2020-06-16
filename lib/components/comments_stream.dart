@@ -1,3 +1,4 @@
+import 'package:ecngnews/components/comment_count.dart';
 import 'package:ecngnews/utils/ecng_theme.dart';
 import 'package:ecngnews/utils/size_config.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +18,8 @@ class CommentStream extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Text(
-            '0',
-            style: TextStyle(color: Colors.white),
+          CommentCount(
+            newsId: newsId,
           ),
           Text(
             ' comments',

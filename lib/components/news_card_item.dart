@@ -1,3 +1,4 @@
+import 'package:ecngnews/components/comment_count.dart';
 import 'package:ecngnews/components/like_stream.dart';
 import 'package:ecngnews/models/news_model.dart';
 import 'package:ecngnews/utils/ecng_assets.dart';
@@ -105,13 +106,9 @@ class NewsItemCard extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Text(
-                            '0',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                .copyWith(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
+                          CommentCount(
+                            newsId: news.timestamp,
+                            textColor: Colors.black,
                           ),
                           Text('comments'),
                         ],
