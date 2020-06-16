@@ -22,7 +22,7 @@ class _FeedsViewState extends State<FeedsView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<FeedViewModel>.reactive(
-        // disposeViewModel: false,
+        disposeViewModel: false,
         onModelReady: (m) {
           m.setNewCategoryPan();
         },

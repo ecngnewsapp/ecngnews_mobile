@@ -120,7 +120,7 @@ class NewsDetailView extends StatelessWidget {
                             ),
                             //like commint
                             Container(
-                              width: SizeConfig.widthMultiplier * 20,
+                              width: SizeConfig.widthMultiplier * 30,
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -152,6 +152,14 @@ class NewsDetailView extends StatelessWidget {
                                         shape: BoxShape.circle,
                                         color: Colors.grey.withOpacity(.10),
                                       ),
+                                    ),
+                                  ),
+                                  CircleAvatar(
+                                    backgroundColor: EcngColors.primaryColor,
+                                    child: IconButton(
+                                      icon: Icon(Icons.share,
+                                          color: Colors.white),
+                                      onPressed: () {},
                                     ),
                                   ),
                                 ],
