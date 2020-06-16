@@ -14,7 +14,7 @@ class NewsService {
   var _userCollectionReference = Firestore.instance.collection('users');
   // List<List<News>> _allPagedNewsResults = List<List<News>>();
 
-  static const int PostsLimit = 20;
+  static const int PostsLimit = 100;
 
   // DocumentSnapshot _lastDocument;
   bool _hasMorePosts = true;
