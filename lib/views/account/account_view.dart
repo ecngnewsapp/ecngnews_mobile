@@ -111,11 +111,11 @@ class AccountView extends StatelessWidget {
                                         SizeConfig.sizeMultiplier * 2),
                                     child: Column(
                                       children: [
-                                        IconTextButton(
-                                          icon: Icons.notifications,
-                                          onPressed: null,
-                                          text: 'notification',
-                                        ),
+                                        // IconTextButton(
+                                        //   icon: Icons.notifications,
+                                        //   onPressed: null,
+                                        //   text: 'notification',
+                                        // ),
                                         //my fevorite
                                         VerticalSpacer(),
                                         IconTextButton(
@@ -126,12 +126,12 @@ class AccountView extends StatelessWidget {
                                         ),
 
                                         VerticalSpacer(),
-                                        IconTextButton(
-                                          icon: Icons.settings,
-                                          onPressed: null,
-                                          text: 'Settings',
-                                        ),
-                                        VerticalSpacer(),
+                                        // IconTextButton(
+                                        //   icon: Icons.settings,
+                                        //   onPressed: null,
+                                        //   text: 'Settings',
+                                        // ),
+                                        // VerticalSpacer(),
                                         IconTextButton(
                                           icon: Icons.star_border,
                                           onPressed: null,

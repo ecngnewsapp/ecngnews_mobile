@@ -20,6 +20,7 @@ class NewsDetailView extends StatelessWidget {
         onModelReady: (m) {
           m.getUser();
           m.isLiked(newsId);
+          m.isBookmarked(newsId);
           m.readNews(newsId);
           m.listenToLikes(newsId);
         },
@@ -124,13 +125,18 @@ class NewsDetailView extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Container(
-                                    padding: EdgeInsets.all(
-                                        SizeConfig.sizeMultiplier * .5),
-                                    child: Icon(Icons.bookmark_border),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.grey.withOpacity(.10),
+                                  GestureDetector(
+                                    onTap: () => model.bookmark(newsId),
+                                    child: Container(
+                                      padding: EdgeInsets.all(
+                                          SizeConfig.sizeMultiplier * .5),
+                                      child: Icon(model.isNewsBookmarked
+                                          ? Icons.bookmark
+                                          : Icons.bookmark_border),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.grey.withOpacity(.10),
+                                      ),
                                     ),
                                   ),
                                   GestureDetector(

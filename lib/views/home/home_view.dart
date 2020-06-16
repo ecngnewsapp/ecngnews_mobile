@@ -84,9 +84,24 @@ class _HomeViewState extends State<HomeView> {
                     child: Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Container(
-                            child: Text('more features comming soon'),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin:
+                                      EdgeInsets.all(SizeConfig.sizeMultiplier),
+                                  child: Text('* bookmarks'),
+                                ),
+                                Container(
+                                  margin:
+                                      EdgeInsets.all(SizeConfig.sizeMultiplier),
+                                  child: Text(' More features commmint soon'),
+                                ),
+                              ],
+                            ),
                           ),
                           Column(
                             children: <Widget>[

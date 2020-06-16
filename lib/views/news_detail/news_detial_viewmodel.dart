@@ -14,6 +14,8 @@ class NewsDetialViewModel extends BaseViewModel {
   bool _isAnonymous;
   bool get isAnonymous => _isAnonymous;
   bool _isNewsLiked = false;
+  bool _isNewsBookmarked = false;
+  bool get isNewsBookmarked => _isNewsBookmarked;
   bool get isNewsLiked => _isNewsLiked;
 
   NewsService _newsService = locator<NewsService>();
@@ -76,6 +78,13 @@ class NewsDetialViewModel extends BaseViewModel {
     return _isNewsLiked;
   }
 
+  Future<bool> isBookmarked(String newsId) async {
+    String userId = await getUser();
+    _isNewsBookmarked = await _newsService.ifBooked(newsId, userId);
+    notifyListeners();
+    return _isNewsBookmarked;
+  }
+
   Future like(String newsId) async {
     String userId = await getUser();
     if (!isAnonymous) {
@@ -93,7 +102,22 @@ class NewsDetialViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future bookmark(String newsId) async {}
+  Future bookmark(String newsId) async {
+    String userId = await getUser();
+    if (!isAnonymous) {
+      await _newsService.bookmark(userId, newsId);
+      isBookmarked(newsId);
+    } else
+      _dialogService
+          .showDialog(
+            title: 'only signined users can like',
+            description: 'become a user to interact',
+            confirmText: 'Ok',
+          )
+          .whenComplete(() => _navigationService
+              .navigateWithTransition(WelcomeView(), transition: 'fade'));
+    notifyListeners();
+  }
 
   Future comment(String newsId) async {
     String userId = await getUser();
