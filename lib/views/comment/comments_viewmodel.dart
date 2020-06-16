@@ -8,6 +8,8 @@ import 'package:stacked_services/stacked_services.dart';
 
 class CommentsViewModel extends StreamViewModel {
   final String newsID;
+  String _userId;
+  String get userId => _userId;
   NewsService _newsService = locator<NewsService>();
   DialogService _dialogService = locator<DialogService>();
   NavigationService _navigationService = locator<NavigationService>();
@@ -26,13 +28,14 @@ class CommentsViewModel extends StreamViewModel {
   }
 
   bool _isAnonymous = false;
-  Future getUser() async {
+  Future<String> getUser() async {
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     final result = await firebaseAuth.currentUser();
 
     _isAnonymous = result.isAnonymous;
     // SharedPreferences preferences = await SharedPreferences.getInstance();
-
+    _userId = result.uid;
+    notifyListeners();
     print(result.uid);
     return result.uid;
   }

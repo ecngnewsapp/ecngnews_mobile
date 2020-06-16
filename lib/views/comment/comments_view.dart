@@ -1,14 +1,9 @@
-import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecngnews/models/comment_model.dart';
 import 'package:ecngnews/smart_components/comment_bouble.dart';
 import 'package:ecngnews/utils/ecng_theme.dart';
 import 'package:ecngnews/utils/size_config.dart';
 import 'package:ecngnews/views/comment/comments_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:observable_ish/observable_ish.dart';
 import 'package:stacked/stacked.dart';
 
 class CommentView extends StatefulWidget {
@@ -30,6 +25,8 @@ class _CommentViewState extends State<CommentView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<CommentsViewModel>.reactive(
+        disposeViewModel: false,
+        onModelReady: (m) => m.getUser(),
         builder: (context, model, child) {
           return Scaffold(
             backgroundColor: EcngColors.primaryColor,
@@ -58,8 +55,11 @@ class _CommentViewState extends State<CommentView> {
                           itemCount: model.comments.length,
                           itemBuilder: (context, index) {
                             return Container(
-                              child:
-                                  CommentBobble(comment: model.comments[index]),
+                              child: model.userId != model.comments[index].owner
+                                  ? CommentBobble(
+                                      comment: model.comments[index])
+                                  : MyChatBobble(
+                                      comment: model.comments[index]),
                             );
                           },
                         ),
