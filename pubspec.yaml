@@ -51,7 +51,7 @@ dependencies:
   google_sign_in: ^4.5.1
   cloud_firestore: ^0.13.6
   cached_network_image: ^2.2.0+1
-  webview_flutter: ^0.3.22+1
+  # webview_flutter: any
 
 dev_dependencies:
   flutter_test:

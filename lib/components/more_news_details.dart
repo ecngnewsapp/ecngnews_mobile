@@ -5,7 +5,7 @@ import 'package:ecngnews/utils/ecng_theme.dart';
 import 'package:ecngnews/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class MoreNewsDetails extends StatefulWidget {
   final String newsPage;
