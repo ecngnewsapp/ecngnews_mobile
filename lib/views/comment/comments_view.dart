@@ -40,39 +40,31 @@ class _CommentViewState extends State<CommentView> {
             body: Stack(
               children: [
                 //Comments
-                StreamBuilder(
-                    stream: Firestore.instance
-                        .collection('contents')
-                        .document('${widget.newsId}')
-                        .collection('comments')
-                        .snapshots(),
-                    builder: (context, AsyncSnapshot snap) {
-                      return Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(
-                                    SizeConfig.sizeMultiplier * 4))),
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.sizeMultiplier,
-                            bottom: SizeConfig.heightMultiplier * 10),
-                        padding: EdgeInsets.all(SizeConfig.sizeMultiplier * 2),
-                        child: model.comments.isEmpty || model.comments == null
-                            ? Container(
-                                child: Center(child: Text('No comments yet')),
-                              )
-                            : ListView.builder(
-                                reverse: true,
-                                itemCount: snap.data.documents.length,
-                                itemBuilder: (context, index) {
-                                  return Container(
-                                    child: CommentBobble(
-                                        comment: model.comments[index]),
-                                  );
-                                },
-                              ),
-                      );
-                    }),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(SizeConfig.sizeMultiplier * 4))),
+                  margin: EdgeInsets.only(
+                      top: SizeConfig.sizeMultiplier,
+                      bottom: SizeConfig.heightMultiplier * 10),
+                  padding: EdgeInsets.all(SizeConfig.sizeMultiplier * 2),
+                  child: model.comments.isEmpty || model.comments == null
+                      ? Container(
+                          child: Center(child: Text('No comments yet')),
+                        )
+                      : ListView.builder(
+                          reverse: true,
+                          itemCount: model.comments.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              child:
+                                  CommentBobble(comment: model.comments[index]),
+                            );
+                          },
+                        ),
+                ),
+
                 //comment box
                 Align(
                   alignment: Alignment.bottomCenter,

@@ -14,6 +14,7 @@ class CommentsViewModel extends StreamViewModel {
   List<Comments> _comments = List<Comments>();
   List<Comments> get comments => _comments;
   CommentsViewModel(this.newsID);
+
   Stream listentToComments(newsID) async* {
     _newsService.listenToComment(newsID).listen((event) {
       var updates = event;
