@@ -147,6 +147,15 @@ class NewsService {
         .then((value) => value.exists);
   }
 
+  Future<bool> ifBooked(String newsId, String userId) async {
+    return _userCollectionReference
+        .document('$userId')
+        .collection('bookmarks')
+        .document('$newsId')
+        .get()
+        .then((value) => value.exists);
+  }
+
   Future commentOnNews(String userId, String newsId, String comment) async {
     print(userId);
     print(newsId);
