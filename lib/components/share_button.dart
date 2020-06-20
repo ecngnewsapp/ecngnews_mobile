@@ -39,7 +39,8 @@ class _ShareButtonState extends State<ShareButton> {
               child: Stack(
                 children: [
                   AnimatedPositioned(
-                    top: 0,
+                    // top: 0,
+                    bottom: isShareClicked ? 100 : 0,
                     duration: Duration(milliseconds: 200),
                     child: CircleAvatar(),
                   ),
