@@ -23,7 +23,7 @@ class NewsItemCard extends StatelessWidget {
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(
-            Radius.circular(SizeConfig.sizeMultiplier * 2),
+            Radius.circular(SizeConfig.sizeMultiplier),
           ),
           boxShadow: [
             BoxShadow(
@@ -44,8 +44,8 @@ class NewsItemCard extends StatelessWidget {
                   image: news.imageUrl != null && news.imageUrl.isNotEmpty
                       ? NetworkImage('${news.imageUrl}')
                       : AssetImage(EcngAssets.logo)),
-              borderRadius: BorderRadius.all(
-                Radius.circular(SizeConfig.sizeMultiplier * 2),
+              borderRadius: BorderRadius.horizontal(
+                left: Radius.circular(SizeConfig.sizeMultiplier),
               ),
             ),
             width: SizeConfig.widthMultiplier * 30,

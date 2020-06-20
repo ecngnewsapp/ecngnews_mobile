@@ -43,7 +43,7 @@ class NewsDetailView extends StatelessWidget {
                                 color: Colors.white,
                                 boxShadow: EcngColors.cardBoxShadow,
                                 borderRadius: BorderRadius.circular(
-                                    SizeConfig.sizeMultiplier * 1.5)),
+                                    SizeConfig.sizeMultiplier)),
                             margin:
                                 EdgeInsets.all(SizeConfig.sizeMultiplier * 1.5),
                             //image and text
@@ -51,8 +51,9 @@ class NewsDetailView extends StatelessWidget {
                               children: [
                                 Container(
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(
-                                        SizeConfig.sizeMultiplier * 1.5),
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(
+                                            SizeConfig.sizeMultiplier)),
                                     child: FadeInImage.assetNetwork(
                                         placeholder: 'Loading',
                                         image: '${news.imageUrl}'),

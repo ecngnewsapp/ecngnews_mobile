@@ -33,8 +33,6 @@ class _FeedsViewState extends State<FeedsView> {
                     ? ListTileShimmer()
                     : GestureDetector(
                         child: Container(
-                          // padding: EdgeInsets.symmetric(
-                          //     vertical: SizeConfig.sizeMultiplier),
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: model.newsCategory.length,
@@ -57,30 +55,32 @@ class _FeedsViewState extends State<FeedsView> {
                           ),
                           margin: EdgeInsets.only(
                               bottom: SizeConfig.sizeMultiplier),
-                          height: SizeConfig.heightMultiplier * 14,
+                          height: SizeConfig.heightMultiplier * 15,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.vertical(
                                   bottom: Radius.circular(
-                                      SizeConfig.sizeMultiplier * 2)),
+                                SizeConfig.sizeMultiplier,
+                              )),
                               boxShadow: EcngColors.cardBoxShadow,
                               color: Colors.white),
                         ),
                       ),
                 Expanded(
-                    child: Container(
-                  child: ListView.builder(
-                    itemCount: model.appnews.length,
-                    itemBuilder: (context, index) => GestureDetector(
-                      onTap: () => model
-                          .viewDetails('${model.appnews[index].timestamp}'),
-                      child: model.isBusy
-                          ? ListTileShimmer()
-                          : NewsItemCard(
-                              news: model.appnews[index],
-                            ),
+                  child: Container(
+                    child: ListView.builder(
+                      itemCount: model.appnews.length,
+                      itemBuilder: (context, index) => GestureDetector(
+                        onTap: () => model
+                            .viewDetails('${model.appnews[index].timestamp}'),
+                        child: model.isBusy
+                            ? ListTileShimmer()
+                            : NewsItemCard(
+                                news: model.appnews[index],
+                              ),
+                      ),
                     ),
                   ),
-                )),
+                ),
               ],
             ),
         viewModelBuilder: () => FeedViewModel());
