@@ -1,5 +1,6 @@
 import 'package:ecngnews/components/comments_stream.dart';
 import 'package:ecngnews/components/like_stream.dart';
+import 'package:ecngnews/components/share_button.dart';
 import 'package:ecngnews/components/vertical_spacer.dart';
 import 'package:ecngnews/models/news_model.dart';
 import 'package:ecngnews/utils/ecng_theme.dart';
@@ -154,14 +155,7 @@ class NewsDetailView extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  CircleAvatar(
-                                    backgroundColor: EcngColors.primaryColor,
-                                    child: IconButton(
-                                      icon: Icon(Icons.share,
-                                          color: Colors.white),
-                                      onPressed: () {},
-                                    ),
-                                  ),
+                                  ShareButton(),
                                 ],
                               ),
                             )
