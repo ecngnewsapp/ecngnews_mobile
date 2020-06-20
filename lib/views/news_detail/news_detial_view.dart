@@ -33,229 +33,240 @@ class NewsDetailView extends StatelessWidget {
             appBar: AppBar(),
             body: model.isBusy
                 ? ListTileShimmer()
-                : ListView(
+                : Stack(
                     children: [
-                      // title and image
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: EcngColors.cardBoxShadow,
-                            borderRadius: BorderRadius.circular(
-                                SizeConfig.sizeMultiplier * 1.5)),
-                        margin: EdgeInsets.all(SizeConfig.sizeMultiplier * 1.5),
-                        //image and text
-                        child: Column(
-                          children: [
-                            Container(
-                              child: ClipRRect(
+                      ListView(
+                        children: [
+                          // title and image
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: EcngColors.cardBoxShadow,
                                 borderRadius: BorderRadius.circular(
-                                    SizeConfig.sizeMultiplier * 1.5),
-                                child: FadeInImage.assetNetwork(
-                                    placeholder: 'Loading',
-                                    image: '${news.imageUrl}'),
-                              ),
-                            ),
-                            //Text
-                            VerticalSpacer(
-                              space: .2,
-                            ),
-                            Container(
-                              margin: EdgeInsets.all(
-                                  SizeConfig.sizeMultiplier * 1.5),
-                              child: Text(
-                                '${news.title}',
-                                style: Theme.of(context).textTheme.headline6,
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.all(
-                                  SizeConfig.sizeMultiplier * 1.5),
-                              alignment: Alignment.centerLeft,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  //likes
-                                  Container(
-                                    child: Row(
-                                      children: [
-                                        LikeStream(
-                                          newsId: '$newsId',
-                                        ),
-                                        Text(' likes'),
-                                      ],
-                                    ),
-                                  ),
-                                  //comments
-                                  GestureDetector(
-                                    onTap: () => model.comment(newsId),
-                                    child: CommentStream(
-                                      newsId: newsId,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      //like and bookmark
-                      Container(
-                        padding: EdgeInsets.all(SizeConfig.sizeMultiplier * 2),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            //news time
-                            Container(
-                              width: SizeConfig.widthMultiplier * 30,
-                              //news time
-                              child: Text(
-                                '${model.readNewsData.date}',
-                                overflow: TextOverflow.fade,
-                                softWrap: false,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    .copyWith(fontSize: 10),
-                              ),
-                            ),
-                            //like commint
-                            Container(
-                              width: SizeConfig.widthMultiplier * 30,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () => model.bookmark(newsId),
-                                    child: Container(
-                                      padding: EdgeInsets.all(
-                                          SizeConfig.sizeMultiplier * .5),
-                                      child: Icon(model.isNewsBookmarked
-                                          ? Icons.bookmark
-                                          : Icons.bookmark_border),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.grey.withOpacity(.10),
-                                      ),
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () => model.like(newsId),
-                                    child: Container(
-                                      padding: EdgeInsets.all(
-                                          SizeConfig.sizeMultiplier * .5),
-                                      child: Icon(model.isNewsLiked
-                                          ? MaterialCommunityIcons.heart
-                                          : MaterialCommunityIcons
-                                              .heart_outline),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.grey.withOpacity(.10),
-                                      ),
-                                    ),
-                                  ),
-                                  ShareButton(),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            boxShadow: EcngColors.cardBoxShadow,
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(
-                                SizeConfig.sizeMultiplier)),
-                        padding:
-                            EdgeInsets.all(SizeConfig.sizeMultiplier * 1.5),
-                        margin: EdgeInsets.all(SizeConfig.sizeMultiplier),
-                        child: Stack(
-                          overflow: Overflow.visible,
-                          children: <Widget>[
-                            //all text
-                            Container(
-                              child: Column(
-                                children: [
-                                  //decription
-                                  Container(
-                                    child: Text(
-                                      '${news.description}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2
-                                          .copyWith(
-                                              fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  VerticalSpacer(),
-                                  Container(
-                                    child: Text('${model.newsContent}'),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Positioned(
-                              bottom: -16,
-                              right: -SizeConfig.widthMultiplier,
-                              child: GestureDetector(
-                                onTap: () => model
-                                    .moreDetails('${model.readNewsData.url}'),
-                                child: Container(
-                                  padding:
-                                      EdgeInsets.all(SizeConfig.sizeMultiplier),
-                                  decoration: BoxDecoration(
+                                    SizeConfig.sizeMultiplier * 1.5)),
+                            margin:
+                                EdgeInsets.all(SizeConfig.sizeMultiplier * 1.5),
+                            //image and text
+                            child: Column(
+                              children: [
+                                Container(
+                                  child: ClipRRect(
                                     borderRadius: BorderRadius.circular(
-                                      SizeConfig.sizeMultiplier,
-                                    ),
-                                    color: EcngColors.primaryColor,
+                                        SizeConfig.sizeMultiplier * 1.5),
+                                    child: FadeInImage.assetNetwork(
+                                        placeholder: 'Loading',
+                                        image: '${news.imageUrl}'),
                                   ),
+                                ),
+                                //Text
+                                VerticalSpacer(
+                                  space: .2,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.all(
+                                      SizeConfig.sizeMultiplier * 1.5),
                                   child: Text(
-                                    'more',
+                                    '${news.title}',
+                                    style:
+                                        Theme.of(context).textTheme.headline6,
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.all(
+                                      SizeConfig.sizeMultiplier * 1.5),
+                                  alignment: Alignment.centerLeft,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      //likes
+                                      Container(
+                                        child: Row(
+                                          children: [
+                                            LikeStream(
+                                              newsId: '$newsId',
+                                            ),
+                                            Text(' likes'),
+                                          ],
+                                        ),
+                                      ),
+                                      //comments
+                                      GestureDetector(
+                                        onTap: () => model.comment(newsId),
+                                        child: CommentStream(
+                                          newsId: newsId,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          //like and bookmark
+                          Container(
+                            padding:
+                                EdgeInsets.all(SizeConfig.sizeMultiplier * 2),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                //news time
+                                Container(
+                                  width: SizeConfig.widthMultiplier * 30,
+                                  //news time
+                                  child: Text(
+                                    '${model.readNewsData.date}',
+                                    overflow: TextOverflow.fade,
+                                    softWrap: false,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyText1
-                                        .copyWith(
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                        .copyWith(fontSize: 10),
                                   ),
                                 ),
-                              ),
+                                //like commint
+                                Container(
+                                  width: SizeConfig.widthMultiplier * 30,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () => model.bookmark(newsId),
+                                        child: Container(
+                                          padding: EdgeInsets.all(
+                                              SizeConfig.sizeMultiplier * .5),
+                                          child: Icon(model.isNewsBookmarked
+                                              ? Icons.bookmark
+                                              : Icons.bookmark_border),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.grey.withOpacity(.10),
+                                          ),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () => model.like(newsId),
+                                        child: Container(
+                                          padding: EdgeInsets.all(
+                                              SizeConfig.sizeMultiplier * .5),
+                                          child: Icon(model.isNewsLiked
+                                              ? MaterialCommunityIcons.heart
+                                              : MaterialCommunityIcons
+                                                  .heart_outline),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.grey.withOpacity(.10),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                          Container(
+                            // decoration: BoxDecoration(
+                            //   boxShadow: EcngColors.cardBoxShadow,
+                            //   color: Colors.white,
+                            //   borderRadius: BorderRadius.circular(
+                            //       SizeConfig.sizeMultiplier),
+                            // ),
+                            padding:
+                                EdgeInsets.all(SizeConfig.sizeMultiplier * 1.5),
+                            margin: EdgeInsets.all(SizeConfig.sizeMultiplier),
+                            child: Stack(
+                              overflow: Overflow.visible,
+                              children: <Widget>[
+                                //all text
+                                Container(
+                                  child: Column(
+                                    children: [
+                                      //decription
+                                      Container(
+                                        child: Text(
+                                          '${news.description}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2
+                                              .copyWith(
+                                                  fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      VerticalSpacer(),
+                                      Container(
+                                        child: Text('${model.newsContent}'),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () => model.moreDetails(
+                                            '${model.readNewsData.url}'),
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          width:
+                                              SizeConfig.widthMultiplier * 50,
+                                          padding: EdgeInsets.all(
+                                              SizeConfig.sizeMultiplier),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                              SizeConfig.sizeMultiplier,
+                                            ),
+                                            color: EcngColors.primaryColor,
+                                          ),
+                                          child: Text(
+                                            'READ MORE',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                .copyWith(
+                                                  color: Colors.white,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding:
+                                EdgeInsets.all(SizeConfig.sizeMultiplier * 2),
+                            child: Column(
+                              children: [
+                                Container(
+                                  alignment: Alignment.topRight,
+                                  child: Text(
+                                    'News source',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: EcngColors.primaryColor,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  alignment: Alignment.topRight,
+                                  child: Text(
+                                    '${model.newsSource}',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: EcngColors.defaultIconColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
                       ),
-                      Container(
-                        padding: EdgeInsets.all(SizeConfig.sizeMultiplier * 2),
-                        child: Column(
-                          children: [
-                            Container(
-                              alignment: Alignment.topRight,
-                              child: Text(
-                                'News source',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: EcngColors.primaryColor,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              alignment: Alignment.topRight,
-                              child: Text(
-                                '${model.newsSource}',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: EcngColors.defaultIconColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
+                      Positioned(
+                          bottom: SizeConfig.heightMultiplier,
+                          left: SizeConfig.widthMultiplier,
+                          child: ShareButton()),
                     ],
                   ),
           );
