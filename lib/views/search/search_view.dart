@@ -76,8 +76,12 @@ class _SearchViewState extends State<SearchView> {
                   Expanded(
                     child: ListView.builder(
                         itemCount: model.appnews.length,
-                        itemBuilder: (context, index) => NewsItemCard(
-                              news: model.appnews[index],
+                        itemBuilder: (context, index) => GestureDetector(
+                              onTap: () => model.viewDetails(
+                                  '${model.appnews[index].timestamp}'),
+                              child: NewsItemCard(
+                                news: model.appnews[index],
+                              ),
                             )),
                   ),
                 ],
