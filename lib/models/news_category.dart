@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 
+//news cat
 class NewsCategory {
   NewsCategory({
     this.categories,

@@ -5,6 +5,7 @@ import 'package:ecngnews/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
+//avatar
 class AvatarComponent extends StatelessWidget {
   const AvatarComponent({Key key}) : super(key: key);
 
