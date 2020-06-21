@@ -93,12 +93,12 @@ class _HomeViewState extends State<HomeView> {
                                 Container(
                                   margin:
                                       EdgeInsets.all(SizeConfig.sizeMultiplier),
-                                  child: Text('* bookmarks'),
+                                  child: Text('bookmarks'),
                                 ),
                                 Container(
                                   margin:
                                       EdgeInsets.all(SizeConfig.sizeMultiplier),
-                                  child: Text(' More features commmint soon'),
+                                  child: Text(' More features comming soon'),
                                 ),
                               ],
                             ),
