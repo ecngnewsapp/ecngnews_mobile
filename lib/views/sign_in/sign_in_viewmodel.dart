@@ -30,7 +30,7 @@ class SignInViewModel extends BaseViewModel {
       print(user.name);
       await _authenticationService.saveDataToSP(user);
 
-      _navigationService.navigateTo(Routes.homeViewRoute);
+      _navigationService.replaceWith(Routes.homeViewRoute);
     } else if (result is String) {
       _errorMessage = result.toString();
     } else {

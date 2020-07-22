@@ -168,12 +168,6 @@ class NewsDetailView extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            // decoration: BoxDecoration(
-                            //   boxShadow: EcngColors.cardBoxShadow,
-                            //   color: Colors.white,
-                            //   borderRadius: BorderRadius.circular(
-                            //       SizeConfig.sizeMultiplier),
-                            // ),
                             padding:
                                 EdgeInsets.all(SizeConfig.sizeMultiplier * 1.5),
                             margin: EdgeInsets.all(SizeConfig.sizeMultiplier),
@@ -199,6 +193,7 @@ class NewsDetailView extends StatelessWidget {
                                       Container(
                                         child: Text('${model.newsContent}'),
                                       ),
+                                      VerticalSpacer(),
                                       GestureDetector(
                                         onTap: () => model.moreDetails(
                                             '${model.readNewsData.url}'),

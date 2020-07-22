@@ -18,7 +18,11 @@ class PrimaryButton extends StatelessWidget {
           vertical: SizeConfig.sizeMultiplier * .5),
       elevation: 0,
       textTheme: Theme.of(context).buttonTheme.textTheme,
-      child: Text(text),
+      child: Text(
+        text,
+        style:
+            Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white),
+      ),
       color: Theme.of(context).primaryColor,
       textColor: Colors.white,
       disabledTextColor: Colors.black,

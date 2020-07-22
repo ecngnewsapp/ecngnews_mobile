@@ -27,7 +27,7 @@ dependencies:
   video_player: ^0.10.9+1
   http: ^0.12.0+4
   meta: ^1.1.6
-  equatable: ^1.1.1
+  equatable: ^1.2.0
   youtube_player_flutter: ^6.1.0+7
   shared_preferences: ^0.5.7+2
   intl:

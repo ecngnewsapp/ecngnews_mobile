@@ -34,6 +34,7 @@ class _MyAppState extends State<MyApp> {
     );
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: EcngColors.primaryColor));
+
     return LayoutBuilder(
       builder: (context, constraints) {
         return OrientationBuilder(

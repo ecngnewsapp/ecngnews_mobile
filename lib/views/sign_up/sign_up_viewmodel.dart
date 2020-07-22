@@ -39,7 +39,7 @@ class SignUpViewModel extends BaseViewModel {
         await _authenticationService.saveDataToSP(user);
         await _authenticationService.setSignIn();
 
-        _navigationService.navigateTo(Routes.homeViewRoute);
+        _navigationService.replaceWith(Routes.homeViewRoute);
       }
     } catch (e) {
       _dialogService.showDialog(
@@ -49,7 +49,7 @@ class SignUpViewModel extends BaseViewModel {
   }
 
   Future signIn() async {
-    _navigationService.navigateTo(Routes.signInViewRoute);
+    _navigationService.replaceWith(Routes.signInViewRoute);
     notifyListeners();
   }
 }
