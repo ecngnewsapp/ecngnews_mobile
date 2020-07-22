@@ -13,7 +13,10 @@ import 'package:stacked/stacked.dart';
 
 class NewsDetailView extends StatelessWidget {
   final String newsId;
-  const NewsDetailView({Key key, this.newsId}) : super(key: key);
+  const NewsDetailView({
+    Key key,
+    this.newsId,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
